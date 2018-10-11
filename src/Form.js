@@ -17,6 +17,18 @@ class Form extends React.Component {
     return retval
   }
 
+  onReset (event) {
+    event.preventDefault()
+    this.setState(state => {
+      state.formWasValidated = false
+      return state
+    })
+    if (this.props.onReset) {
+      event.persist()
+      this.props.onReset(event)
+    }
+  }
+
   onSubmit (event) {
     event.preventDefault()
     for (let input of event.target.getElementsByTagName('input')) {
@@ -60,7 +72,7 @@ class Form extends React.Component {
 
   render () {
     return (
-      <form className={this.className} onSubmit={this.onSubmit} noValidate>
+      <form className={this.className} onSubmit={this.onSubmit} onReset={this.onReset} noValidate>
         {this.props.children}
       </form>
     )
