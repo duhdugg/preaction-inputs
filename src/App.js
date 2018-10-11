@@ -231,9 +231,10 @@ class App extends React.Component {
                         ref={this.wysiwyg}
                       />
                       <WysiwygEditor
-                        label='WYSIWYG Editor'
+                        label='WYSIWYG with hidden toolbar'
                         name='wysiwyg2'
-                        placeholder='with placeholder'
+                        placeholder='start typing here'
+                        theme='bubble'
                         getValue={ this.getValue }
                         setValue={ this.setValue }
                         getValidator={ this.getValidator }

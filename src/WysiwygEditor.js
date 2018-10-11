@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactQuill from 'react-quill'
 import createDOMPurify from 'dompurify'
+import 'react-quill/dist/quill.core.css'
+import 'react-quill/dist/quill.bubble.css'
 import 'react-quill/dist/quill.snow.css'
 
 let defaultValidator = value => { return '' }
@@ -167,7 +169,7 @@ class WysiwygEditor extends React.Component {
 
   render () {
     return (
-      <div className='preaction wysiwyg'>
+      <div className='preaction wysiwyg mb-3'>
         <label htmlFor={this.id} style={this.labelStyle} onClick={this.focus}>{this.props.label}</label>
         {this.state.fallbackMode
           ? <div className='input-group'>
