@@ -4,6 +4,8 @@ before_script:
   - which npm
   - npm -v
   - npm install
+  - npm install --no-save yarn
+  - node_modules/.bin/yarn install
 
 stages:
   - test
