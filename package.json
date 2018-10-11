@@ -1,0 +1,38 @@
+{
+  "name": "preaction-inputs",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "dompurify": "^1.0.8",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "react-quill": "^1.3.1",
+    "react-scripts": "2.0.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "linter": "eslint src",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "bootstrap": "^4.1.3",
+    "eslint": "^5.6.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-react": "^7.11.1",
+    "eslint-plugin-standard": "^4.0.0"
+  }
+}

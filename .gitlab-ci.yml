@@ -1,0 +1,13 @@
+image: node:10
+
+before_script:
+  - which npm
+  - npm -v
+  - npm install
+
+stages:
+  - test
+
+test:
+  stage: test
+  script: npm test
