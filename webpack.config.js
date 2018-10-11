@@ -11,8 +11,8 @@ module.exports = {
     WysiwygEditor: './src/WysiwygEditor.js'
   },
   output: {
-    path: path.resolve('lib'),
-    filename: '[name].bundle.js',
+    path: path.resolve('dist'),
+    filename: '[name].js',
     libraryTarget: 'commonjs2'
   },
   module: {
