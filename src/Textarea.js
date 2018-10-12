@@ -7,8 +7,10 @@ class Textarea extends React.Component {
     super(props)
     this.genid()
     this.state = {
-      height: 'auto'
+      height: 'auto',
+      showInfo: false
     }
+    this.toggleInfo = this.toggleInfo.bind(this)
     this.validate = this.validate.bind(this)
     this.onChange = this.onChange.bind(this)
     this.hiddenDiv = React.createRef()
@@ -67,6 +69,13 @@ class Textarea extends React.Component {
     }
   }
 
+  toggleInfo () {
+    this.setState(state => {
+      state.showInfo = !state.showInfo
+      return state
+    })
+  }
+
   get validationMessage () {
     return this.textarea.current ? this.textarea.current.validationMessage : ''
   }
@@ -108,7 +117,20 @@ class Textarea extends React.Component {
   render () {
     return (
       <div className='preaction textarea form-group'>
-        <label htmlFor={this.id} style={this.labelStyle}>{this.props.label}</label>
+        <label htmlFor={this.id} style={this.labelStyle}>
+          {this.props.label}
+          {this.props.info
+            ? <button type='button' className='btn btn-sm btn-info ml-1 pt-0 pb-0'
+              onClick={this.toggleInfo}>
+              {this.props.infoBtnContents ||
+                <span className='font-weight-bold text-monospace'>i</span>}</button>
+            : ''}
+        </label>
+        {this.props.info && this.state.showInfo
+          ? <div className='alert alert-info'
+            style={{ fontSize: '0.875rem', padding: '0.875rem' }}
+          >{this.props.info}</div>
+          : ''}
         <div className='input-group'>
           <div className='form-control' ref={this.hiddenDiv} style={this.hiddenDivStyle}>{this.value}</div>
           <textarea

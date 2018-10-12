@@ -109,6 +109,7 @@ class App extends React.Component {
                       />
                       <Input
                         label='Number Input, 0-10, 0.2 increments'
+                        info='You can add informational buttons to any field.'
                         name='numberInput'
                         type='number'
                         getValue={ this.getValue }
@@ -179,6 +180,7 @@ class App extends React.Component {
                       <Select
                         label='Test Select, multiple'
                         name='selectMultiple'
+                        info='If you are on a desktop or laptop, hold Ctrl to select multiple options.'
                         getValue={ this.getValue }
                         setValue={ this.setValue }
                         getValidator={ this.getValidator }
@@ -188,6 +190,8 @@ class App extends React.Component {
                         <option>one</option>
                         <option>two</option>
                         <option>three</option>
+                        <option>four</option>
+                        <option>five</option>
                       </Select>
                     </div>
                   </div>
@@ -218,6 +222,7 @@ class App extends React.Component {
                       <Textarea
                         label='Test Textarea'
                         name='textarea'
+                        info={<span>you can set this field to not resize by passing the <code>noAutoResize</code> prop</span>}
                         getValue={ this.getValue }
                         setValue={ this.setValue }
                         getValidator={ this.getValidator }
@@ -235,6 +240,7 @@ class App extends React.Component {
                         name='wysiwyg2'
                         placeholder='start typing here'
                         theme='bubble'
+                        info='you can do info buttons here too!'
                         getValue={ this.getValue }
                         setValue={ this.setValue }
                         getValidator={ this.getValidator }
@@ -282,11 +288,11 @@ class App extends React.Component {
                   </div>
                 </div>
               </div>
-              <input type="submit" value="Validate" />
+              <input className='btn btn-primary mt-3' type="submit" value="Validate" />
             </div>
           </Form>
         </main>
-        <footer>
+        <footer className='mt-3'>
           <div className='container'>
             Doug Elkin &copy; {this.year}
           </div>

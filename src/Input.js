@@ -6,7 +6,11 @@ class Input extends React.Component {
   constructor (props) {
     super(props)
     this.genid()
+    this.state = {
+      showInfo: false
+    }
     this.type = this.props.type || 'text'
+    this.toggleInfo = this.toggleInfo.bind(this)
     this.validate = this.validate.bind(this)
     this.onChange = this.onChange.bind(this)
     this.input = React.createRef()
@@ -63,6 +67,13 @@ class Input extends React.Component {
     }
   }
 
+  toggleInfo () {
+    this.setState(state => {
+      state.showInfo = !state.showInfo
+      return state
+    })
+  }
+
   get validationMessage () {
     return this.input.current ? this.input.current.validationMessage : ''
   }
@@ -104,7 +115,20 @@ class Input extends React.Component {
   render () {
     return (
       <div className='preaction input form-group' ref={this.element}>
-        <label htmlFor={this.id} style={this.labelStyle}>{this.props.label}</label>
+        <label htmlFor={this.id} style={this.labelStyle}>
+          {this.props.label}
+          {this.props.info
+            ? <button type='button' className='btn btn-sm btn-info ml-1 pt-0 pb-0'
+              onClick={this.toggleInfo}>
+              {this.props.infoBtnContents ||
+                <span className='font-weight-bold text-monospace'>i</span>}</button>
+            : ''}
+        </label>
+        {this.props.info && this.state.showInfo
+          ? <div className='alert alert-info'
+            style={{ fontSize: '0.875rem', padding: '0.875rem' }}
+          >{this.props.info}</div>
+          : ''}
         <div className='input-group'>
           <input
             type={this.type}

@@ -13,6 +13,7 @@ class WysiwygEditor extends React.Component {
     this.genid()
     this.state = {
       fallbackMode: false,
+      showInfo: false,
       validationMessage: '',
       valid: true,
       value: ''
@@ -20,6 +21,7 @@ class WysiwygEditor extends React.Component {
     this.DOMPurify = null
     this.focus = this.focus.bind(this)
     this.onChange = this.onChange.bind(this)
+    this.toggleInfo = this.toggleInfo.bind(this)
     this.validate = this.validate.bind(this)
     this.quill = React.createRef()
   }
@@ -156,6 +158,13 @@ class WysiwygEditor extends React.Component {
     }
   }
 
+  toggleInfo () {
+    this.setState(state => {
+      state.showInfo = !state.showInfo
+      return state
+    })
+  }
+
   validate (value) {
     let validationMessage = this.validator(value)
     let valid = !validationMessage
@@ -170,7 +179,20 @@ class WysiwygEditor extends React.Component {
   render () {
     return (
       <div className='preaction wysiwyg mb-3'>
-        <label htmlFor={this.id} style={this.labelStyle} onClick={this.focus}>{this.props.label}</label>
+        <label htmlFor={this.id} style={this.labelStyle} onClick={this.focus}>
+          {this.props.label}
+          {this.props.info
+            ? <button type='button' className='btn btn-sm btn-info ml-1 pt-0 pb-0'
+              onClick={this.toggleInfo}>
+              {this.props.infoBtnContents ||
+                <span className='font-weight-bold text-monospace'>i</span>}</button>
+            : ''}
+        </label>
+        {this.props.info && this.state.showInfo
+          ? <div className='alert alert-info'
+            style={{ fontSize: '0.875rem', padding: '0.875rem' }}
+          >{this.props.info}</div>
+          : ''}
         {this.state.fallbackMode
           ? <div className='input-group'>
             <span className='badge badge-danger'>could not load editor</span>
