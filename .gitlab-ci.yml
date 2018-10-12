@@ -13,8 +13,8 @@ stages:
 
 test:
   stage: test
-  script: npm test
+  script: yarn test
 
 build:
   stage: build
-  script: npm run build
+  script: yarn build
