@@ -45,5 +45,7 @@
     "bootstrap": "^4.1.3",
     "react": "^16.5.2",
     "react-dom": "^16.5.2"
-  }
+  },
+  "author": "Doug Elkin <doug@drelyn.net> (https://drelyn.net)",
+  "license": "MIT"
 }
