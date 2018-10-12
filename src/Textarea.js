@@ -80,30 +80,18 @@ class Textarea extends React.Component {
     return this.textarea.current ? this.textarea.current.validationMessage : ''
   }
 
-  get value () {
-    let retval = this.props.value || ''
-    if (this.props.getValue) {
-      retval = this.props.getValue(this.props.name)
-    }
-    return retval
-  }
-
   get validator () {
-    let validator = defaultValidator
-    if (this.props.getValidator) {
-      validator = this.props.getValidator(this.props.name) || defaultValidator
-    }
-    return validator
+    return this.props.validator || defaultValidator
   }
 
   onChange (event) {
     this.validate(event.target.value)
-    if (this.props.setValue) {
-      this.props.setValue(this.props.name, event.target.value)
-    }
     if (this.props.onChange) {
       event.persist()
       this.props.onChange(event)
+    }
+    if (this.props.valueHandler) {
+      this.props.valueHandler(event.target.value)
     }
   }
 
@@ -132,7 +120,7 @@ class Textarea extends React.Component {
           >{this.props.info}</div>
           : ''}
         <div className='input-group'>
-          <div className='form-control' ref={this.hiddenDiv} style={this.hiddenDivStyle}>{this.value}</div>
+          <div className='form-control' ref={this.hiddenDiv} style={this.hiddenDivStyle}>{this.props.value}</div>
           <textarea
             id={this.id}
             name={this.props.name}
@@ -140,7 +128,7 @@ class Textarea extends React.Component {
             required={this.props.required}
             readOnly={this.props.readOnly}
             disabled={this.props.disabled}
-            value={this.value}
+            value={this.props.value}
             maxLength={this.props.maxLength}
             tabIndex={this.props.tabIndex}
             onBlur={this.props.onBlur}

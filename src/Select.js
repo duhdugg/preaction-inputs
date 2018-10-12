@@ -44,18 +44,11 @@ class Select extends React.Component {
     if (this.props.multiple) {
       retval = this.props.value || []
     }
-    if (this.props.getValue) {
-      retval = this.props.getValue(this.props.name)
-    }
     return retval
   }
 
   get validator () {
-    let validator = defaultValidator
-    if (this.props.getValidator) {
-      validator = this.props.getValidator(this.props.name) || defaultValidator
-    }
-    return validator
+    return this.props.validator || defaultValidator
   }
 
   onChange (event) {
@@ -69,12 +62,12 @@ class Select extends React.Component {
       }
     }
     this.validate()
-    if (this.props.setValue) {
-      this.props.setValue(this.props.name, value)
-    }
     if (this.props.onChange) {
       event.persist()
       this.props.onChange(event)
+    }
+    if (this.props.valueHandler) {
+      this.props.valueHandler(value)
     }
   }
 

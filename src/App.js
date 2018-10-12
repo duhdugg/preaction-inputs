@@ -30,22 +30,17 @@ class App extends React.Component {
     }
     this.wysiwyg = React.createRef()
     this.wysiwyg2 = React.createRef()
-    this.getValue = this.getValue.bind(this)
-    this.setValue = this.setValue.bind(this)
-    this.getValidator = this.getValidator.bind(this)
+    this.getStateValueHandler = this.getStateValueHandler.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  getValue (key) {
-    let retval = this.state[key]
-    return retval
-  }
-
-  setValue (key, value) {
-    this.setState(state => {
-      state[key] = value
-      return state
-    })
+  getStateValueHandler (key) {
+    return value => {
+      this.setState(state => {
+        state[key] = value
+        return state
+      })
+    }
   }
 
   getValidator (key) {
@@ -92,68 +87,56 @@ class App extends React.Component {
                     <div className='card-body'>
                       <Input
                         label='Test Input'
-                        name='basicInput'
-                        getValue={ this.getValue }
-                        setValue={ this.setValue }
-                        getValidator={ this.getValidator }
+                        value={this.state.basicInput}
+                        valueHandler={this.getStateValueHandler('basicInput')}
                         placeholder='with placeholder'
                         required
                       />
                       <Input
                         label='Input with 3-character minimum validator'
-                        name='inputWith3CharacterMinimum'
+                        value={this.state.inputWith3CharacterMinimum}
+                        valueHandler={this.getStateValueHandler('inputWith3CharacterMinimum')}
+                        placeholder='with placeholder'
+                        validator={this.getValidator('inputWith3CharacterMinimum')}
                         minLength='3'
-                        getValue={ this.getValue }
-                        setValue={ this.setValue }
-                        getValidator={ this.getValidator }
                       />
                       <Input
                         label='Number Input, 0-10, 0.2 increments'
                         info='You can add informational buttons to any field.'
-                        name='numberInput'
                         type='number'
-                        getValue={ this.getValue }
-                        setValue={ this.setValue }
-                        getValidator={ this.getValidator }
+                        value={this.state.numberInput}
+                        valueHandler={this.getStateValueHandler('numberInput')}
                         min='0'
                         max='10'
                         step='0.2'
                       />
                       <Input
                         label='Date Input'
-                        name='dateInput'
                         type='date'
                         min='2018-10-01'
                         max='2019-12-12'
-                        getValue={ this.getValue }
-                        setValue={ this.setValue }
-                        getValidator={ this.getValidator }
+                        value={this.state.dateInput}
+                        valueHandler={this.getStateValueHandler('dateInput')}
                       />
                       <Input
                         label='Email Input'
-                        name='emailInput'
                         type='email'
-                        getValue={ this.getValue }
-                        setValue={ this.setValue }
-                        getValidator={ this.getValidator }
+                        value={this.state.emailInput}
+                        valueHandler={this.getStateValueHandler('emailInput')}
                         required
                       />
                       <Input
                         label='Multiple Email Input'
-                        name='multipleEmailInput'
                         type='email'
-                        getValue={ this.getValue }
-                        setValue={ this.setValue }
-                        getValidator={ this.getValidator }
+                        value={this.state.multipleEmailInput}
+                        valueHandler={this.getStateValueHandler('multipleEmailInput')}
                         multiple
                       />
                       <Input
                         label='URL Input'
-                        name='urlInput'
                         type='url'
-                        getValue={ this.getValue }
-                        setValue={ this.setValue }
-                        getValidator={ this.getValidator }
+                        value={this.state.urlInput}
+                        valueHandler={this.getStateValueHandler('urlInput')}
                       />
                     </div>
                   </div>
@@ -166,10 +149,8 @@ class App extends React.Component {
                     <div className='card-body'>
                       <Select
                         label='Test Select, single'
-                        name='select'
-                        getValue={ this.getValue }
-                        setValue={ this.setValue }
-                        getValidator={ this.getValidator }
+                        value={this.state.select}
+                        valueHandler={this.getStateValueHandler('select')}
                         required
                       >
                         <option></option>
@@ -179,11 +160,9 @@ class App extends React.Component {
                       </Select>
                       <Select
                         label='Test Select, multiple'
-                        name='selectMultiple'
                         info='If you are on a desktop or laptop, hold Ctrl to select multiple options.'
-                        getValue={ this.getValue }
-                        setValue={ this.setValue }
-                        getValidator={ this.getValidator }
+                        value={this.state.selectMultiple}
+                        valueHandler={this.getStateValueHandler('selectMultiple')}
                         multiple
                         required
                       >
@@ -202,10 +181,8 @@ class App extends React.Component {
                     <div className='card-body'>
                       <Checkbox
                         label='I Agree'
-                        name='checkbox'
-                        getValue={ this.getValue }
-                        setValue={ this.setValue }
-                        getValidator={ this.getValidator }
+                        checked={this.state.checkbox}
+                        valueHandler={this.getStateValueHandler('checkbox')}
                         required
                       />
                     </div>
@@ -221,29 +198,23 @@ class App extends React.Component {
                     <div className='card-body'>
                       <Textarea
                         label='Test Textarea'
-                        name='textarea'
                         info={<span>you can set this field to not resize by passing the <code>noAutoResize</code> prop</span>}
-                        getValue={ this.getValue }
-                        setValue={ this.setValue }
-                        getValidator={ this.getValidator }
+                        value={this.state.textarea}
+                        valueHandler={this.getStateValueHandler('textarea')}
                       />
                       <WysiwygEditor
                         label='WYSIWYG Editor'
-                        name='wysiwyg'
-                        getValue={ this.getValue }
-                        setValue={ this.setValue }
-                        getValidator={ this.getValidator }
+                        value={this.state.wysiwyg}
+                        valueHandler={this.getStateValueHandler('wysiwyg')}
                         ref={this.wysiwyg}
                       />
                       <WysiwygEditor
                         label='WYSIWYG with hidden toolbar'
-                        name='wysiwyg2'
                         placeholder='start typing here'
                         theme='bubble'
                         info='you can do info buttons here too!'
-                        getValue={ this.getValue }
-                        setValue={ this.setValue }
-                        getValidator={ this.getValidator }
+                        value={this.state.wysiwyg2}
+                        valueHandler={this.getStateValueHandler('wysiwyg2')}
                         ref={this.wysiwyg2}
                       />
                     </div>
@@ -259,30 +230,24 @@ class App extends React.Component {
                     <div className='card-body'>
                       <Input
                         label='Range'
-                        name='rangeInput'
                         type='range'
                         min='1'
                         max='10'
-                        getValue={ this.getValue }
-                        setValue={ this.setValue }
-                        getValidator={ this.getValidator }
+                        value={this.state.rangeInput}
+                        valueHandler={this.getStateValueHandler('rangeInput')}
                       />
                       <Input
-                        name='rangeInput'
                         type='number'
                         min='1'
                         max='10'
-                        getValue={ this.getValue }
-                        setValue={ this.setValue }
-                        getValidator={ this.getValidator }
+                        value={this.state.rangeInput}
+                        valueHandler={this.getStateValueHandler('rangeInput')}
                       />
                       <Input
                         label='Time'
-                        name='timeInput'
                         type='time'
-                        getValue={ this.getValue }
-                        setValue={ this.setValue }
-                        getValidator={ this.getValidator }
+                        value={this.state.timeInput}
+                        valueHandler={this.getStateValueHandler('timeInput')}
                       />
                     </div>
                   </div>

@@ -78,30 +78,18 @@ class Input extends React.Component {
     return this.input.current ? this.input.current.validationMessage : ''
   }
 
-  get value () {
-    let retval = this.props.value || ''
-    if (this.props.getValue) {
-      retval = this.props.getValue(this.props.name)
-    }
-    return retval
-  }
-
   get validator () {
-    let validator = defaultValidator
-    if (this.props.getValidator) {
-      validator = this.props.getValidator(this.props.name) || defaultValidator
-    }
-    return validator
+    return this.props.validator || defaultValidator
   }
 
   onChange (event) {
-    if (this.props.setValue) {
-      this.props.setValue(this.props.name, event.target.value)
-    }
     this.validate(event.target.value)
     if (this.props.onChange) {
       event.persist()
       this.props.onChange(event)
+    }
+    if (this.props.valueHandler) {
+      this.props.valueHandler(event.target.value)
     }
   }
 
@@ -140,7 +128,7 @@ class Input extends React.Component {
             minLength={this.props.minLength}
             maxLength={this.props.maxLength}
             disabled={this.props.disabled}
-            value={this.value}
+            value={this.props.value}
             min={this.props.min}
             max={this.props.max}
             step={this.props.step}

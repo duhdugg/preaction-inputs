@@ -35,30 +35,18 @@ class Checkbox extends React.Component {
     return this.input.current ? this.input.current.validationMessage : ''
   }
 
-  get value () {
-    let retval = this.props.checked || false
-    if (this.props.getValue) {
-      retval = this.props.getValue(this.props.name)
-    }
-    return retval
-  }
-
   get validator () {
-    let validator = defaultValidator
-    if (this.props.getValidator) {
-      validator = this.props.getValidator(this.props.name) || defaultValidator
-    }
-    return validator
+    return this.props.validator || defaultValidator
   }
 
   onChange (event) {
-    if (this.props.setValue) {
-      this.props.setValue(this.props.name, event.target.checked)
-    }
     this.validate()
     if (this.props.onChange) {
       event.persist()
       this.props.onChange(event)
+    }
+    if (this.props.valueHandler) {
+      this.props.valueHandler(event.target.checked)
     }
   }
 
@@ -81,7 +69,7 @@ class Checkbox extends React.Component {
             required={this.props.required}
             readOnly={this.props.readOnly}
             disabled={this.props.disabled}
-            checked={this.value}
+            checked={this.props.checked}
             placeholder={this.props.placeholder}
             tabIndex={this.props.tabIndex}
             onBlur={this.props.onBlur}

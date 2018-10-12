@@ -128,11 +128,7 @@ class WysiwygEditor extends React.Component {
   }
 
   get validator () {
-    let validator = defaultValidator
-    if (this.props.getValidator) {
-      validator = this.props.getValidator(this.props.name) || defaultValidator
-    }
-    return validator
+    return this.props.validator || defaultValidator
   }
 
   get value () {
@@ -145,8 +141,8 @@ class WysiwygEditor extends React.Component {
       return state
     }, () => {
       this.validate(value)
-      if (this.props.setValue) {
-        this.props.setValue(this.props.name, value)
+      if (this.props.valueHandler) {
+        this.props.valueHandler(value)
       }
     })
   }
