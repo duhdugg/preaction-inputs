@@ -10,8 +10,8 @@ class Checkbox extends React.Component {
     super(props)
     this.genid()
     this.state = { pristine: true }
-    this.validate = this.validate.bind(this)
     this.onChange = this.onChange.bind(this)
+    this.validate = this.validate.bind(this)
     this.element = React.createRef()
     this.input = React.createRef()
   }
@@ -66,16 +66,11 @@ class Checkbox extends React.Component {
       <div className="preaction checkbox form-group" ref={this.element}>
         <div className="form-check">
           <input
-            type="checkbox"
+            checked={this.props.checked}
+            className="form-check-input"
+            disabled={this.props.disabled}
             id={this.id}
             name={this.props.name}
-            className="form-check-input"
-            required={this.props.required}
-            readOnly={this.props.readOnly}
-            disabled={this.props.disabled}
-            checked={this.props.checked}
-            placeholder={this.props.placeholder}
-            tabIndex={this.props.tabIndex}
             onBlur={this.props.onBlur}
             onChange={this.onChange}
             onClick={this.props.onClick}
@@ -102,8 +97,13 @@ class Checkbox extends React.Component {
             onMouseUp={this.props.onMouseUp}
             onSelect={this.props.onSelect}
             onSubmit={this.props.onSubmit}
-            style={this.inputStyle}
+            placeholder={this.props.placeholder}
+            readOnly={this.props.readOnly}
             ref={this.input}
+            required={this.props.required}
+            style={this.inputStyle}
+            tabIndex={this.props.tabIndex}
+            type="checkbox"
           />
           <label
             className="form-check-label"

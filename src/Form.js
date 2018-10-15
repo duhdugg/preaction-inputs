@@ -71,17 +71,17 @@ class Form extends React.Component {
   render () {
     return (
       <form
-        className={this.className}
-        onSubmit={this.onSubmit}
-        onReset={this.onReset}
-        method={this.props.method}
         acceptCharset={this.props.acceptCharset}
         action={this.props.action}
         autoComplete={this.props.autoComplete}
+        className={this.className}
         encType={this.props.endType}
+        method={this.props.method}
         name={this.props.name}
-        target={this.props.target}
         noValidate={this.props.noValidate}
+        onReset={this.onReset}
+        onSubmit={this.onSubmit}
+        target={this.props.target}
       >
         {this.props.children}
       </form>

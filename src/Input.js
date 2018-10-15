@@ -14,9 +14,9 @@ class Input extends React.Component {
       showInfo: false
     }
     this.type = this.props.type || 'text'
+    this.onChange = this.onChange.bind(this)
     this.toggleInfo = this.toggleInfo.bind(this)
     this.validate = this.validate.bind(this)
-    this.onChange = this.onChange.bind(this)
     this.input = React.createRef()
   }
 
@@ -45,14 +45,14 @@ class Input extends React.Component {
       retval = this.props.inputMode
     } else {
       switch (this.type) {
+        case 'email':
+          retval = 'email'
+          break
         case 'number':
           retval = 'numeric'
           break
         case 'tel':
           retval = 'tel'
-          break
-        case 'email':
-          retval = 'email'
           break
         case 'url':
           retval = 'url'
@@ -143,26 +143,17 @@ class Input extends React.Component {
         )}
         <div className="input-group">
           <input
-            type={this.type}
-            id={this.id}
-            name={this.props.name}
-            className="form-control"
-            required={this.props.required}
-            readOnly={this.props.readOnly}
-            minLength={this.props.minLength}
-            maxLength={this.props.maxLength}
-            disabled={this.props.disabled}
-            value={this.props.value}
-            min={this.props.min}
-            max={this.props.max}
-            step={this.props.step}
-            placeholder={this.props.placeholder}
             autoComplete={this.autoComplete}
+            className="form-control"
+            disabled={this.props.disabled}
+            id={this.id}
             inputMode={this.inputMode}
+            max={this.props.max}
+            maxLength={this.props.maxLength}
+            min={this.props.min}
+            minLength={this.props.minLength}
             multiple={this.props.multiple}
-            pattern={this.props.pattern}
-            spellCheck={this.props.spellCheck}
-            tabIndex={this.props.tabIndex}
+            name={this.props.name}
             onBlur={this.props.onBlur}
             onChange={this.onChange}
             onClick={this.props.onClick}
@@ -189,7 +180,16 @@ class Input extends React.Component {
             onMouseUp={this.props.onMouseUp}
             onSelect={this.props.onSelect}
             onSubmit={this.props.onSubmit}
+            pattern={this.props.pattern}
+            placeholder={this.props.placeholder}
+            readOnly={this.props.readOnly}
             ref={this.input}
+            required={this.props.required}
+            spellCheck={this.props.spellCheck}
+            step={this.props.step}
+            tabIndex={this.props.tabIndex}
+            type={this.type}
+            value={this.props.value}
           />
           {this.validationMessage ? (
             <div className="invalid-tooltip" aria-live="polite">

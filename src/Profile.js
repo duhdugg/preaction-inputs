@@ -5,23 +5,29 @@ import Form from './Form.js'
 import Select from './Select.js'
 import Textarea from './Textarea.js'
 import Wysiwyg from './Wysiwyg.js'
+
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 class Profile extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      name: '',
-      birthdate: '',
-      favoriteComic: '',
-      favoriteTacoToppings: '',
       aboutYou: '',
       bio: '',
-      confirm: false
+      birthdate: '',
+      confirm: false,
+      email: '',
+      favoriteSuperHero: '',
+      favoriteTacoIngredients: '',
+      name: ''
     }
   }
 
   getValidator (key) {
+    // returns a custom validator
+    // validator should be a function that takes a single value argument
+    // and returns an string to indicate an error
+    // or an empty string for valid input
     return {
       birthdate: value => {
         let message = ''
@@ -32,17 +38,36 @@ class Profile extends React.Component {
           message = 'You must be 21 or older to enter.'
         }
         return message
+      },
+      email: value => {
+        const banList = ['cap@merica.gov']
+        let message = ''
+        if (banList.indexOf(value) >= 0) {
+          message = 'you broke the first rule buddy!'
+        }
+        return message
       }
     }[key]
   }
 
   getValueHandler (key) {
+    // returns a value handler for state binding
     return value => {
       this.setState(state => {
         state[key] = value
         return state
       })
     }
+  }
+
+  get superHeroOptions () {
+    return [
+      'bat guy',
+      'big green angry guy',
+      'iron guy',
+      'mean guy',
+      'thunder guy'
+    ]
   }
 
   get minimumAge () {
@@ -59,11 +84,20 @@ class Profile extends React.Component {
   render () {
     return (
       <div className="Profile container col-sm-6">
+        <p className="display-4">Registration Form</p>
         <Form onSubmit={this.onSubmit.bind(this)} noValidate>
           <Input
             label="Your name"
             value={this.state.name}
             valueHandler={this.getValueHandler.bind(this)('name')}
+            required
+          />
+          <Input
+            label="Email"
+            type="email"
+            value={this.state.email}
+            valueHandler={this.getValueHandler.bind(this)('email')}
+            validator={this.getValidator('email')}
             required
           />
           <Input
@@ -76,32 +110,39 @@ class Profile extends React.Component {
             required
           />
           <Select
-            label="Favorite comic series"
-            info="You can just pick one"
+            label="Favorite superhero"
+            info="You must select one on these options"
             required
-            value={this.state.favoriteComic}
-            valueHandler={this.getValueHandler.bind(this)('favoriteComic')}
+            value={this.state.favoriteSuperHero}
+            valueHandler={this.getValueHandler.bind(this)('favoriteSuperHero')}
           >
             <option />
-            <option>DC</option>
-            <option>Marvel</option>
+            {this.superHeroOptions.map(value => (
+              <option key={value}>{value}</option>
+            ))}
           </Select>
           <Select
-            label="Favorite taco toppings"
-            value={this.state.favoriteTacoToppings}
+            label="Favorite taco ingredients"
+            value={this.state.favoriteTacoIngredients}
             valueHandler={this.getValueHandler.bind(this)(
-              'favoriteTacoToppings'
+              'favoriteTacoIngredients'
             )}
             multiple
             required
           >
-            <option>meat</option>
-            <option>cheese</option>
             <option>beans</option>
-            <option>tomatoes</option>
+            <option>cheese</option>
+            <option>guacamole</option>
+            <option>hot sauce</option>
+            <option>lettuce</option>
+            <option>meat</option>
+            <option>mushrooms</option>
+            <option>peppers</option>
+            <option>shells</option>
+            <option>sour cream</option>
           </Select>
           <Textarea
-            label="Why you want to join our club?"
+            label="Why do you want to join?"
             required
             value={this.state.aboutYou}
             valueHandler={this.getValueHandler.bind(this)('aboutYou')}
@@ -112,7 +153,7 @@ class Profile extends React.Component {
             valueHandler={this.getValueHandler.bind(this)('bio')}
           />
           <Checkbox
-            label="I understand"
+            label="I understand the first rule of this club"
             value={this.state.confirm}
             valueHandler={this.getValueHandler.bind(this)('confirm')}
             required

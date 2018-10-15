@@ -13,20 +13,20 @@ class App extends React.Component {
     super(props)
     this.state = {
       basicInput: '',
-      inputWith3CharacterMinimum: '',
-      numberInput: '',
+      checkbox: false,
       dateInput: '',
       emailInput: '',
+      inputWith3CharacterMinimum: '',
       multipleEmailInput: '',
-      urlInput: '',
+      numberInput: '',
+      rangeInput: '',
       select: '',
       selectMultiple: [],
       textarea: '',
+      timeInput: '',
+      urlInput: '',
       wysiwyg: '',
-      wysiwyg2: '',
-      checkbox: false,
-      rangeInput: '',
-      timeInput: ''
+      wysiwyg2: ''
     }
     this.wysiwyg = React.createRef()
     this.wysiwyg2 = React.createRef()
@@ -287,9 +287,6 @@ class App extends React.Component {
             </div>
           </Form>
         </main>
-        <footer className="mt-3">
-          <div className="container">Doug Elkin &copy; {this.year}</div>
-        </footer>
       </div>
     )
   }

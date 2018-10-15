@@ -13,10 +13,10 @@ class Select extends React.Component {
       pristine: true,
       showInfo: false
     }
-    this.toggleInfo = this.toggleInfo.bind(this)
-    this.validate = this.validate.bind(this)
     this.onChange = this.onChange.bind(this)
     this.select = React.createRef()
+    this.toggleInfo = this.toggleInfo.bind(this)
+    this.validate = this.validate.bind(this)
   }
 
   genid () {
@@ -121,15 +121,11 @@ class Select extends React.Component {
         )}
         <div className="input-group">
           <select
-            id={this.id}
-            name={this.props.name}
             className="form-control"
-            required={this.props.required}
-            readOnly={this.props.readOnly}
             disabled={this.props.disabled}
-            value={this.value}
+            id={this.id}
             multiple={this.props.multiple}
-            tabIndex={this.props.tabIndex}
+            name={this.props.name}
             onBlur={this.props.onBlur}
             onChange={this.onChange}
             onClick={this.props.onClick}
@@ -155,7 +151,11 @@ class Select extends React.Component {
             onMouseUp={this.props.onMouseUp}
             onSelect={this.props.onSelect}
             onSubmit={this.props.onSubmit}
+            readOnly={this.props.readOnly}
             ref={this.select}
+            required={this.props.required}
+            tabIndex={this.props.tabIndex}
+            value={this.value}
           >
             {this.props.children}
           </select>

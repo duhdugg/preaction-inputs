@@ -14,9 +14,9 @@ class Textarea extends React.Component {
       pristine: true,
       showInfo: false
     }
+    this.onChange = this.onChange.bind(this)
     this.toggleInfo = this.toggleInfo.bind(this)
     this.validate = this.validate.bind(this)
-    this.onChange = this.onChange.bind(this)
     this.hiddenDiv = React.createRef()
     this.textarea = React.createRef()
   }
@@ -41,14 +41,14 @@ class Textarea extends React.Component {
 
   get hiddenDivStyle () {
     return {
-      visibility: 'hidden',
-      position: 'absolute',
-      left: '-0.06em',
-      top: '0',
-      width: '100%',
       height: 'auto',
-      whiteSpace: 'pre-wrap',
+      left: '-0.06em',
       overflowWrap: 'break-word',
+      position: 'absolute',
+      top: '0',
+      visibility: 'hidden',
+      whiteSpace: 'pre-wrap',
+      width: '100%',
       zIndex: -999
     }
   }
@@ -219,6 +219,10 @@ class Textarea extends React.Component {
         let height = this.hiddenDiv.current.clientHeight
         if (!this.textarea.current.value) {
           height = height * 3
+          if (!height) {
+            // minimum
+            height = 16
+          }
           if (this.state.height !== height) {
             this.height = height
           }

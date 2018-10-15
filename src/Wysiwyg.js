@@ -1,10 +1,10 @@
 import React from 'react'
-import ReactQuill from 'react-quill'
-import createDOMPurify from 'dompurify'
-import 'react-quill/dist/quill.core.css'
-import 'react-quill/dist/quill.bubble.css'
-import 'react-quill/dist/quill.snow.css'
 import AsterCheck from './AsterCheck.js'
+import createDOMPurify from 'dompurify'
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.bubble.css'
+import 'react-quill/dist/quill.core.css'
+import 'react-quill/dist/quill.snow.css'
 
 let defaultValidator = value => {
   return ''
@@ -18,8 +18,8 @@ class Wysiwyg extends React.Component {
       fallbackMode: false,
       pristine: true,
       showInfo: false,
-      validationMessage: '',
       valid: true,
+      validationMessage: '',
       value: ''
     }
     this.DOMPurify = null
@@ -62,8 +62,8 @@ class Wysiwyg extends React.Component {
       'background',
       'blockquote',
       'bold',
-      'code',
       'code-block',
+      'code',
       'color',
       'font',
       'header',
@@ -92,8 +92,8 @@ class Wysiwyg extends React.Component {
           'blockquote',
           { indent: '-1' },
           { indent: '+1' },
-          { list: 'ordered' },
           { list: 'bullet' },
+          { list: 'ordered' },
           'code-block'
         ],
         ['image', 'video']
@@ -213,16 +213,16 @@ class Wysiwyg extends React.Component {
           </div>
         ) : (
           <ReactQuill
-            value={this.value}
             debug={this.props.debug}
             formats={this.formats}
             modules={this.modules}
             onChange={this.onChange}
             placeholder={this.props.placeholder}
             readOnly={this.props.readOnly}
+            ref={this.quill}
             scrollingContainer={this.props.scrollingContainer}
             theme={this.theme}
-            ref={this.quill}
+            value={this.value}
           />
         )}
         <div className="validator">
