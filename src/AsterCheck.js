@@ -24,11 +24,7 @@ class AsterCheck extends React.Component {
   }
 
   render () {
-    return (
-      <small
-        className={this.className}
-      >{this.char}</small>
-    )
+    return <small className={this.className}>{this.char}</small>
   }
 }
 
