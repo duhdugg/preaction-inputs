@@ -18,7 +18,6 @@ class Form extends React.Component {
   }
 
   onReset (event) {
-    event.preventDefault()
     this.setState(state => {
       state.formWasValidated = false
       return state
@@ -30,7 +29,6 @@ class Form extends React.Component {
   }
 
   onSubmit (event) {
-    event.preventDefault()
     for (let input of event.target.getElementsByTagName('input')) {
       if (input.validate) {
         let value = input.value
@@ -72,7 +70,19 @@ class Form extends React.Component {
 
   render () {
     return (
-      <form className={this.className} onSubmit={this.onSubmit} onReset={this.onReset} noValidate>
+      <form
+        className={this.className}
+        onSubmit={this.onSubmit}
+        onReset={this.onReset}
+        method={this.props.method}
+        acceptCharset={this.props.acceptCharset}
+        action={this.props.action}
+        autoComplete={this.props.autoComplete}
+        encType={this.props.endType}
+        name={this.props.name}
+        target={this.props.target}
+        noValidate={this.props.noValidate}
+      >
         {this.props.children}
       </form>
     )

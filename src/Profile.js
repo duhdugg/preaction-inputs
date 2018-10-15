@@ -1,34 +1,14 @@
-# Preaction Inputs
-
-This is a Bootstrap v4 compatible library of React components intended to provide a consistent and responsive experience for most basic user input needs.
-
-## Usage
-
-### install dependencies
-
-```bash
-yarn add preaction-inputs
-
-# or...
-npm install --save preaction-inputs
-```
-
-### example
-
-```javascript
 import React from 'react'
-import {
-  Checkbox,
-  Form,
-  Input,
-  Select,
-  Textarea,
-  Wysiwyg
-} from 'preaction-inputs'
+import Checkbox from './Checkbox.js'
+import Input from './Input.js'
+import Form from './Form.js'
+import Select from './Select.js'
+import Textarea from './Textarea.js'
+import Wysiwyg from './Wysiwyg.js'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 class Profile extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       name: '',
@@ -41,7 +21,7 @@ class Profile extends React.Component {
     }
   }
 
-  getValidator(key) {
+  getValidator (key) {
     return {
       birthdate: value => {
         let message = ''
@@ -56,7 +36,7 @@ class Profile extends React.Component {
     }[key]
   }
 
-  getValueHandler(key) {
+  getValueHandler (key) {
     return value => {
       this.setState(state => {
         state[key] = value
@@ -65,18 +45,18 @@ class Profile extends React.Component {
     }
   }
 
-  get minimumAge() {
+  get minimumAge () {
     let birthdate = new Date()
     birthdate.setYear(birthdate.getFullYear() - 21)
     return birthdate.toISOString().split('T')[0]
   }
 
-  onSubmit(event) {
+  onSubmit (event) {
     event.preventDefault()
     console.debug(event.target.checkValidity())
   }
 
-  render() {
+  render () {
     return (
       <div className="Profile container col-sm-6">
         <Form onSubmit={this.onSubmit.bind(this)} noValidate>
@@ -145,4 +125,3 @@ class Profile extends React.Component {
 }
 
 export default Profile
-```

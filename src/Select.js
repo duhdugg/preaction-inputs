@@ -1,7 +1,9 @@
 import React from 'react'
 import AsterCheck from './AsterCheck.js'
 
-let defaultValidator = value => { return '' }
+let defaultValidator = value => {
+  return ''
+}
 
 class Select extends React.Component {
   constructor (props) {
@@ -63,6 +65,7 @@ class Select extends React.Component {
         }
       }
     }
+    this.dirty()
     this.validate()
     if (this.props.onChange) {
       event.persist()
@@ -82,27 +85,45 @@ class Select extends React.Component {
 
   render () {
     return (
-      <div className='preaction select form-group' ref={this.element}>
+      <div className="preaction select form-group" ref={this.element}>
         <label htmlFor={this.id} style={this.labelStyle}>
           {this.props.label}
-          {this.props.info
-            ? <button type='button' className='btn btn-sm btn-info ml-1 pt-0 pb-0'
-              onClick={this.toggleInfo}>
-              {this.props.infoBtnContents ||
-                <span className='font-weight-bold text-monospace'>i</span>}</button>
-            : ''}
-          {this.props.required ? <AsterCheck valid={!this.validationMessage && !this.state.pristine} /> : ''}
+          {this.props.info ? (
+            <button
+              type="button"
+              className="btn btn-sm btn-info ml-1 pt-0 pb-0"
+              onClick={this.toggleInfo}
+            >
+              {this.props.infoBtnContents || (
+                <span className="font-weight-bold text-monospace">i</span>
+              )}
+            </button>
+          ) : (
+            ''
+          )}
+          {this.props.required ? (
+            <AsterCheck
+              valid={!this.validationMessage && !this.state.pristine}
+            />
+          ) : (
+            ''
+          )}
         </label>
-        {this.props.info && this.state.showInfo
-          ? <div className='alert alert-info'
+        {this.props.info && this.state.showInfo ? (
+          <div
+            className="alert alert-info"
             style={{ fontSize: '0.875rem', padding: '0.875rem' }}
-          >{this.props.info}</div>
-          : ''}
-        <div className='input-group'>
+          >
+            {this.props.info}
+          </div>
+        ) : (
+          ''
+        )}
+        <div className="input-group">
           <select
             id={this.id}
             name={this.props.name}
-            className='form-control'
+            className="form-control"
             required={this.props.required}
             readOnly={this.props.readOnly}
             disabled={this.props.disabled}
@@ -138,7 +159,13 @@ class Select extends React.Component {
           >
             {this.props.children}
           </select>
-          <div className='invalid-tooltip' aria-live='polite'>{this.validationMessage}</div>
+          {this.validationMessage ? (
+            <div className="invalid-tooltip" aria-live="polite">
+              {this.validationMessage}
+            </div>
+          ) : (
+            ''
+          )}
         </div>
       </div>
     )
@@ -149,6 +176,10 @@ class Select extends React.Component {
   }
 
   componentDidUpdate () {
+    this.dirty()
+  }
+
+  dirty () {
     if (this.state.pristine) {
       this.setState(state => {
         state.pristine = false

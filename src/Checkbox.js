@@ -1,7 +1,9 @@
 import React from 'react'
 import AsterCheck from './AsterCheck.js'
 
-let defaultValidator = value => { return '' }
+let defaultValidator = value => {
+  return ''
+}
 
 class Checkbox extends React.Component {
   constructor (props) {
@@ -61,13 +63,13 @@ class Checkbox extends React.Component {
 
   render () {
     return (
-      <div className='preaction checkbox form-group' ref={this.element}>
-        <div className='form-check'>
+      <div className="preaction checkbox form-group" ref={this.element}>
+        <div className="form-check">
           <input
-            type='checkbox'
+            type="checkbox"
             id={this.id}
             name={this.props.name}
-            className='form-check-input'
+            className="form-check-input"
             required={this.props.required}
             readOnly={this.props.readOnly}
             disabled={this.props.disabled}
@@ -103,11 +105,28 @@ class Checkbox extends React.Component {
             style={this.inputStyle}
             ref={this.input}
           />
-          <label className='form-check-label' htmlFor={this.id} style={this.labelStyle}>
+          <label
+            className="form-check-label"
+            htmlFor={this.id}
+            style={this.labelStyle}
+          >
             {this.props.label}
-            {this.props.required ? <AsterCheck noCheck valid={!this.validationMessage && !this.state.pristine} /> : ''}
+            {this.props.required ? (
+              <AsterCheck
+                noCheck
+                valid={!this.validationMessage && !this.state.pristine}
+              />
+            ) : (
+              ''
+            )}
           </label>
-          <div className='invalid-tooltip' aria-live='polite'>{this.validationMessage}</div>
+          {this.validationMessage ? (
+            <div className="invalid-tooltip" aria-live="polite">
+              {this.validationMessage}
+            </div>
+          ) : (
+            ''
+          )}
         </div>
       </div>
     )

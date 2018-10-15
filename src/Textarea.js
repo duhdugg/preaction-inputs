@@ -1,7 +1,9 @@
 import React from 'react'
 import AsterCheck from './AsterCheck.js'
 
-let defaultValidator = value => { return '' }
+let defaultValidator = value => {
+  return ''
+}
 
 class Textarea extends React.Component {
   constructor (props) {
@@ -106,28 +108,52 @@ class Textarea extends React.Component {
 
   render () {
     return (
-      <div className='preaction textarea form-group'>
+      <div className="preaction textarea form-group">
         <label htmlFor={this.id} style={this.labelStyle}>
           {this.props.label}
-          {this.props.info
-            ? <button type='button' className='btn btn-sm btn-info ml-1 pt-0 pb-0'
-              onClick={this.toggleInfo}>
-              {this.props.infoBtnContents ||
-                <span className='font-weight-bold text-monospace'>i</span>}</button>
-            : ''}
-          {this.props.required ? <AsterCheck valid={!this.validationMessage && !this.state.pristine} /> : ''}
+          {this.props.info ? (
+            <button
+              type="button"
+              className="btn btn-sm btn-info ml-1 pt-0 pb-0"
+              onClick={this.toggleInfo}
+            >
+              {this.props.infoBtnContents || (
+                <span className="font-weight-bold text-monospace">i</span>
+              )}
+            </button>
+          ) : (
+            ''
+          )}
+          {this.props.required ? (
+            <AsterCheck
+              valid={!this.validationMessage && !this.state.pristine}
+            />
+          ) : (
+            ''
+          )}
         </label>
-        {this.props.info && this.state.showInfo
-          ? <div className='alert alert-info'
+        {this.props.info && this.state.showInfo ? (
+          <div
+            className="alert alert-info"
             style={{ fontSize: '0.875rem', padding: '0.875rem' }}
-          >{this.props.info}</div>
-          : ''}
-        <div className='input-group'>
-          <div className='form-control' ref={this.hiddenDiv} style={this.hiddenDivStyle}>{this.props.value}</div>
+          >
+            {this.props.info}
+          </div>
+        ) : (
+          ''
+        )}
+        <div className="input-group">
+          <div
+            className="form-control"
+            ref={this.hiddenDiv}
+            style={this.hiddenDivStyle}
+          >
+            {this.props.value}
+          </div>
           <textarea
             id={this.id}
             name={this.props.name}
-            className='form-control'
+            className="form-control"
             required={this.props.required}
             readOnly={this.props.readOnly}
             disabled={this.props.disabled}
@@ -164,8 +190,14 @@ class Textarea extends React.Component {
             style={this.textareaStyle}
             wrap={this.props.wrap}
             ref={this.textarea}
-          ></textarea>
-          <div className='invalid-tooltip' aria-live='polite'>{this.validationMessage}</div>
+          />
+          {this.validationMessage ? (
+            <div className="invalid-tooltip" aria-live="polite">
+              {this.validationMessage}
+            </div>
+          ) : (
+            ''
+          )}
         </div>
       </div>
     )
