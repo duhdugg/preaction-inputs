@@ -12,7 +12,7 @@ module.exports = {
   },
   output: {
     path: path.resolve('dist'),
-    filename: '[name].dist.js',
+    filename: '[name].min.js',
     libraryTarget: 'commonjs2'
   },
   module: {
