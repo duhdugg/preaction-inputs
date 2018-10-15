@@ -6,7 +6,7 @@ import Form from './Form.js'
 import Select from './Select.js'
 import Textarea from './Textarea.js'
 import Checkbox from './Checkbox.js'
-import WysiwygEditor from './WysiwygEditor.js'
+import Wysiwyg from './Wysiwyg.js'
 
 class App extends React.Component {
   constructor (props) {
@@ -71,109 +71,119 @@ class App extends React.Component {
     return (
       <div className="App">
         <header>
-          <div className='container'>
-            <h1 className='display-4'>Preaction Inputs</h1>
+          <div className="container">
+            <h1 className="display-4">Preaction Inputs</h1>
           </div>
         </header>
         <main>
-          <Form onSubmit={ this.onSubmit }>
-            <div className='container'>
-              <div className='row'>
-                <div className='col-sm'>
-                  <div className='card mt-3'>
-                    <div className='card-header'>
-                      Input
-                    </div>
-                    <div className='card-body'>
+          <Form onSubmit={this.onSubmit}>
+            <div className="container">
+              <div className="row">
+                <div className="col-sm">
+                  <div className="card mt-3">
+                    <div className="card-header">Input</div>
+                    <div className="card-body">
                       <Input
-                        label='Email'
-                        type='email'
-                        info='Enter any email but our example provided.'
-                        placeholder='you@example.com'
+                        label="Email"
+                        type="email"
+                        info="Enter any email but our example provided."
+                        placeholder="you@example.com"
                         value={this.state.emailInput}
-                        valueHandler={value => this.setState(state => Object.assign(state, { emailInput: value }))}
-                        validator={value => value === 'you@example.com' ? 'not you' : '' }
+                        valueHandler={value =>
+                          this.setState(state =>
+                            Object.assign(state, { emailInput: value })
+                          )
+                        }
+                        validator={value =>
+                          value === 'you@example.com' ? 'not you' : ''
+                        }
                         required
-                      ></Input>
+                      />
                       <Input
-                        label='Test Input'
-                        info='test'
+                        label="Test Input"
+                        info="test"
                         value={this.state.basicInput}
                         valueHandler={this.getStateValueHandler('basicInput')}
-                        placeholder='with placeholder'
+                        placeholder="with placeholder"
                         required
                       />
                       <Input
-                        label='Input with 3-character minimum validator'
+                        label="Input with 3-character minimum validator"
                         value={this.state.inputWith3CharacterMinimum}
-                        valueHandler={this.getStateValueHandler('inputWith3CharacterMinimum')}
-                        placeholder='with placeholder'
-                        validator={this.getValidator('inputWith3CharacterMinimum')}
-                        minLength='3'
+                        valueHandler={this.getStateValueHandler(
+                          'inputWith3CharacterMinimum'
+                        )}
+                        placeholder="with placeholder"
+                        validator={this.getValidator(
+                          'inputWith3CharacterMinimum'
+                        )}
+                        minLength="3"
                         required
                       />
                       <Input
-                        label='Number Input, 0-10, 0.2 increments'
-                        info='You can add informational buttons to any field.'
-                        type='number'
+                        label="Number Input, 0-10, 0.2 increments"
+                        info="You can add informational buttons to any field."
+                        type="number"
                         value={this.state.numberInput}
                         valueHandler={this.getStateValueHandler('numberInput')}
-                        min='0'
-                        max='10'
-                        step='0.2'
+                        min="0"
+                        max="10"
+                        step="0.2"
                       />
                       <Input
-                        label='Date Input'
-                        type='date'
-                        min='2018-10-01'
-                        max='2019-12-12'
+                        label="Date Input"
+                        type="date"
+                        min="2018-10-01"
+                        max="2019-12-12"
                         value={this.state.dateInput}
                         valueHandler={this.getStateValueHandler('dateInput')}
                       />
                       <Input
-                        label='Email Input'
-                        type='email'
+                        label="Email Input"
+                        type="email"
                         value={this.state.emailInput}
                         valueHandler={this.getStateValueHandler('emailInput')}
                         required
                       />
                       <Input
-                        label='Multiple Email Input'
-                        type='email'
+                        label="Multiple Email Input"
+                        type="email"
                         value={this.state.multipleEmailInput}
-                        valueHandler={this.getStateValueHandler('multipleEmailInput')}
+                        valueHandler={this.getStateValueHandler(
+                          'multipleEmailInput'
+                        )}
                         multiple
                       />
                       <Input
-                        label='URL Input'
-                        type='url'
+                        label="URL Input"
+                        type="url"
                         value={this.state.urlInput}
                         valueHandler={this.getStateValueHandler('urlInput')}
                       />
                     </div>
                   </div>
                 </div>
-                <div className='col-sm'>
-                  <div className='card mt-3'>
-                    <div className='card-header'>
-                      Select
-                    </div>
-                    <div className='card-body'>
+                <div className="col-sm">
+                  <div className="card mt-3">
+                    <div className="card-header">Select</div>
+                    <div className="card-body">
                       <Select
-                        label='Test Select, single'
+                        label="Test Select, single"
                         value={this.state.select}
                         valueHandler={this.getStateValueHandler('select')}
                         required
                       >
-                        <option></option>
+                        <option />
                         <option>one</option>
                         <option>two</option>
                         <option>three</option>
                       </Select>
                       <Select
-                        label='Test Select, multiple'
+                        label="Test Select, multiple"
                         value={this.state.selectMultiple}
-                        valueHandler={this.getStateValueHandler('selectMultiple')}
+                        valueHandler={this.getStateValueHandler(
+                          'selectMultiple'
+                        )}
                         multiple
                         required
                       >
@@ -185,13 +195,11 @@ class App extends React.Component {
                       </Select>
                     </div>
                   </div>
-                  <div className='card mt-3'>
-                    <div className='card-header'>
-                      Checkboxes
-                    </div>
-                    <div className='card-body'>
+                  <div className="card mt-3">
+                    <div className="card-header">Checkboxes</div>
+                    <div className="card-body">
                       <Checkbox
-                        label='I Agree'
+                        label="I Agree"
                         checked={this.state.checkbox}
                         valueHandler={this.getStateValueHandler('checkbox')}
                         required
@@ -200,31 +208,34 @@ class App extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className='row'>
-                <div className='col'>
-                  <div className='card mt-3'>
-                    <div className='card-header'>
-                      Textarea
-                    </div>
-                    <div className='card-body'>
+              <div className="row">
+                <div className="col">
+                  <div className="card mt-3">
+                    <div className="card-header">Textarea</div>
+                    <div className="card-body">
                       <Textarea
-                        label='Test Textarea'
-                        info={<span>you can set this field to not resize by passing the <code>noAutoResize</code> prop</span>}
+                        label="Test Textarea"
+                        info={
+                          <span>
+                            you can set this field to not resize by passing the{' '}
+                            <code>noAutoResize</code> prop
+                          </span>
+                        }
                         required
                         value={this.state.textarea}
                         valueHandler={this.getStateValueHandler('textarea')}
                       />
-                      <WysiwygEditor
-                        label='WYSIWYG Editor'
+                      <Wysiwyg
+                        label="WYSIWYG Editor"
                         value={this.state.wysiwyg}
                         valueHandler={this.getStateValueHandler('wysiwyg')}
                         ref={this.wysiwyg}
                       />
-                      <WysiwygEditor
-                        label='WYSIWYG with hidden toolbar'
-                        placeholder='start typing here'
-                        theme='bubble'
-                        info='you can do info buttons here too!'
+                      <Wysiwyg
+                        label="WYSIWYG with hidden toolbar"
+                        placeholder="start typing here"
+                        theme="bubble"
+                        info="you can do info buttons here too!"
                         value={this.state.wysiwyg2}
                         valueHandler={this.getStateValueHandler('wysiwyg2')}
                         ref={this.wysiwyg2}
@@ -233,31 +244,29 @@ class App extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className='row'>
-                <div className='col'>
-                  <div className='card mt-3'>
-                    <div className='card-header'>
-                      Misc.
-                    </div>
-                    <div className='card-body'>
+              <div className="row">
+                <div className="col">
+                  <div className="card mt-3">
+                    <div className="card-header">Misc.</div>
+                    <div className="card-body">
                       <Input
-                        label='Range'
-                        type='range'
-                        min='1'
-                        max='10'
+                        label="Range"
+                        type="range"
+                        min="1"
+                        max="10"
                         value={this.state.rangeInput}
                         valueHandler={this.getStateValueHandler('rangeInput')}
                       />
                       <Input
-                        type='number'
-                        min='1'
-                        max='10'
+                        type="number"
+                        min="1"
+                        max="10"
                         value={this.state.rangeInput}
                         valueHandler={this.getStateValueHandler('rangeInput')}
                       />
                       <Input
-                        label='Time'
-                        type='time'
+                        label="Time"
+                        type="time"
                         value={this.state.timeInput}
                         valueHandler={this.getStateValueHandler('timeInput')}
                       />
@@ -265,14 +274,16 @@ class App extends React.Component {
                   </div>
                 </div>
               </div>
-              <input className='btn btn-primary mt-3' type="submit" value="Validate" />
+              <input
+                className="btn btn-primary mt-3"
+                type="submit"
+                value="Validate"
+              />
             </div>
           </Form>
         </main>
-        <footer className='mt-3'>
-          <div className='container'>
-            Doug Elkin &copy; {this.year}
-          </div>
+        <footer className="mt-3">
+          <div className="container">Doug Elkin &copy; {this.year}</div>
         </footer>
       </div>
     )
@@ -280,14 +291,17 @@ class App extends React.Component {
 
   componentDidMount () {
     if (window.sessionStorage.state) {
-      this.setState(state => {
-        state = JSON.parse(window.sessionStorage.state)
-        return state
-      }, () => {
-        // because wysiwyg editors need a kick in the ass
-        this.wysiwyg.current.value = this.state.wysiwyg
-        this.wysiwyg2.current.value = this.state.wysiwyg2
-      })
+      this.setState(
+        state => {
+          state = JSON.parse(window.sessionStorage.state)
+          return state
+        },
+        () => {
+          // because wysiwyg editors need a kick in the ass
+          this.wysiwyg.current.value = this.state.wysiwyg
+          this.wysiwyg2.current.value = this.state.wysiwyg2
+        }
+      )
     }
   }
 

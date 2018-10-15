@@ -8,11 +8,11 @@ module.exports = {
     Input: './src/Input.js',
     Select: './src/Select.js',
     Textarea: './src/Textarea.js',
-    WysiwygEditor: './src/WysiwygEditor.js'
+    Wysiwyg: './src/Wysiwyg.js'
   },
   output: {
     path: path.resolve('dist'),
-    filename: '[name].js',
+    filename: '[name].dist.js',
     libraryTarget: 'commonjs2'
   },
   module: {
@@ -22,15 +22,12 @@ module.exports = {
         exclude: /(node_modules|\.test\.js)/,
         loader: 'babel-loader',
         options: {
-          presets: [
-            '@babel/preset-env',
-            '@babel/preset-react'
-          ]
+          presets: ['@babel/preset-env', '@babel/preset-react']
         }
       },
       {
         test: /\.css$/,
-        use: [ 'style-loader', 'css-loader' ]
+        use: ['style-loader', 'css-loader']
       }
     ]
   }

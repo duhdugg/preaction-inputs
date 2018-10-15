@@ -6,9 +6,11 @@ import 'react-quill/dist/quill.bubble.css'
 import 'react-quill/dist/quill.snow.css'
 import AsterCheck from './AsterCheck.js'
 
-let defaultValidator = value => { return '' }
+let defaultValidator = value => {
+  return ''
+}
 
-class WysiwygEditor extends React.Component {
+class Wysiwyg extends React.Component {
   constructor (props) {
     super(props)
     this.genid()
@@ -81,40 +83,30 @@ class WysiwygEditor extends React.Component {
 
   get toolbar () {
     // must also be enabled in formats
-    return this.props.toolbar || [
-      [
-        { header: [] },
-        { font: [] }
-      ],
-      [
-        'code',
-        'bold',
-        'italic',
-        'strike'
-      ],
-      [
-        { color: [] },
-        { background: [] }
-      ],
-      [
-        'blockquote',
-        { indent: '-1' },
-        { indent: '+1' },
-        { list: 'ordered' },
-        { list: 'bullet' },
-        'code-block'
-      ],
-      [
-        'image',
-        'video'
+    return (
+      this.props.toolbar || [
+        [{ header: [] }, { font: [] }],
+        ['code', 'bold', 'italic', 'strike'],
+        [{ color: [] }, { background: [] }],
+        [
+          'blockquote',
+          { indent: '-1' },
+          { indent: '+1' },
+          { list: 'ordered' },
+          { list: 'bullet' },
+          'code-block'
+        ],
+        ['image', 'video']
       ]
-    ]
+    )
   }
 
   get modules () {
-    return this.props.modules || {
-      toolbar: this.toolbar
-    }
+    return (
+      this.props.modules || {
+        toolbar: this.toolbar
+      }
+    )
   }
 
   get sanitizedValue () {
@@ -138,15 +130,18 @@ class WysiwygEditor extends React.Component {
   }
 
   set value (value) {
-    this.setState(state => {
-      state.value = value
-      return state
-    }, () => {
-      this.validate(value)
-      if (this.props.valueHandler) {
-        this.props.valueHandler(value)
+    this.setState(
+      state => {
+        state.value = value
+        return state
+      },
+      () => {
+        this.validate(value)
+        if (this.props.valueHandler) {
+          this.props.valueHandler(value)
+        }
       }
-    })
+    )
   }
 
   onChange (value) {
@@ -176,28 +171,48 @@ class WysiwygEditor extends React.Component {
 
   render () {
     return (
-      <div className='preaction wysiwyg mb-3'>
+      <div className="preaction wysiwyg mb-3">
         <label htmlFor={this.id} style={this.labelStyle} onClick={this.focus}>
           {this.props.label}
-          {this.props.info
-            ? <button type='button' className='btn btn-sm btn-info ml-1 pt-0 pb-0'
-              onClick={this.toggleInfo}>
-              {this.props.infoBtnContents ||
-                <span className='font-weight-bold text-monospace'>i</span>}</button>
-            : ''}
-          {this.props.required ? <AsterCheck valid={!this.validationMessage} /> : ''}
+          {this.props.info ? (
+            <button
+              type="button"
+              className="btn btn-sm btn-info ml-1 pt-0 pb-0"
+              onClick={this.toggleInfo}
+            >
+              {this.props.infoBtnContents || (
+                <span className="font-weight-bold text-monospace">i</span>
+              )}
+            </button>
+          ) : (
+            ''
+          )}
+          {this.props.required ? (
+            <AsterCheck valid={!this.validationMessage} />
+          ) : (
+            ''
+          )}
         </label>
-        {this.props.info && this.state.showInfo
-          ? <div className='alert alert-info'
+        {this.props.info && this.state.showInfo ? (
+          <div
+            className="alert alert-info"
             style={{ fontSize: '0.875rem', padding: '0.875rem' }}
-          >{this.props.info}</div>
-          : ''}
-        {this.state.fallbackMode
-          ? <div className='input-group'>
-            <span className='badge badge-danger'>could not load editor</span>
-            <div className='col-12' dangerouslySetInnerHTML={{ __html: this.sanitizedValue }}></div>
+          >
+            {this.props.info}
           </div>
-          : <ReactQuill
+        ) : (
+          ''
+        )}
+        {this.state.fallbackMode ? (
+          <div className="input-group">
+            <span className="badge badge-danger">could not load editor</span>
+            <div
+              className="col-12"
+              dangerouslySetInnerHTML={{ __html: this.sanitizedValue }}
+            />
+          </div>
+        ) : (
+          <ReactQuill
             value={this.value}
             debug={this.props.debug}
             formats={this.formats}
@@ -208,9 +223,16 @@ class WysiwygEditor extends React.Component {
             scrollingContainer={this.props.scrollingContainer}
             theme={this.theme}
             ref={this.quill}
-          />}
-        <div className='validator'>
-          {this.state.valid ? '' : <div className='invalid-feedback d-block' aria-live='polite'>{this.validationMessage}</div>}
+          />
+        )}
+        <div className="validator">
+          {this.state.valid ? (
+            ''
+          ) : (
+            <div className="invalid-feedback d-block" aria-live="polite">
+              {this.validationMessage}
+            </div>
+          )}
         </div>
       </div>
     )
@@ -222,7 +244,6 @@ class WysiwygEditor extends React.Component {
 
   componentDidUpdate () {
     if (this.state.pristine) {
-      console.debug('foo')
       this.setState(state => {
         state.pristine = false
         return state
@@ -231,4 +252,4 @@ class WysiwygEditor extends React.Component {
   }
 }
 
-export default WysiwygEditor
+export default Wysiwyg
