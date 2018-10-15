@@ -1,4 +1,5 @@
 import React from 'react'
+import AsterCheck from './AsterCheck.js'
 
 let defaultValidator = value => { return '' }
 
@@ -8,6 +9,7 @@ class Textarea extends React.Component {
     this.genid()
     this.state = {
       height: 'auto',
+      pristine: true,
       showInfo: false
     }
     this.toggleInfo = this.toggleInfo.bind(this)
@@ -113,6 +115,7 @@ class Textarea extends React.Component {
               {this.props.infoBtnContents ||
                 <span className='font-weight-bold text-monospace'>i</span>}</button>
             : ''}
+          {this.props.required ? <AsterCheck valid={!this.validationMessage && !this.state.pristine} /> : ''}
         </label>
         {this.props.info && this.state.showInfo
           ? <div className='alert alert-info'
@@ -173,6 +176,12 @@ class Textarea extends React.Component {
   }
 
   componentDidUpdate () {
+    if (this.state.pristine) {
+      this.setState(state => {
+        state.pristine = false
+        return state
+      })
+    }
     if (!this.props.noAutoResize) {
       if (this.height !== this.hiddenDiv.current.clientHeight) {
         let height = this.hiddenDiv.current.clientHeight

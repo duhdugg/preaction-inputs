@@ -86,7 +86,18 @@ class App extends React.Component {
                     </div>
                     <div className='card-body'>
                       <Input
+                        label='Email'
+                        type='email'
+                        info='Enter any email but our example provided.'
+                        placeholder='you@example.com'
+                        value={this.state.emailInput}
+                        valueHandler={value => this.setState(state => Object.assign(state, { emailInput: value }))}
+                        validator={value => value === 'you@example.com' ? 'not you' : '' }
+                        required
+                      ></Input>
+                      <Input
                         label='Test Input'
+                        info='test'
                         value={this.state.basicInput}
                         valueHandler={this.getStateValueHandler('basicInput')}
                         placeholder='with placeholder'
@@ -99,6 +110,7 @@ class App extends React.Component {
                         placeholder='with placeholder'
                         validator={this.getValidator('inputWith3CharacterMinimum')}
                         minLength='3'
+                        required
                       />
                       <Input
                         label='Number Input, 0-10, 0.2 increments'
@@ -160,7 +172,6 @@ class App extends React.Component {
                       </Select>
                       <Select
                         label='Test Select, multiple'
-                        info='If you are on a desktop or laptop, hold Ctrl to select multiple options.'
                         value={this.state.selectMultiple}
                         valueHandler={this.getStateValueHandler('selectMultiple')}
                         multiple
@@ -199,6 +210,7 @@ class App extends React.Component {
                       <Textarea
                         label='Test Textarea'
                         info={<span>you can set this field to not resize by passing the <code>noAutoResize</code> prop</span>}
+                        required
                         value={this.state.textarea}
                         valueHandler={this.getStateValueHandler('textarea')}
                       />

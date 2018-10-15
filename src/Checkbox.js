@@ -1,4 +1,5 @@
 import React from 'react'
+import AsterCheck from './AsterCheck.js'
 
 let defaultValidator = value => { return '' }
 
@@ -6,6 +7,7 @@ class Checkbox extends React.Component {
   constructor (props) {
     super(props)
     this.genid()
+    this.state = { pristine: true }
     this.validate = this.validate.bind(this)
     this.onChange = this.onChange.bind(this)
     this.element = React.createRef()
@@ -103,6 +105,7 @@ class Checkbox extends React.Component {
           />
           <label className='form-check-label' htmlFor={this.id} style={this.labelStyle}>
             {this.props.label}
+            {this.props.required ? <AsterCheck noCheck valid={!this.validationMessage && !this.state.pristine} /> : ''}
           </label>
           <div className='invalid-tooltip' aria-live='polite'>{this.validationMessage}</div>
         </div>
@@ -112,6 +115,15 @@ class Checkbox extends React.Component {
 
   componentDidMount () {
     this.element.current.validate = this.validate
+  }
+
+  componentDidUpdate () {
+    if (this.state.pristine) {
+      this.setState(state => {
+        state.pristine = false
+        return state
+      })
+    }
   }
 }
 

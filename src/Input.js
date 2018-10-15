@@ -1,4 +1,5 @@
 import React from 'react'
+import AsterCheck from './AsterCheck.js'
 
 let defaultValidator = value => { return '' }
 
@@ -7,6 +8,7 @@ class Input extends React.Component {
     super(props)
     this.genid()
     this.state = {
+      pristine: true,
       showInfo: false
     }
     this.type = this.props.type || 'text'
@@ -111,6 +113,7 @@ class Input extends React.Component {
               {this.props.infoBtnContents ||
                 <span className='font-weight-bold text-monospace'>i</span>}</button>
             : ''}
+          {this.props.required ? <AsterCheck valid={!this.validationMessage && !this.state.pristine} /> : ''}
         </label>
         {this.props.info && this.state.showInfo
           ? <div className='alert alert-info'
@@ -175,6 +178,15 @@ class Input extends React.Component {
 
   componentDidMount () {
     this.input.current.validate = this.validate
+  }
+
+  componentDidUpdate () {
+    if (this.state.pristine) {
+      this.setState(state => {
+        state.pristine = false
+        return state
+      })
+    }
   }
 }
 

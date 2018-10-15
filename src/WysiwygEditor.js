@@ -4,6 +4,7 @@ import createDOMPurify from 'dompurify'
 import 'react-quill/dist/quill.core.css'
 import 'react-quill/dist/quill.bubble.css'
 import 'react-quill/dist/quill.snow.css'
+import AsterCheck from './AsterCheck.js'
 
 let defaultValidator = value => { return '' }
 
@@ -13,6 +14,7 @@ class WysiwygEditor extends React.Component {
     this.genid()
     this.state = {
       fallbackMode: false,
+      pristine: true,
       showInfo: false,
       validationMessage: '',
       valid: true,
@@ -183,6 +185,7 @@ class WysiwygEditor extends React.Component {
               {this.props.infoBtnContents ||
                 <span className='font-weight-bold text-monospace'>i</span>}</button>
             : ''}
+          {this.props.required ? <AsterCheck valid={!this.validationMessage} /> : ''}
         </label>
         {this.props.info && this.state.showInfo
           ? <div className='alert alert-info'
@@ -207,7 +210,7 @@ class WysiwygEditor extends React.Component {
             ref={this.quill}
           />}
         <div className='validator'>
-          {this.state.valid ? '' : <div className='invalid-tooltip d-block' aria-live='polite'>{this.validationMessage}</div>}
+          {this.state.valid ? '' : <div className='invalid-feedback d-block' aria-live='polite'>{this.validationMessage}</div>}
         </div>
       </div>
     )
@@ -215,6 +218,16 @@ class WysiwygEditor extends React.Component {
 
   componentDidMount () {
     this.DOMPurify = createDOMPurify(window)
+  }
+
+  componentDidUpdate () {
+    if (this.state.pristine) {
+      console.debug('foo')
+      this.setState(state => {
+        state.pristine = false
+        return state
+      })
+    }
   }
 }
 
