@@ -1,9 +1,9 @@
-import Checkbox from './dist/Checkbox.min.js'
-import Form from './dist/Form.min.js'
-import Input from './dist/Input.min.js'
-import Select from './dist/Select.min.js'
-import Textarea from './dist/Textarea.min.js'
-import Wysiwyg from './dist/Wysiwyg.min.js'
+const Checkbox = require('./dist/Checkbox.min.js')
+const Form = require('./dist/Form.min.js')
+const Input = require('./dist/Input.min.js')
+const Select = require('./dist/Select.min.js')
+const Textarea = require('./dist/Textarea.min.js')
+const Wysiwyg = require('./dist/Wysiwyg.min.js')
 
 module.exports = {
   Checkbox,
