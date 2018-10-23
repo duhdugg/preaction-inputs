@@ -24,6 +24,7 @@ module.exports = {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
       }
-    ]
+    ],
+    noParse: /node_modules\/quill\/dist/
   }
 }
