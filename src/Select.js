@@ -27,9 +27,14 @@ class Select extends React.Component {
   }
 
   get labelStyle () {
-    return {
+    let style = {
       cursor: 'pointer'
     }
+    if (!this.props.label) {
+      style.position = 'absolute'
+      style.zIndex = '10'
+    }
+    return style
   }
 
   toggleInfo () {

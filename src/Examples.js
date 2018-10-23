@@ -268,6 +268,7 @@ class App extends React.Component {
                         max="10"
                         value={this.state.rangeInput}
                         valueHandler={this.getStateValueHandler('rangeInput')}
+                        required
                       />
                       <Input
                         label="Time"
@@ -275,6 +276,75 @@ class App extends React.Component {
                         value={this.state.timeInput}
                         valueHandler={this.getStateValueHandler('timeInput')}
                       />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <div className="card mt-3">
+                    <div className="card-header bg-dark text-white">
+                      In Tables
+                    </div>
+                    <div className="card-body">
+                      <table className="table">
+                        <thead>
+                          <tr>
+                            <th>Test Input</th>
+                            <th>Test Select, single</th>
+                            <th>Test Select, multiple</th>
+                            <th>Test Textarea</th>
+                          </tr>
+                        </thead>
+                        <tr>
+                          <td>
+                            <Input
+                              value={this.state.basicInput}
+                              valueHandler={this.getStateValueHandler(
+                                'basicInput'
+                              )}
+                              required
+                            />
+                          </td>
+                          <td>
+                            <Select
+                              value={this.state.select}
+                              valueHandler={this.getStateValueHandler('select')}
+                              required
+                            >
+                              <option />
+                              <option>one</option>
+                              <option>two</option>
+                              <option>three</option>
+                            </Select>
+                          </td>
+                          <td>
+                            <Select
+                              multiple
+                              value={this.state.selectMultiple}
+                              valueHandler={this.getStateValueHandler(
+                                'selectMultiple'
+                              )}
+                              required
+                            >
+                              <option>one</option>
+                              <option>two</option>
+                              <option>three</option>
+                              <option>four</option>
+                              <option>five</option>
+                            </Select>
+                          </td>
+                          <td>
+                            <Textarea
+                              value={this.state.textarea}
+                              valueHandler={this.getStateValueHandler(
+                                'textarea'
+                              )}
+                              required
+                            />
+                          </td>
+                        </tr>
+                      </table>
                     </div>
                   </div>
                 </div>
