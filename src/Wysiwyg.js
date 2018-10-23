@@ -213,6 +213,7 @@ class Wysiwyg extends React.Component {
           </div>
         ) : (
           <ReactQuill
+            className={this.props.className}
             debug={this.props.debug}
             formats={this.formats}
             modules={this.modules}
