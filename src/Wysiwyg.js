@@ -96,7 +96,7 @@ class Wysiwyg extends React.Component {
           { list: 'ordered' },
           'code-block'
         ],
-        ['image', 'video']
+        ['link', 'image', 'video']
       ]
     )
   }
