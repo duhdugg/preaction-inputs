@@ -3,16 +3,11 @@ let path = require('path')
 module.exports = {
   mode: 'production',
   entry: {
-    Form: './src/Form.js',
-    Checkbox: './src/Checkbox.js',
-    Input: './src/Input.js',
-    Select: './src/Select.js',
-    Textarea: './src/Textarea.js',
-    Wysiwyg: './src/Wysiwyg.js'
+    index: './index.js'
   },
   output: {
     path: path.resolve('dist'),
-    filename: '[name].min.js',
+    filename: 'preaction-inputs.min.js',
     libraryTarget: 'commonjs2'
   },
   module: {
