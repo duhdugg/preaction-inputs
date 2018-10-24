@@ -22,6 +22,9 @@ class Wysiwyg extends React.Component {
       validationMessage: '',
       value: ''
     }
+    if (this.props.value) {
+      this.state.value = this.props.value
+    }
     this.DOMPurify = null
     this.focus = this.focus.bind(this)
     this.onChange = this.onChange.bind(this)
