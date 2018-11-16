@@ -62,6 +62,7 @@ class Wysiwyg extends React.Component {
 
   get formats () {
     return [
+      'align',
       'background',
       'blockquote',
       'bold',
