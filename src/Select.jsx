@@ -1,12 +1,12 @@
 import React from 'react'
-import AsterCheck from './AsterCheck.js'
+import AsterCheck from './AsterCheck.jsx'
 
 let defaultValidator = value => {
   return ''
 }
 
 class Select extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.genid()
     this.state = {
@@ -19,14 +19,14 @@ class Select extends React.Component {
     this.validate = this.validate.bind(this)
   }
 
-  genid () {
+  genid() {
     let now = +new Date()
     let rand = Math.random()
     this.id = `preaction-select-${now}-${rand}`
     return this.id
   }
 
-  get labelStyle () {
+  get labelStyle() {
     let style = {
       cursor: 'pointer'
     }
@@ -37,18 +37,18 @@ class Select extends React.Component {
     return style
   }
 
-  toggleInfo () {
+  toggleInfo() {
     this.setState(state => {
       state.showInfo = !state.showInfo
       return state
     })
   }
 
-  get validationMessage () {
+  get validationMessage() {
     return this.select.current ? this.select.current.validationMessage : ''
   }
 
-  get value () {
+  get value() {
     let retval = this.props.value || ''
     if (this.props.multiple) {
       retval = this.props.value || []
@@ -56,19 +56,20 @@ class Select extends React.Component {
     return retval
   }
 
-  get validator () {
+  get validator() {
     return this.props.validator || defaultValidator
   }
 
-  onChange (event) {
+  onChange(event) {
     let value = event.target.value
     if (this.props.multiple) {
       value = []
-      for (let option of this.select.current.options) {
+      let options = Array.from(this.select.current.options)
+      options.forEach(option => {
         if (option.selected) {
           value.push(option.value)
         }
-      }
+      })
     }
     this.dirty()
     this.validate()
@@ -81,26 +82,25 @@ class Select extends React.Component {
     }
   }
 
-  validate () {
+  validate() {
     let validationMessage = this.validator(this.value)
     this.select.current.setCustomValidity(validationMessage)
     this.select.current.checkValidity()
     return validationMessage
   }
 
-  render () {
+  render() {
     return (
-      <div className="preaction select form-group" ref={this.element}>
+      <div className='preaction select form-group' ref={this.element}>
         <label htmlFor={this.id} style={this.labelStyle}>
           {this.props.label}
           {this.props.info ? (
             <button
-              type="button"
-              className="btn btn-sm btn-info ml-1 pt-0 pb-0"
-              onClick={this.toggleInfo}
-            >
+              type='button'
+              className='btn btn-sm btn-info ml-1 pt-0 pb-0'
+              onClick={this.toggleInfo}>
               {this.props.infoBtnContents || (
-                <span className="font-weight-bold text-monospace">i</span>
+                <span className='font-weight-bold text-monospace'>i</span>
               )}
             </button>
           ) : (
@@ -116,17 +116,16 @@ class Select extends React.Component {
         </label>
         {this.props.info && this.state.showInfo ? (
           <div
-            className="alert alert-info"
-            style={{ fontSize: '0.875rem', padding: '0.875rem' }}
-          >
+            className='alert alert-info'
+            style={{ fontSize: '0.875rem', padding: '0.875rem' }}>
             {this.props.info}
           </div>
         ) : (
           ''
         )}
-        <div className="input-group">
+        <div className='input-group'>
           <select
-            className="form-control"
+            className='form-control'
             disabled={this.props.disabled}
             id={this.id}
             multiple={this.props.multiple}
@@ -160,12 +159,11 @@ class Select extends React.Component {
             ref={this.select}
             required={this.props.required}
             tabIndex={this.props.tabIndex}
-            value={this.value}
-          >
+            value={this.value}>
             {this.props.children}
           </select>
           {this.validationMessage ? (
-            <div className="invalid-tooltip" aria-live="polite">
+            <div className='invalid-tooltip' aria-live='polite'>
               {this.validationMessage}
             </div>
           ) : (
@@ -176,15 +174,15 @@ class Select extends React.Component {
     )
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.select.current.validate = this.validate
   }
 
-  componentDidUpdate () {
+  componentDidUpdate() {
     this.dirty()
   }
 
-  dirty () {
+  dirty() {
     if (this.state.pristine) {
       this.setState(state => {
         state.pristine = false

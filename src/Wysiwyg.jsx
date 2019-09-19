@@ -1,5 +1,5 @@
 import React from 'react'
-import AsterCheck from './AsterCheck.js'
+import AsterCheck from './AsterCheck.jsx'
 import createDOMPurify from 'dompurify'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.bubble.css'
@@ -11,7 +11,7 @@ let defaultValidator = value => {
 }
 
 class Wysiwyg extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.genid()
     this.state = {
@@ -33,7 +33,7 @@ class Wysiwyg extends React.Component {
     this.quill = React.createRef()
   }
 
-  componentDidCatch (error, info) {
+  componentDidCatch(error, info) {
     console.debug('enabling fallback mode due to error', error, info)
     this.setState(state => {
       state.fallbackMode = true
@@ -41,26 +41,26 @@ class Wysiwyg extends React.Component {
     })
   }
 
-  focus () {
+  focus() {
     if (this.quill.current) {
       this.quill.current.focus()
     }
   }
 
-  genid () {
+  genid() {
     let now = +new Date()
     let rand = Math.random()
     this.id = `preaction-wysiwyg-${now}-${rand}`
     return this.id
   }
 
-  get labelStyle () {
+  get labelStyle() {
     return {
       cursor: 'pointer'
     }
   }
 
-  get formats () {
+  get formats() {
     return [
       'align',
       'background',
@@ -81,11 +81,11 @@ class Wysiwyg extends React.Component {
     ]
   }
 
-  get theme () {
+  get theme() {
     return this.props.theme || 'snow'
   }
 
-  get toolbar () {
+  get toolbar() {
     // must also be enabled in formats
     return (
       this.props.toolbar || [
@@ -105,7 +105,7 @@ class Wysiwyg extends React.Component {
     )
   }
 
-  get modules () {
+  get modules() {
     return (
       this.props.modules || {
         toolbar: this.toolbar
@@ -113,7 +113,7 @@ class Wysiwyg extends React.Component {
     )
   }
 
-  get sanitizedValue () {
+  get sanitizedValue() {
     let value = ''
     if (this.DOMPurify) {
       value = this.DOMPurify.sanitize(this.value)
@@ -121,19 +121,19 @@ class Wysiwyg extends React.Component {
     return value
   }
 
-  get validationMessage () {
+  get validationMessage() {
     return this.state.validationMessage
   }
 
-  get validator () {
+  get validator() {
     return this.props.validator || defaultValidator
   }
 
-  get value () {
+  get value() {
     return this.state.value
   }
 
-  set value (value) {
+  set value(value) {
     this.setState(
       state => {
         state.value = value
@@ -148,21 +148,21 @@ class Wysiwyg extends React.Component {
     )
   }
 
-  onChange (value) {
+  onChange(value) {
     this.value = value
     if (this.props.onChange) {
       this.props.onChange(value)
     }
   }
 
-  toggleInfo () {
+  toggleInfo() {
     this.setState(state => {
       state.showInfo = !state.showInfo
       return state
     })
   }
 
-  validate (value) {
+  validate(value) {
     let validationMessage = this.validator(value)
     let valid = !validationMessage
     this.setState(state => {
@@ -173,19 +173,18 @@ class Wysiwyg extends React.Component {
     return validationMessage
   }
 
-  render () {
+  render() {
     return (
-      <div className="preaction wysiwyg mb-3">
+      <div className='preaction wysiwyg mb-3'>
         <label htmlFor={this.id} style={this.labelStyle} onClick={this.focus}>
           {this.props.label}
           {this.props.info ? (
             <button
-              type="button"
-              className="btn btn-sm btn-info ml-1 pt-0 pb-0"
-              onClick={this.toggleInfo}
-            >
+              type='button'
+              className='btn btn-sm btn-info ml-1 pt-0 pb-0'
+              onClick={this.toggleInfo}>
               {this.props.infoBtnContents || (
-                <span className="font-weight-bold text-monospace">i</span>
+                <span className='font-weight-bold text-monospace'>i</span>
               )}
             </button>
           ) : (
@@ -199,19 +198,18 @@ class Wysiwyg extends React.Component {
         </label>
         {this.props.info && this.state.showInfo ? (
           <div
-            className="alert alert-info"
-            style={{ fontSize: '0.875rem', padding: '0.875rem' }}
-          >
+            className='alert alert-info'
+            style={{ fontSize: '0.875rem', padding: '0.875rem' }}>
             {this.props.info}
           </div>
         ) : (
           ''
         )}
         {this.state.fallbackMode ? (
-          <div className="input-group">
-            <span className="badge badge-danger">could not load editor</span>
+          <div className='input-group'>
+            <span className='badge badge-danger'>could not load editor</span>
             <div
-              className="col-12"
+              className='col-12'
               dangerouslySetInnerHTML={{ __html: this.sanitizedValue }}
             />
           </div>
@@ -230,11 +228,11 @@ class Wysiwyg extends React.Component {
             value={this.value}
           />
         )}
-        <div className="validator">
+        <div className='validator'>
           {this.state.valid ? (
             ''
           ) : (
-            <div className="invalid-feedback d-block" aria-live="polite">
+            <div className='invalid-feedback d-block' aria-live='polite'>
               {this.validationMessage}
             </div>
           )}
@@ -243,11 +241,11 @@ class Wysiwyg extends React.Component {
     )
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.DOMPurify = createDOMPurify(window)
   }
 
-  componentDidUpdate () {
+  componentDidUpdate() {
     if (this.state.pristine) {
       this.setState(state => {
         state.pristine = false

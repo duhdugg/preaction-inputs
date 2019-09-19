@@ -1,12 +1,12 @@
 import React from 'react'
-import AsterCheck from './AsterCheck.js'
+import AsterCheck from './AsterCheck.jsx'
 
 let defaultValidator = value => {
   return ''
 }
 
 class Textarea extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.genid()
     this.state = {
@@ -21,25 +21,25 @@ class Textarea extends React.Component {
     this.textarea = React.createRef()
   }
 
-  genid () {
+  genid() {
     let now = +new Date()
     let rand = Math.random()
     this.id = `preaction textarea-${now}-${rand}`
     return this.id
   }
 
-  get height () {
+  get height() {
     return this.state.height
   }
 
-  set height (value) {
+  set height(value) {
     this.setState(state => {
       state.height = value
       return state
     })
   }
 
-  get hiddenDivStyle () {
+  get hiddenDivStyle() {
     return {
       height: 'auto',
       left: '-0.06em',
@@ -53,7 +53,7 @@ class Textarea extends React.Component {
     }
   }
 
-  get labelStyle () {
+  get labelStyle() {
     let style = {
       cursor: 'pointer'
     }
@@ -64,7 +64,7 @@ class Textarea extends React.Component {
     return style
   }
 
-  get textareaStyle () {
+  get textareaStyle() {
     let resize = 'none'
     let overflow = 'hidden'
     if (this.props.noAutoResize) {
@@ -78,22 +78,22 @@ class Textarea extends React.Component {
     }
   }
 
-  toggleInfo () {
+  toggleInfo() {
     this.setState(state => {
       state.showInfo = !state.showInfo
       return state
     })
   }
 
-  get validationMessage () {
+  get validationMessage() {
     return this.textarea.current ? this.textarea.current.validationMessage : ''
   }
 
-  get validator () {
+  get validator() {
     return this.props.validator || defaultValidator
   }
 
-  onChange (event) {
+  onChange(event) {
     this.validate(event.target.value)
     if (this.props.onChange) {
       event.persist()
@@ -104,26 +104,25 @@ class Textarea extends React.Component {
     }
   }
 
-  validate (value) {
+  validate(value) {
     let validationMessage = this.validator(value)
     this.textarea.current.setCustomValidity(validationMessage)
     this.textarea.current.checkValidity()
     return validationMessage
   }
 
-  render () {
+  render() {
     return (
-      <div className="preaction textarea form-group">
+      <div className='preaction textarea form-group'>
         <label htmlFor={this.id} style={this.labelStyle}>
           {this.props.label}
           {this.props.info ? (
             <button
-              type="button"
-              className="btn btn-sm btn-info ml-1 pt-0 pb-0"
-              onClick={this.toggleInfo}
-            >
+              type='button'
+              className='btn btn-sm btn-info ml-1 pt-0 pb-0'
+              onClick={this.toggleInfo}>
               {this.props.infoBtnContents || (
-                <span className="font-weight-bold text-monospace">i</span>
+                <span className='font-weight-bold text-monospace'>i</span>
               )}
             </button>
           ) : (
@@ -139,26 +138,24 @@ class Textarea extends React.Component {
         </label>
         {this.props.info && this.state.showInfo ? (
           <div
-            className="alert alert-info"
-            style={{ fontSize: '0.875rem', padding: '0.875rem' }}
-          >
+            className='alert alert-info'
+            style={{ fontSize: '0.875rem', padding: '0.875rem' }}>
             {this.props.info}
           </div>
         ) : (
           ''
         )}
-        <div className="input-group">
+        <div className='input-group'>
           <div
-            className="form-control"
+            className='form-control'
             ref={this.hiddenDiv}
-            style={this.hiddenDivStyle}
-          >
+            style={this.hiddenDivStyle}>
             {this.props.value}
           </div>
           <textarea
             id={this.id}
             name={this.props.name}
-            className="form-control"
+            className='form-control'
             required={this.props.required}
             readOnly={this.props.readOnly}
             disabled={this.props.disabled}
@@ -197,7 +194,7 @@ class Textarea extends React.Component {
             ref={this.textarea}
           />
           {this.validationMessage ? (
-            <div className="invalid-tooltip" aria-live="polite">
+            <div className='invalid-tooltip' aria-live='polite'>
               {this.validationMessage}
             </div>
           ) : (
@@ -208,11 +205,11 @@ class Textarea extends React.Component {
     )
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.textarea.current.validate = this.validate
   }
 
-  componentDidUpdate () {
+  componentDidUpdate() {
     if (this.state.pristine) {
       this.setState(state => {
         state.pristine = false

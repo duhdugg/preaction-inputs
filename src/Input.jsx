@@ -1,12 +1,12 @@
 import React from 'react'
-import AsterCheck from './AsterCheck.js'
+import AsterCheck from './AsterCheck.jsx'
 
 let defaultValidator = value => {
   return ''
 }
 
 class Input extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.genid()
     this.state = {
@@ -20,14 +20,14 @@ class Input extends React.Component {
     this.input = React.createRef()
   }
 
-  genid () {
+  genid() {
     let now = +new Date()
     let rand = Math.random()
     this.id = `preaction-input-${now}-${rand}`
     return this.id
   }
 
-  get autoComplete () {
+  get autoComplete() {
     let retval = this.props.autoComplete
     if (!retval) {
       if (['email', 'tel', 'url'].includes(this.type)) {
@@ -39,7 +39,7 @@ class Input extends React.Component {
     return retval
   }
 
-  get inputMode () {
+  get inputMode() {
     let retval = 'text'
     if (this.props.inputMode) {
       retval = this.props.inputMode
@@ -65,7 +65,7 @@ class Input extends React.Component {
     return retval
   }
 
-  get labelStyle () {
+  get labelStyle() {
     let style = {
       cursor: 'pointer'
     }
@@ -76,22 +76,22 @@ class Input extends React.Component {
     return style
   }
 
-  toggleInfo () {
+  toggleInfo() {
     this.setState(state => {
       state.showInfo = !state.showInfo
       return state
     })
   }
 
-  get validationMessage () {
+  get validationMessage() {
     return this.input.current ? this.input.current.validationMessage : ''
   }
 
-  get validator () {
+  get validator() {
     return this.props.validator || defaultValidator
   }
 
-  onChange (event) {
+  onChange(event) {
     this.dirty()
     this.validate(event.target.value)
     if (this.props.onChange) {
@@ -103,26 +103,25 @@ class Input extends React.Component {
     }
   }
 
-  validate (value) {
+  validate(value) {
     let validationMessage = this.validator(value)
     this.input.current.setCustomValidity(validationMessage)
     this.input.current.checkValidity()
     return validationMessage
   }
 
-  render () {
+  render() {
     return (
-      <div className="preaction input form-group" ref={this.element}>
+      <div className='preaction input form-group' ref={this.element}>
         <label htmlFor={this.id} style={this.labelStyle}>
           {this.props.label}
           {this.props.info ? (
             <button
-              type="button"
-              className="btn btn-sm btn-info ml-1 pt-0 pb-0"
-              onClick={this.toggleInfo}
-            >
+              type='button'
+              className='btn btn-sm btn-info ml-1 pt-0 pb-0'
+              onClick={this.toggleInfo}>
               {this.props.infoBtnContents || (
-                <span className="font-weight-bold text-monospace">i</span>
+                <span className='font-weight-bold text-monospace'>i</span>
               )}
             </button>
           ) : (
@@ -138,18 +137,17 @@ class Input extends React.Component {
         </label>
         {this.props.info && this.state.showInfo ? (
           <div
-            className="alert alert-info"
-            style={{ fontSize: '0.875rem', padding: '0.875rem' }}
-          >
+            className='alert alert-info'
+            style={{ fontSize: '0.875rem', padding: '0.875rem' }}>
             {this.props.info}
           </div>
         ) : (
           ''
         )}
-        <div className="input-group">
+        <div className='input-group'>
           <input
             autoComplete={this.autoComplete}
-            className="form-control"
+            className='form-control'
             disabled={this.props.disabled}
             id={this.id}
             inputMode={this.inputMode}
@@ -197,7 +195,7 @@ class Input extends React.Component {
             value={this.props.value}
           />
           {this.validationMessage ? (
-            <div className="invalid-tooltip" aria-live="polite">
+            <div className='invalid-tooltip' aria-live='polite'>
               {this.validationMessage}
             </div>
           ) : (
@@ -208,15 +206,15 @@ class Input extends React.Component {
     )
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.input.current.validate = this.validate
   }
 
-  componentDidUpdate () {
+  componentDidUpdate() {
     this.dirty()
   }
 
-  dirty () {
+  dirty() {
     if (this.state.pristine) {
       this.setState(state => {
         state.pristine = false

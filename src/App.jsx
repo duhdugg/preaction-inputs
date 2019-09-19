@@ -1,13 +1,13 @@
 import React from 'react'
-import Examples from './Examples.js'
+import Examples from './Examples.jsx'
 
 class App extends React.Component {
-  get year () {
+  get year() {
     return new Date().getFullYear()
   }
-  render () {
+  render() {
     return (
-      <div className="App">
+      <div className='App'>
         <Examples />
       </div>
     )

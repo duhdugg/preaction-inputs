@@ -1,15 +1,15 @@
 import React from 'react'
-import Checkbox from './Checkbox.js'
-import Input from './Input.js'
-import Form from './Form.js'
-import Select from './Select.js'
-import Textarea from './Textarea.js'
-import Wysiwyg from './Wysiwyg.js'
+import Checkbox from './Checkbox.jsx'
+import Input from './Input.jsx'
+import Form from './Form.jsx'
+import Select from './Select.jsx'
+import Textarea from './Textarea.jsx'
+import Wysiwyg from './Wysiwyg.jsx'
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 class Profile extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       aboutYou: '',
@@ -23,7 +23,7 @@ class Profile extends React.Component {
     }
   }
 
-  getValidator (key) {
+  getValidator(key) {
     // returns a custom validator
     // validator should be a function that takes a single value argument
     // and returns an string to indicate an error
@@ -50,7 +50,7 @@ class Profile extends React.Component {
     }[key]
   }
 
-  getValueHandler (key) {
+  getValueHandler(key) {
     // returns a value handler for state binding
     return value => {
       this.setState(state => {
@@ -60,7 +60,7 @@ class Profile extends React.Component {
     }
   }
 
-  get superHeroOptions () {
+  get superHeroOptions() {
     return [
       'bat guy',
       'big green angry guy',
@@ -70,39 +70,39 @@ class Profile extends React.Component {
     ]
   }
 
-  get minimumAge () {
+  get minimumAge() {
     let birthdate = new Date()
     birthdate.setYear(birthdate.getFullYear() - 21)
     return birthdate.toISOString().split('T')[0]
   }
 
-  onSubmit (event) {
+  onSubmit(event) {
     event.preventDefault()
     console.debug(event.target.checkValidity())
   }
 
-  render () {
+  render() {
     return (
-      <div className="Profile container col-sm-6">
-        <p className="display-4">Registration Form</p>
+      <div className='Profile container col-sm-6'>
+        <p className='display-4'>Registration Form</p>
         <Form onSubmit={this.onSubmit.bind(this)} noValidate>
           <Input
-            label="Your name"
+            label='Your name'
             value={this.state.name}
             valueHandler={this.getValueHandler.bind(this)('name')}
             required
           />
           <Input
-            label="Email"
-            type="email"
+            label='Email'
+            type='email'
             value={this.state.email}
             valueHandler={this.getValueHandler.bind(this)('email')}
             validator={this.getValidator('email')}
             required
           />
           <Input
-            type="date"
-            label="Birthdate"
+            type='date'
+            label='Birthdate'
             max={this.minimumAge}
             value={this.state.birthdate}
             valueHandler={this.getValueHandler.bind(this)('birthdate')}
@@ -110,26 +110,24 @@ class Profile extends React.Component {
             required
           />
           <Select
-            label="Favorite superhero"
-            info="You must select one on these options"
+            label='Favorite superhero'
+            info='You must select one on these options'
             required
             value={this.state.favoriteSuperHero}
-            valueHandler={this.getValueHandler.bind(this)('favoriteSuperHero')}
-          >
+            valueHandler={this.getValueHandler.bind(this)('favoriteSuperHero')}>
             <option />
             {this.superHeroOptions.map(value => (
               <option key={value}>{value}</option>
             ))}
           </Select>
           <Select
-            label="Favorite taco ingredients"
+            label='Favorite taco ingredients'
             value={this.state.favoriteTacoIngredients}
             valueHandler={this.getValueHandler.bind(this)(
               'favoriteTacoIngredients'
             )}
             multiple
-            required
-          >
+            required>
             <option>beans</option>
             <option>cheese</option>
             <option>guacamole</option>
@@ -142,23 +140,23 @@ class Profile extends React.Component {
             <option>sour cream</option>
           </Select>
           <Textarea
-            label="Why do you want to join?"
+            label='Why do you want to join?'
             required
             value={this.state.aboutYou}
             valueHandler={this.getValueHandler.bind(this)('aboutYou')}
           />
           <Wysiwyg
-            label="Bio"
+            label='Bio'
             value={this.state.bio}
             valueHandler={this.getValueHandler.bind(this)('bio')}
           />
           <Checkbox
-            label="I understand the first rule of this club"
+            label='I understand the first rule of this club'
             value={this.state.confirm}
             valueHandler={this.getValueHandler.bind(this)('confirm')}
             required
           />
-          <input type="submit" className="btn btn-primary" />
+          <input type='submit' className='btn btn-primary' />
         </Form>
       </div>
     )

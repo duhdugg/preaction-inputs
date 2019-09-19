@@ -1,11 +1,11 @@
-const Checkbox = require('./src/Checkbox.js').default
-const Form = require('./src/Form.js').default
-const Input = require('./src/Input.js').default
-const Select = require('./src/Select.js').default
-const Textarea = require('./src/Textarea.js').default
-const Wysiwyg = require('./src/Wysiwyg.js').default
+import Checkbox from './src/Checkbox.jsx'
+import Form from './src/Form.jsx'
+import Input from './src/Input.jsx'
+import Select from './src/Select.jsx'
+import Textarea from './src/Textarea.jsx'
+import Wysiwyg from './src/Wysiwyg.jsx'
 
-module.exports = {
+export default {
   Checkbox,
   Form,
   Input,
@@ -13,4 +13,3 @@ module.exports = {
   Textarea,
   Wysiwyg
 }
-module.exports.default = module.exports

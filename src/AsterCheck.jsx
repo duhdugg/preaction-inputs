@@ -1,7 +1,7 @@
 import React from 'react'
 
 class AsterCheck extends React.Component {
-  get className () {
+  get className() {
     let classes = ['font-weight-bold text-mongospace ml-1']
     if (this.props.valid) {
       classes.push('text-success')
@@ -11,7 +11,7 @@ class AsterCheck extends React.Component {
     return classes.join(' ')
   }
 
-  get char () {
+  get char() {
     let char = '*'
     if (this.props.valid) {
       if (this.props.noCheck) {
@@ -23,7 +23,7 @@ class AsterCheck extends React.Component {
     return char
   }
 
-  render () {
+  render() {
     return <small className={this.className}>{this.char}</small>
   }
 }

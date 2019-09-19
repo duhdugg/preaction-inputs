@@ -1,12 +1,12 @@
 import React from 'react'
-import AsterCheck from './AsterCheck.js'
+import AsterCheck from './AsterCheck.jsx'
 
 let defaultValidator = value => {
   return ''
 }
 
 class Checkbox extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.genid()
     this.state = { pristine: true }
@@ -16,34 +16,34 @@ class Checkbox extends React.Component {
     this.input = React.createRef()
   }
 
-  genid () {
+  genid() {
     let now = +new Date()
     let rand = Math.random()
     this.id = `preaction-checkbox-${now}-${rand}`
     return this.id
   }
 
-  get labelStyle () {
+  get labelStyle() {
     return {
       cursor: 'pointer'
     }
   }
 
-  get inputStyle () {
+  get inputStyle() {
     return {
       cursor: 'pointer'
     }
   }
 
-  get validationMessage () {
+  get validationMessage() {
     return this.input.current ? this.input.current.validationMessage : ''
   }
 
-  get validator () {
+  get validator() {
     return this.props.validator || defaultValidator
   }
 
-  onChange (event) {
+  onChange(event) {
     this.validate()
     if (this.props.onChange) {
       event.persist()
@@ -54,20 +54,20 @@ class Checkbox extends React.Component {
     }
   }
 
-  validate () {
+  validate() {
     let validationMessage = this.validator(this.value)
     this.input.current.setCustomValidity(validationMessage)
     this.input.current.checkValidity()
     return validationMessage
   }
 
-  render () {
+  render() {
     return (
-      <div className="preaction checkbox form-group" ref={this.element}>
-        <div className="form-check">
+      <div className='preaction checkbox form-group' ref={this.element}>
+        <div className='form-check'>
           <input
             checked={this.props.checked}
-            className="form-check-input"
+            className='form-check-input'
             disabled={this.props.disabled}
             id={this.id}
             name={this.props.name}
@@ -103,13 +103,12 @@ class Checkbox extends React.Component {
             required={this.props.required}
             style={this.inputStyle}
             tabIndex={this.props.tabIndex}
-            type="checkbox"
+            type='checkbox'
           />
           <label
-            className="form-check-label"
+            className='form-check-label'
             htmlFor={this.id}
-            style={this.labelStyle}
-          >
+            style={this.labelStyle}>
             {this.props.label}
             {this.props.required ? (
               <AsterCheck
@@ -121,7 +120,7 @@ class Checkbox extends React.Component {
             )}
           </label>
           {this.validationMessage ? (
-            <div className="invalid-tooltip" aria-live="polite">
+            <div className='invalid-tooltip' aria-live='polite'>
               {this.validationMessage}
             </div>
           ) : (
@@ -132,11 +131,11 @@ class Checkbox extends React.Component {
     )
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.element.current.validate = this.validate
   }
 
-  componentDidUpdate () {
+  componentDidUpdate() {
     if (this.state.pristine) {
       this.setState(state => {
         state.pristine = false

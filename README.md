@@ -106,26 +106,26 @@ class Profile extends React.Component {
 
   render() {
     return (
-      <div className="Profile container col-sm-6">
-        <p className="display-4">Registration Form</p>
+      <div className='Profile container col-sm-6'>
+        <p className='display-4'>Registration Form</p>
         <Form onSubmit={this.onSubmit.bind(this)} noValidate>
           <Input
-            label="Your name"
+            label='Your name'
             value={this.state.name}
             valueHandler={this.getValueHandler.bind(this)('name')}
             required
           />
           <Input
-            label="Email"
-            type="email"
+            label='Email'
+            type='email'
             value={this.state.email}
             valueHandler={this.getValueHandler.bind(this)('email')}
             validator={this.getValidator('email')}
             required
           />
           <Input
-            type="date"
-            label="Birthdate"
+            type='date'
+            label='Birthdate'
             max={this.minimumAge}
             value={this.state.birthdate}
             valueHandler={this.getValueHandler.bind(this)('birthdate')}
@@ -133,26 +133,24 @@ class Profile extends React.Component {
             required
           />
           <Select
-            label="Favorite superhero"
-            info="You must select one on these options"
+            label='Favorite superhero'
+            info='You must select one on these options'
             required
             value={this.state.favoriteSuperHero}
-            valueHandler={this.getValueHandler.bind(this)('favoriteSuperHero')}
-          >
+            valueHandler={this.getValueHandler.bind(this)('favoriteSuperHero')}>
             <option />
             {this.superHeroOptions.map(value => (
               <option key={value}>{value}</option>
             ))}
           </Select>
           <Select
-            label="Favorite taco ingredients"
+            label='Favorite taco ingredients'
             value={this.state.favoriteTacoIngredients}
             valueHandler={this.getValueHandler.bind(this)(
               'favoriteTacoIngredients'
             )}
             multiple
-            required
-          >
+            required>
             <option>beans</option>
             <option>cheese</option>
             <option>guacamole</option>
@@ -165,23 +163,23 @@ class Profile extends React.Component {
             <option>sour cream</option>
           </Select>
           <Textarea
-            label="Why do you want to join?"
+            label='Why do you want to join?'
             required
             value={this.state.aboutYou}
             valueHandler={this.getValueHandler.bind(this)('aboutYou')}
           />
           <Wysiwyg
-            label="Bio"
+            label='Bio'
             value={this.state.bio}
             valueHandler={this.getValueHandler.bind(this)('bio')}
           />
           <Checkbox
-            label="I understand the first rule of this club"
+            label='I understand the first rule of this club'
             value={this.state.confirm}
             valueHandler={this.getValueHandler.bind(this)('confirm')}
             required
           />
-          <input type="submit" className="btn btn-primary" />
+          <input type='submit' className='btn btn-primary' />
         </Form>
       </div>
     )
@@ -191,4 +189,4 @@ class Profile extends React.Component {
 export default Profile
 ```
 
-[More Examples](https://gitlab.com/drelyn86/preaction-inputs/blob/master/src/Examples.js)
+[More Examples](https://gitlab.com/dougelkin/preaction-inputs/blob/master/src/Examples.jsx)
