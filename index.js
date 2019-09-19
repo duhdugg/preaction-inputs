@@ -5,11 +5,4 @@ import Select from './src/Select.jsx'
 import Textarea from './src/Textarea.jsx'
 import Wysiwyg from './src/Wysiwyg.jsx'
 
-export default {
-  Checkbox,
-  Form,
-  Input,
-  Select,
-  Textarea,
-  Wysiwyg
-}
+export { Checkbox, Form, Input, Select, Textarea, Wysiwyg }
