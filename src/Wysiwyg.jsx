@@ -76,6 +76,7 @@ class Wysiwyg extends React.Component {
       'italic',
       'link',
       'list',
+      'size',
       'strike',
       'video'
     ]
