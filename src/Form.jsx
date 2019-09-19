@@ -81,7 +81,7 @@ class Form extends React.Component {
         action={this.props.action}
         autoComplete={this.props.autoComplete}
         className={this.className}
-        encType={this.props.endType}
+        encType={this.props.encType}
         method={this.props.method}
         name={this.props.name}
         noValidate={this.props.noValidate}
