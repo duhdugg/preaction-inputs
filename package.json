@@ -9,14 +9,17 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "webpack",
-    "test": "yarn prettier -c src/* *.js package.json && yarn eslint *.js src/*.j* && react-scripts test",
+    "test": "prettier -c src/* *.js package.json && eslint *.js src/*.j* && react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "plugin:prettier/recommended"
-    ]
+    ],
+    "parserOptions": {
+      "ecmaVersion": 2019
+    }
   },
   "browserslist": [
     ">0.2%",

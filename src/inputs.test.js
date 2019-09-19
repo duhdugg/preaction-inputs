@@ -13,7 +13,7 @@ it('renders without crashing', () => {
   ReactDOM.unmountComponentAtNode(div)
 })
 
-it('imports as es module', () => {
+it('imports as ES module', () => {
   assert(moduleIndex.Input !== undefined)
   assert(Input !== undefined)
 })
