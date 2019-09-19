@@ -13,24 +13,32 @@ let defaultValidator = value => {
 // currently, the default link format in quill
 // sets all anchor targets to "_blank"
 // relative links should open within the same window
+// to play nice with react-router, call registerSmartLinkFormat
+// and pass a function to handle the click event
 
-const LinkFormat = Quill.import('formats/link')
-class SmartLinkFormat extends LinkFormat {
-  static create(value) {
-    const node = super.create(value)
-    const linkType = value[0] === '/' ? 'internal' : 'external'
-    if (linkType === 'internal') {
-      node.setAttribute('target', '_self')
-      // we also need a way for internal links to play nice with react-router
-      node.onClick = e => {
-        e.preventDefault()
-        console.debug(`FIXME: ${this.sanitize(value)}`)
+function registerSmartLinkFormat(relativeLinkHandler = url => {}) {
+  const LinkFormat = Quill.import('formats/link')
+  class SmartLinkFormat extends LinkFormat {
+    static create(value) {
+      const node = super.create(value)
+      const href = node.getAttribute('href')
+      const linkType = href[0] === '/' ? 'relative' : 'absolute'
+      if (linkType === 'relative') {
+        node.removeAttribute('target')
+        // we also need a way to pass handlers for relative link clicking
+        // (i.e. to play nice with react-router)
+        if (relativeLinkHandler) {
+          node.addEventListener('click', event => {
+            event.preventDefault()
+            relativeLinkHandler(href)
+          })
+        }
       }
+      return node
     }
-    return node
   }
+  Quill.register('formats/link', SmartLinkFormat)
 }
-Quill.register('formats/link', SmartLinkFormat)
 
 class Wysiwyg extends React.Component {
   constructor(props) {
@@ -278,4 +286,4 @@ class Wysiwyg extends React.Component {
   }
 }
 
-export default Wysiwyg
+export { Wysiwyg as default, registerSmartLinkFormat }
