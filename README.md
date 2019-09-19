@@ -7,10 +7,10 @@ This is a Bootstrap v4 compatible library of React components intended to provid
 ### install dependencies
 
 ```bash
-yarn add preaction-inputs
+yarn add @preaction/inputs
 
 # or...
-npm install --save preaction-inputs
+npm install --save @preaction/inputs
 ```
 
 ### example
@@ -24,7 +24,7 @@ import {
   Select,
   Textarea,
   Wysiwyg
-} from 'preaction-inputs'
+} from '@preaction/inputs'
 
 // Bootstrap should be imported somehow in your app for ideal styling.
 // It is not listed in peerDependencies because it's optional
