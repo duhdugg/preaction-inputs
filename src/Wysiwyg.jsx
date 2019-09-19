@@ -1,7 +1,7 @@
 import React from 'react'
 import AsterCheck from './AsterCheck.jsx'
 import createDOMPurify from 'dompurify'
-import ReactQuill from 'react-quill'
+import ReactQuill, { Quill } from 'react-quill'
 import 'react-quill/dist/quill.bubble.css'
 import 'react-quill/dist/quill.core.css'
 import 'react-quill/dist/quill.snow.css'
@@ -9,6 +9,28 @@ import 'react-quill/dist/quill.snow.css'
 let defaultValidator = value => {
   return ''
 }
+
+// currently, the default link format in quill
+// sets all anchor targets to "_blank"
+// relative links should open within the same window
+
+const LinkFormat = Quill.import('formats/link')
+class SmartLinkFormat extends LinkFormat {
+  static create(value) {
+    const node = super.create(value)
+    const linkType = value[0] === '/' ? 'internal' : 'external'
+    if (linkType === 'internal') {
+      node.setAttribute('target', '_self')
+      // we also need a way for internal links to play nice with react-router
+      node.onClick = e => {
+        e.preventDefault()
+        console.debug(`FIXME: ${this.sanitize(value)}`)
+      }
+    }
+    return node
+  }
+}
+Quill.register('formats/link', SmartLinkFormat)
 
 class Wysiwyg extends React.Component {
   constructor(props) {
