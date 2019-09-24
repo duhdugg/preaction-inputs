@@ -15,7 +15,7 @@ npm install --save @preaction/inputs
 
 ### example
 
-```javascript
+```jsx
 import React from 'react'
 import {
   Checkbox,
