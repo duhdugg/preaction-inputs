@@ -1,4 +1,5 @@
 import React from 'react'
+import './disable-bootstrap-validation-icons.css'
 
 class AsterCheck extends React.Component {
   get className() {
