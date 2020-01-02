@@ -135,7 +135,7 @@ class App extends React.Component {
                         label='Date Input'
                         type='date'
                         min='2018-10-01'
-                        max='2019-12-12'
+                        max='2030-12-12'
                         value={this.state.dateInput}
                         valueHandler={this.getStateValueHandler('dateInput')}
                       />
@@ -294,52 +294,56 @@ class App extends React.Component {
                             <th>Test Textarea</th>
                           </tr>
                         </thead>
-                        <tr>
-                          <td>
-                            <Input
-                              value={this.state.basicInput}
-                              valueHandler={this.getStateValueHandler(
-                                'basicInput'
-                              )}
-                              required
-                            />
-                          </td>
-                          <td>
-                            <Select
-                              value={this.state.select}
-                              valueHandler={this.getStateValueHandler('select')}
-                              required>
-                              <option />
-                              <option>one</option>
-                              <option>two</option>
-                              <option>three</option>
-                            </Select>
-                          </td>
-                          <td>
-                            <Select
-                              multiple
-                              value={this.state.selectMultiple}
-                              valueHandler={this.getStateValueHandler(
-                                'selectMultiple'
-                              )}
-                              required>
-                              <option>one</option>
-                              <option>two</option>
-                              <option>three</option>
-                              <option>four</option>
-                              <option>five</option>
-                            </Select>
-                          </td>
-                          <td>
-                            <Textarea
-                              value={this.state.textarea}
-                              valueHandler={this.getStateValueHandler(
-                                'textarea'
-                              )}
-                              required
-                            />
-                          </td>
-                        </tr>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <Input
+                                value={this.state.basicInput}
+                                valueHandler={this.getStateValueHandler(
+                                  'basicInput'
+                                )}
+                                required
+                              />
+                            </td>
+                            <td>
+                              <Select
+                                value={this.state.select}
+                                valueHandler={this.getStateValueHandler(
+                                  'select'
+                                )}
+                                required>
+                                <option />
+                                <option>one</option>
+                                <option>two</option>
+                                <option>three</option>
+                              </Select>
+                            </td>
+                            <td>
+                              <Select
+                                multiple
+                                value={this.state.selectMultiple}
+                                valueHandler={this.getStateValueHandler(
+                                  'selectMultiple'
+                                )}
+                                required>
+                                <option>one</option>
+                                <option>two</option>
+                                <option>three</option>
+                                <option>four</option>
+                                <option>five</option>
+                              </Select>
+                            </td>
+                            <td>
+                              <Textarea
+                                value={this.state.textarea}
+                                valueHandler={this.getStateValueHandler(
+                                  'textarea'
+                                )}
+                                required
+                              />
+                            </td>
+                          </tr>
+                        </tbody>
                       </table>
                     </div>
                   </div>
