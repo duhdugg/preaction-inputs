@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 import AsterCheck from './AsterCheck.jsx'
 
@@ -234,6 +235,50 @@ class Textarea extends React.Component {
       }
     }
   }
+}
+
+Textarea.propTypes = {
+  disabled: PropTypes.bool,
+  info: PropTypes.node,
+  infoBtnContents: PropTypes.node,
+  label: PropTypes.node,
+  maxLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  name: PropTypes.string,
+  noAutoResize: PropTypes.bool,
+  onBlur: PropTypes.func,
+  onChange: PropTypes.func,
+  onClick: PropTypes.func,
+  onContextMenu: PropTypes.func,
+  onDoubleClick: PropTypes.func,
+  onDrag: PropTypes.func,
+  onDragEnd: PropTypes.func,
+  onDragEnter: PropTypes.func,
+  onDragLeave: PropTypes.func,
+  onDragOver: PropTypes.func,
+  onDragStart: PropTypes.func,
+  onDrop: PropTypes.func,
+  onFocus: PropTypes.func,
+  onInput: PropTypes.func,
+  onKeyDown: PropTypes.func,
+  onKeyUp: PropTypes.func,
+  onKeyPress: PropTypes.func,
+  onMouseDown: PropTypes.func,
+  onMouseEnter: PropTypes.func,
+  onMouseLeave: PropTypes.func,
+  onMouseMove: PropTypes.func,
+  onMouseOut: PropTypes.func,
+  onMouseOver: PropTypes.func,
+  onMouseUp: PropTypes.func,
+  onSelect: PropTypes.func,
+  onSubmit: PropTypes.func,
+  placeholder: PropTypes.string,
+  readOnly: PropTypes.bool,
+  required: PropTypes.bool,
+  tabIndex: PropTypes.number,
+  validator: PropTypes.func,
+  value: PropTypes.string,
+  valueHandler: PropTypes.func,
+  wrap: PropTypes.string
 }
 
 export default Textarea

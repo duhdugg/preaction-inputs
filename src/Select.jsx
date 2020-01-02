@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 import AsterCheck from './AsterCheck.jsx'
 
@@ -190,6 +191,51 @@ class Select extends React.Component {
       })
     }
   }
+}
+
+Select.propTypes = {
+  children: PropTypes.node,
+  disabled: PropTypes.bool,
+  info: PropTypes.node,
+  infoBtnContents: PropTypes.node,
+  label: PropTypes.node,
+  multiple: PropTypes.bool,
+  name: PropTypes.string,
+  onBlur: PropTypes.func,
+  onChange: PropTypes.func,
+  onClick: PropTypes.func,
+  onContextMenu: PropTypes.func,
+  onDoubleClick: PropTypes.func,
+  onDrag: PropTypes.func,
+  onDragEnd: PropTypes.func,
+  onDragEnter: PropTypes.func,
+  onDragLeave: PropTypes.func,
+  onDragOver: PropTypes.func,
+  onDragStart: PropTypes.func,
+  onDrop: PropTypes.func,
+  onFocus: PropTypes.func,
+  onKeyDown: PropTypes.func,
+  onKeyPress: PropTypes.func,
+  onKeyUp: PropTypes.func,
+  onMouseDown: PropTypes.func,
+  onMouseEnter: PropTypes.func,
+  onMouseLeave: PropTypes.func,
+  onMouseMove: PropTypes.func,
+  onMouseOut: PropTypes.func,
+  onMouseOver: PropTypes.func,
+  onMouseUp: PropTypes.func,
+  onSelect: PropTypes.func,
+  onSubmit: PropTypes.func,
+  readOnly: PropTypes.bool,
+  required: PropTypes.bool,
+  tabIndex: PropTypes.number,
+  validator: PropTypes.func,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.array
+  ]),
+  valueHandler: PropTypes.func
 }
 
 export default Select

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 import AsterCheck from './AsterCheck.jsx'
 import createDOMPurify from 'dompurify'
@@ -284,6 +285,28 @@ class Wysiwyg extends React.Component {
       })
     }
   }
+}
+
+Wysiwyg.propTypes = {
+  className: PropTypes.string,
+  debug: PropTypes.bool,
+  info: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  infoBtnContents: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  modules: PropTypes.object,
+  onChange: PropTypes.func,
+  placeholder: PropTypes.string,
+  readOnly: PropTypes.bool,
+  required: PropTypes.bool,
+  scrollingContainer: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.instanceOf(Element)
+  ]),
+  theme: PropTypes.string,
+  toolbar: PropTypes.array,
+  validator: PropTypes.func,
+  value: PropTypes.string,
+  valueHandler: PropTypes.func
 }
 
 export { Wysiwyg as default, registerSmartLinkFormat }

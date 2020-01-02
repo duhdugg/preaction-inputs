@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 
 class Form extends React.Component {
@@ -92,6 +93,20 @@ class Form extends React.Component {
       </form>
     )
   }
+}
+
+Form.propTypes = {
+  acceptCharset: PropTypes.string,
+  action: PropTypes.string,
+  autoComplete: PropTypes.string,
+  children: PropTypes.node,
+  encType: PropTypes.string,
+  method: PropTypes.string,
+  name: PropTypes.string,
+  noValidate: PropTypes.bool,
+  onReset: PropTypes.func,
+  onSubmit: PropTypes.func,
+  target: PropTypes.string
 }
 
 export default Form

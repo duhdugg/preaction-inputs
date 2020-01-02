@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 import AsterCheck from './AsterCheck.jsx'
 
@@ -222,6 +223,58 @@ class Input extends React.Component {
       })
     }
   }
+}
+
+Input.propTypes = {
+  autoComplete: PropTypes.string,
+  disabled: PropTypes.bool,
+  info: PropTypes.node,
+  infoBtnContents: PropTypes.node,
+  inputMode: PropTypes.string,
+  label: PropTypes.node,
+  max: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  maxLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  min: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  minLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  multiple: PropTypes.bool,
+  name: PropTypes.string,
+  onBlur: PropTypes.func,
+  onChange: PropTypes.func,
+  onClick: PropTypes.func,
+  onContextMenu: PropTypes.func,
+  onDoubleClick: PropTypes.func,
+  onDrag: PropTypes.func,
+  onDragEnd: PropTypes.func,
+  onDragEnter: PropTypes.func,
+  onDragLeave: PropTypes.func,
+  onDragOver: PropTypes.func,
+  onDragStart: PropTypes.func,
+  onDrop: PropTypes.func,
+  onFocus: PropTypes.func,
+  onInput: PropTypes.func,
+  onKeyDown: PropTypes.func,
+  onKeyPress: PropTypes.func,
+  onKeyUp: PropTypes.func,
+  onMouseDown: PropTypes.func,
+  onMouseEnter: PropTypes.func,
+  onMouseLeave: PropTypes.func,
+  onMouseMove: PropTypes.func,
+  onMouseOut: PropTypes.func,
+  onMouseOver: PropTypes.func,
+  onMouseUp: PropTypes.func,
+  onSelect: PropTypes.func,
+  onSubmit: PropTypes.func,
+  pattern: PropTypes.string,
+  placeholder: PropTypes.string,
+  readOnly: PropTypes.bool,
+  required: PropTypes.bool,
+  spellCheck: PropTypes.string,
+  step: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  tabIndex: PropTypes.number,
+  type: PropTypes.string,
+  validator: PropTypes.func,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  valueHandler: PropTypes.func
 }
 
 export default Input

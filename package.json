@@ -3,6 +3,7 @@
   "version": "1.3.8",
   "dependencies": {
     "dompurify": "^2.0.7",
+    "prop-types": "^15.7.2",
     "react-quill": "^1.3.3"
   },
   "main": "dist/preaction-inputs.all.min.js",
@@ -15,7 +16,8 @@
   "eslintConfig": {
     "extends": [
       "react-app",
-      "plugin:prettier/recommended"
+      "plugin:prettier/recommended",
+      "plugin:react/recommended"
     ],
     "parserOptions": {
       "ecmaVersion": 2020

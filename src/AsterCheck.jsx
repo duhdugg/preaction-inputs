@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import './disable-bootstrap-validation-icons.css'
 
 class AsterCheck extends React.Component {
@@ -27,6 +28,11 @@ class AsterCheck extends React.Component {
   render() {
     return <small className={this.className}>{this.char}</small>
   }
+}
+
+AsterCheck.propTypes = {
+  noCheck: PropTypes.bool,
+  valid: PropTypes.bool
 }
 
 export default AsterCheck
