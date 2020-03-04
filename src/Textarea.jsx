@@ -204,7 +204,7 @@ class Textarea extends React.Component {
             onDragOver={this.props.onDragOver}
             onDragStart={this.props.onDragStart}
             onDrop={this.props.onDrop}
-            onFocus={this.onFocus}
+            onFocus={this.onFocus.bind(this)}
             onInput={this.props.onInput}
             onKeyDown={this.props.onKeyDown}
             onKeyPress={this.props.onKeyPress}
