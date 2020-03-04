@@ -22,6 +22,26 @@ class Textarea extends React.Component {
     this.textarea = React.createRef()
   }
 
+  autoResize() {
+    if (this.hiddenDiv.current) {
+      if (this.height !== this.hiddenDiv.current.clientHeight) {
+        let height = this.hiddenDiv.current.clientHeight
+        if (!this.textarea.current.value) {
+          height = height * 3
+          if (!height) {
+            // minimum
+            height = 16
+          }
+          if (this.state.height !== height) {
+            this.height = height
+          }
+        } else {
+          this.height = height
+        }
+      }
+    }
+  }
+
   genid() {
     let now = +new Date()
     let rand = Math.random()
@@ -208,6 +228,12 @@ class Textarea extends React.Component {
 
   componentDidMount() {
     this.textarea.current.validate = this.validate
+    // do a quick autoResize shortly after mounting
+    if (!this.props.noAutoResize) {
+      setTimeout(50, () => {
+        this.autoResize()
+      })
+    }
   }
 
   componentDidUpdate() {
@@ -218,21 +244,7 @@ class Textarea extends React.Component {
       })
     }
     if (!this.props.noAutoResize) {
-      if (this.height !== this.hiddenDiv.current.clientHeight) {
-        let height = this.hiddenDiv.current.clientHeight
-        if (!this.textarea.current.value) {
-          height = height * 3
-          if (!height) {
-            // minimum
-            height = 16
-          }
-          if (this.state.height !== height) {
-            this.height = height
-          }
-        } else {
-          this.height = height
-        }
-      }
+      this.autoResize()
     }
   }
 }
