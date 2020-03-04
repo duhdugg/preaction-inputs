@@ -255,14 +255,14 @@ class App extends React.Component {
                       <Input
                         label='Range'
                         type='range'
-                        min='1'
+                        min='0'
                         max='10'
                         value={this.state.rangeInput}
                         valueHandler={this.getStateValueHandler('rangeInput')}
                       />
                       <Input
                         type='number'
-                        min='1'
+                        min='0'
                         max='10'
                         value={this.state.rangeInput}
                         valueHandler={this.getStateValueHandler('rangeInput')}
