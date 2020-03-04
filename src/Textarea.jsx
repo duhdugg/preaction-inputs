@@ -85,6 +85,15 @@ class Textarea extends React.Component {
     return style
   }
 
+  onFocus(e) {
+    if (!this.props.noAutoResize) {
+      this.autoResize()
+    }
+    if (this.props.onFocus) {
+      this.props.onFocus(e)
+    }
+  }
+
   get textareaStyle() {
     let resize = 'none'
     let overflow = 'hidden'
@@ -228,12 +237,6 @@ class Textarea extends React.Component {
 
   componentDidMount() {
     this.textarea.current.validate = this.validate
-    // do a quick autoResize shortly after mounting
-    if (!this.props.noAutoResize) {
-      setTimeout(50, () => {
-        this.autoResize()
-      })
-    }
   }
 
   componentDidUpdate() {
