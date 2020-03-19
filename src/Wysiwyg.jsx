@@ -11,36 +11,6 @@ let defaultValidator = value => {
   return ''
 }
 
-// currently, the default link format in quill
-// sets all anchor targets to "_blank"
-// relative links should open within the same window
-// to play nice with react-router, call registerSmartLinkFormat
-// and pass a function to handle the click event
-
-function registerSmartLinkFormat(relativeLinkHandler = url => {}) {
-  const LinkFormat = Quill.import('formats/link')
-  class SmartLinkFormat extends LinkFormat {
-    static create(value) {
-      const node = super.create(value)
-      const href = node.getAttribute('href')
-      const linkType = href[0] === '/' ? 'relative' : 'absolute'
-      if (linkType === 'relative') {
-        node.removeAttribute('target')
-        // we also need a way to pass handlers for relative link clicking
-        // (i.e. to play nice with react-router)
-        if (relativeLinkHandler) {
-          node.addEventListener('click', event => {
-            event.preventDefault()
-            relativeLinkHandler(href)
-          })
-        }
-      }
-      return node
-    }
-  }
-  Quill.register('formats/link', SmartLinkFormat)
-}
-
 class Wysiwyg extends React.Component {
   constructor(props) {
     super(props)
@@ -309,4 +279,4 @@ Wysiwyg.propTypes = {
   valueHandler: PropTypes.func
 }
 
-export { Wysiwyg as default, registerSmartLinkFormat }
+export { Wysiwyg as default, Quill }

@@ -6,7 +6,21 @@ import Form from './Form.jsx'
 import Select from './Select.jsx'
 import Textarea from './Textarea.jsx'
 import Checkbox from './Checkbox.jsx'
-import Wysiwyg from './Wysiwyg.jsx'
+import Wysiwyg, { Quill } from './Wysiwyg.jsx'
+
+// for altering link behavior in Wysiwyg
+const LinkFormat = Quill.import('formats/link')
+class SmartLinkFormat extends LinkFormat {
+  static create(value) {
+    const node = super.create(value)
+    node.addEventListener('click', event => {
+      event.preventDefault()
+      console.debug(node.href)
+    })
+    return node
+  }
+}
+Quill.register('formats/link', SmartLinkFormat)
 
 class App extends React.Component {
   constructor(props) {
