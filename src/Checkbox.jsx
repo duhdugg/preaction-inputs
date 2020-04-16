@@ -45,7 +45,7 @@ class Checkbox extends React.Component {
   }
 
   onChange(event) {
-    this.validate()
+    this.validate(event.target.checked)
     if (this.props.onChange) {
       event.persist()
       this.props.onChange(event)
@@ -55,8 +55,8 @@ class Checkbox extends React.Component {
     }
   }
 
-  validate() {
-    let validationMessage = this.validator(this.value)
+  validate(value) {
+    let validationMessage = this.validator(value)
     this.input.current.setCustomValidity(validationMessage)
     this.input.current.checkValidity()
     return validationMessage

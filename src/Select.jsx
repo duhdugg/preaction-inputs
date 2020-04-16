@@ -73,7 +73,7 @@ class Select extends React.Component {
       })
     }
     this.dirty()
-    this.validate()
+    this.validate(event.target.value)
     if (this.props.onChange) {
       event.persist()
       this.props.onChange(event)
@@ -83,8 +83,8 @@ class Select extends React.Component {
     }
   }
 
-  validate() {
-    let validationMessage = this.validator(this.value)
+  validate(value) {
+    let validationMessage = this.validator(value)
     this.select.current.setCustomValidity(validationMessage)
     this.select.current.checkValidity()
     return validationMessage
