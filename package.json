@@ -51,7 +51,6 @@
   },
   "author": "Doug Elkin <doug@dougelkin.com> (https://dougelkin.com)",
   "license": "MIT",
-  "homepage": "https://github.com/duhdugg/preaction-inputs#readme",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com:duhdugg/preaction-inputs.git"
