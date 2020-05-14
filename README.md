@@ -189,4 +189,4 @@ class Profile extends React.Component {
 export default Profile
 ```
 
-[More Examples](https://gitlab.com/dougelkin/preaction-inputs/blob/master/src/Examples.jsx)
+[More Examples](https://github.com/duhdugg/preaction-inputs/blob/master/src/Examples.jsx)
