@@ -6,3 +6,12 @@ import Textarea from './src/Textarea.jsx'
 import Wysiwyg, { Quill } from './src/Wysiwyg.jsx'
 
 export { Checkbox, Form, Input, Select, Textarea, Wysiwyg, Quill }
+export default {
+  Checkbox,
+  Form,
+  Input,
+  Select,
+  Textarea,
+  Wysiwyg,
+  Quill
+}
