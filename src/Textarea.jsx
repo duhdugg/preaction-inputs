@@ -296,4 +296,4 @@ Textarea.propTypes = {
   wrap: PropTypes.string
 }
 
-export default Textarea
+export { Textarea }

@@ -185,4 +185,4 @@ Checkbox.propTypes = {
   validator: PropTypes.func
 }
 
-export default Checkbox
+export { Checkbox }

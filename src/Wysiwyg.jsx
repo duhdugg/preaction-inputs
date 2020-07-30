@@ -279,4 +279,4 @@ Wysiwyg.propTypes = {
   valueHandler: PropTypes.func
 }
 
-export { Wysiwyg as default, Quill }
+export { Wysiwyg, Quill }

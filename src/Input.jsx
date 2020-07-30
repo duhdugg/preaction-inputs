@@ -277,4 +277,4 @@ Input.propTypes = {
   valueHandler: PropTypes.func
 }
 
-export default Input
+export { Input }

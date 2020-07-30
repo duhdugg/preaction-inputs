@@ -1,12 +1,12 @@
 import React from 'react'
 import './App.css'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
-import Input from './Input.jsx'
-import Form from './Form.jsx'
-import Select from './Select.jsx'
-import Textarea from './Textarea.jsx'
-import Checkbox from './Checkbox.jsx'
-import Wysiwyg, { Quill } from './Wysiwyg.jsx'
+import { Input } from './Input.jsx'
+import { Form } from './Form.jsx'
+import { Select } from './Select.jsx'
+import { Textarea } from './Textarea.jsx'
+import { Checkbox } from './Checkbox.jsx'
+import { Wysiwyg, Quill } from './Wysiwyg.jsx'
 
 // for altering link behavior in Wysiwyg
 const LinkFormat = Quill.import('formats/link')

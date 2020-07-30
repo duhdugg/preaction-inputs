@@ -109,4 +109,4 @@ Form.propTypes = {
   target: PropTypes.string
 }
 
-export default Form
+export { Form }

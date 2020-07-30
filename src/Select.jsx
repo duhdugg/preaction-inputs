@@ -238,4 +238,4 @@ Select.propTypes = {
   valueHandler: PropTypes.func
 }
 
-export default Select
+export { Select }
