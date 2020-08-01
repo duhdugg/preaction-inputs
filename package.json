@@ -3,6 +3,11 @@
   "version": "2.0.0",
   "main": "dist/preaction-inputs.cjs.js",
   "module": "dist/preaction-inputs.esm.js",
+  "files": [
+    "dist/*",
+    "src/*",
+    "public/*"
+  ],
   "scripts": {
     "start": "react-scripts start",
     "build": "rollup -c",
