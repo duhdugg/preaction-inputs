@@ -2,10 +2,26 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import AsterCheck from './AsterCheck.jsx'
 import createDOMPurify from 'dompurify'
-import ReactQuill, { Quill } from 'react-quill'
 import 'react-quill/dist/quill.bubble.css'
 import 'react-quill/dist/quill.core.css'
 import 'react-quill/dist/quill.snow.css'
+
+const ReactQuill =
+  typeof window !== 'undefined' ? require('react-quill') : () => false
+const Quill =
+  typeof window !== 'undefined'
+    ? require('react-quill').Quill
+    : {
+        import: () => false,
+        register: () => false
+      }
+let win
+if (typeof window !== 'undefined') {
+  win = window
+} else {
+  const { JSDOM } = require('jsdom')
+  win = new JSDOM('').window
+}
 
 let defaultValidator = value => {
   return ''
@@ -244,7 +260,7 @@ class Wysiwyg extends React.Component {
   }
 
   componentDidMount() {
-    this.DOMPurify = createDOMPurify(window)
+    this.DOMPurify = createDOMPurify(win)
   }
 
   componentDidUpdate() {
@@ -270,7 +286,7 @@ Wysiwyg.propTypes = {
   required: PropTypes.bool,
   scrollingContainer: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.instanceOf(Element)
+    PropTypes.instanceOf(Object)
   ]),
   theme: PropTypes.string,
   toolbar: PropTypes.array,
