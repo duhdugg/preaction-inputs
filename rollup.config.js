@@ -105,5 +105,4 @@ const umdConfigs = [
   return createConfig(filename)
 })
 
-// export default esmConfig
 export default [esmConfig, cjsConfig, ...umdConfigs]

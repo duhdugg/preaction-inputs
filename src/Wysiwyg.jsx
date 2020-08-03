@@ -1,27 +1,16 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import AsterCheck from './AsterCheck.jsx'
-import createDOMPurify from 'dompurify'
 import 'react-quill/dist/quill.bubble.css'
 import 'react-quill/dist/quill.core.css'
 import 'react-quill/dist/quill.snow.css'
 
-const ReactQuill =
-  typeof window !== 'undefined' ? require('react-quill') : () => false
-const Quill =
-  typeof window !== 'undefined'
-    ? require('react-quill').Quill
-    : {
-        import: () => false,
-        register: () => false
-      }
-let win
-if (typeof window !== 'undefined') {
-  win = window
-} else {
-  const { JSDOM } = require('jsdom')
-  win = new JSDOM('').window
-}
+// Quill depends heavily on DOM. These conditional assignments allow SSR.
+const ssr = typeof window === 'undefined'
+const mock = () => false
+const ssrQuill = { import: mock, register: mock }
+const ReactQuill = ssr ? mock : require('react-quill')
+const Quill = ssr ? ssrQuill : require('react-quill').Quill
 
 let defaultValidator = value => {
   return ''
@@ -32,7 +21,7 @@ class Wysiwyg extends React.Component {
     super(props)
     this.genid()
     this.state = {
-      fallbackMode: false,
+      fallbackMode: ssr,
       pristine: true,
       showInfo: false,
       valid: true,
@@ -42,7 +31,6 @@ class Wysiwyg extends React.Component {
     if (this.props.value) {
       this.state.value = this.props.value
     }
-    this.DOMPurify = null
     this.focus = this.focus.bind(this)
     this.onChange = this.onChange.bind(this)
     this.toggleInfo = this.toggleInfo.bind(this)
@@ -131,14 +119,6 @@ class Wysiwyg extends React.Component {
     )
   }
 
-  get sanitizedValue() {
-    let value = ''
-    if (this.DOMPurify) {
-      value = this.DOMPurify.sanitize(this.value)
-    }
-    return value
-  }
-
   get validationMessage() {
     return this.state.validationMessage
   }
@@ -225,11 +205,16 @@ class Wysiwyg extends React.Component {
         )}
         {this.state.fallbackMode ? (
           <div className='input-group'>
-            <span className='badge badge-danger'>could not load editor</span>
-            <div
-              className='col-12'
-              dangerouslySetInnerHTML={{ __html: this.sanitizedValue }}
-            />
+            {this.props.allowDangerousFallback ? (
+              <div
+                className='col-12'
+                dangerouslySetInnerHTML={{ __html: this.value }}
+              />
+            ) : (
+              <span className='badge badge-danger'>
+                Error: could not load WYSIWYG
+              </span>
+            )}
           </div>
         ) : (
           <ReactQuill
@@ -259,10 +244,6 @@ class Wysiwyg extends React.Component {
     )
   }
 
-  componentDidMount() {
-    this.DOMPurify = createDOMPurify(win)
-  }
-
   componentDidUpdate() {
     if (this.state.pristine) {
       this.setState(state => {
@@ -274,6 +255,7 @@ class Wysiwyg extends React.Component {
 }
 
 Wysiwyg.propTypes = {
+  allowDangerousFallback: PropTypes.bool,
   className: PropTypes.string,
   debug: PropTypes.bool,
   info: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
