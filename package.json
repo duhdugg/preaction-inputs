@@ -1,6 +1,6 @@
 {
   "name": "@preaction/inputs",
-  "version": "3.0.0-alpha.0",
+  "version": "3.0.0-alpha.1",
   "main": "dist/preaction-inputs.cjs.js",
   "module": "dist/preaction-inputs.esm.js",
   "files": [
