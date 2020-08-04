@@ -204,18 +204,21 @@ class Wysiwyg extends React.Component {
           ''
         )}
         {this.state.fallbackMode ? (
-          <div className='input-group'>
-            {this.props.allowDangerousFallback ? (
-              <div
-                className='col-12'
-                dangerouslySetInnerHTML={{ __html: this.value }}
-              />
-            ) : (
+          this.props.allowDangerousFallback ? (
+            <div className='quill'>
+              <div className={`ql-container ql-${this.theme}`}>
+                <div className='ql-editor'>
+                  <div dangerouslySetInnerHTML={{ __html: this.value }} />
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className='input-group'>
               <span className='badge badge-danger'>
                 Error: could not load WYSIWYG
               </span>
-            )}
-          </div>
+            </div>
+          )
         ) : (
           <ReactQuill
             className={this.props.className}
