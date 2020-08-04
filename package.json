@@ -1,6 +1,6 @@
 {
   "name": "@preaction/inputs",
-  "version": "2.0.5",
+  "version": "3.0.0-alpha.0",
   "main": "dist/preaction-inputs.cjs.js",
   "module": "dist/preaction-inputs.esm.js",
   "files": [
@@ -52,6 +52,7 @@
     "rollup-plugin-terser": "^6.1.0"
   },
   "peerDependencies": {
+    "bootstrap": "^4.5.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },

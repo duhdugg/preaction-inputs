@@ -13,7 +13,7 @@ yarn add @preaction/inputs
 npm install --save @preaction/inputs
 ```
 
-### example
+### Examples
 
 ```jsx
 import React from 'react'
@@ -26,10 +26,31 @@ import {
   Wysiwyg
 } from '@preaction/inputs'
 
-// Bootstrap should be imported somehow in your app for ideal styling.
-// It is not listed in peerDependencies because it's optional
-// In this example, we already have it installed in node_modules.
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+// ** ---------------------- **
+// ** About CSS Requirements **
+// Bootstrap CSS will need imported for ideal styling.
+// Where you import it from is ultimately up to your application,
+// as you may be using a modified version of it.
+// In this example, bootstrap is installed as a development dependency,
+
+import 'bootstrap/dist/css/bootstrap.min.css'
+
+// ** ---------------------- **
+
+// If you are using Wysiwyg components, you will need to import the Quill CSS
+
+import 'react-quill/dist/quill.core.css'
+
+// Also for Wysiwyg, you will need the Quill theme(s) used in your project.
+// The default theme for Wysiwyg is 'snow', which has a top-toolbar.
+// The 'bubble' theme is also available, which has a hidden toolbar.
+// Each theme adds about 25kb to the bundle size.
+// You can import your own custom theme instead.
+
+import 'react-quill/dist/quill.bubble.css'
+import 'react-quill/dist/quill.snow.css'
+
+// ** ---------------------- **
 
 class Profile extends React.Component {
   constructor(props) {
@@ -169,7 +190,14 @@ class Profile extends React.Component {
             valueHandler={this.getValueHandler.bind(this)('aboutYou')}
           />
           <Wysiwyg
-            label='Bio'
+            label='Bio (default/snow theme)'
+            theme='snow'
+            value={this.state.bio}
+            valueHandler={this.getValueHandler.bind(this)('bio')}
+          />
+          <Wysiwyg
+            label='Bio (bubble theme)'
+            theme='bubble'
             value={this.state.bio}
             valueHandler={this.getValueHandler.bind(this)('bio')}
           />

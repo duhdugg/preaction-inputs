@@ -1,9 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import AsterCheck from './AsterCheck.jsx'
-import 'react-quill/dist/quill.bubble.css'
-import 'react-quill/dist/quill.core.css'
-import 'react-quill/dist/quill.snow.css'
 
 // Quill depends heavily on DOM. These conditional assignments allow SSR.
 const ssr = typeof window === 'undefined'
