@@ -1,9 +1,27 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import AsterCheck from './AsterCheck.jsx'
-import ReactQuill, { Quill } from 'react-quill'
 
+// Quill depends heavily on DOM. These conditional assignments allow SSR.
 const ssr = typeof window === 'undefined'
+class MockQuill extends React.Component {
+  render() {
+    return <div />
+  }
+}
+MockQuill.Quill = {
+  import: () => false,
+  register: () => false
+}
+// using this assignment pattern to also support hot-module reloading
+let ReactQuill
+// this if/else block is needed to support UMD builds in browser
+if (typeof require === 'undefined') {
+  ReactQuill = window.ReactQuill
+} else {
+  ReactQuill = ssr ? MockQuill : require('react-quill')
+}
+const Quill = ReactQuill.Quill
 
 let defaultValidator = value => {
   return ''
