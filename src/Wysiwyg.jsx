@@ -18,7 +18,7 @@ class Wysiwyg extends React.Component {
     super(props)
     this.genid()
     this.state = {
-      fallbackMode: ssr,
+      fallbackMode: ssr || this.props.fallbackMode,
       pristine: true,
       showInfo: false,
       valid: true,
@@ -244,12 +244,15 @@ class Wysiwyg extends React.Component {
     )
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     if (this.state.pristine) {
-      this.setState(state => {
-        state.pristine = false
-        return state
-      })
+      this.setState({ pristine: false })
+    }
+    if (this.props.fallbackMode !== prevProps.fallbackMode) {
+      this.setState({ fallbackMode: this.props.fallbackMode })
+    }
+    if (this.props.value !== prevProps.value) {
+      this.setState({ value: this.props.value })
     }
   }
 }
@@ -258,6 +261,7 @@ Wysiwyg.propTypes = {
   allowDangerousFallback: PropTypes.bool,
   className: PropTypes.string,
   debug: PropTypes.bool,
+  fallbackMode: PropTypes.bool,
   info: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   infoBtnContents: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),

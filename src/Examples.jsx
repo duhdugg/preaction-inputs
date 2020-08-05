@@ -45,8 +45,6 @@ class App extends React.Component {
       wysiwyg: '',
       wysiwyg2: ''
     }
-    this.wysiwyg = React.createRef()
-    this.wysiwyg2 = React.createRef()
     this.getStateValueHandler = this.getStateValueHandler.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
@@ -246,7 +244,6 @@ class App extends React.Component {
                         value={this.state.wysiwyg}
                         valueHandler={this.getStateValueHandler('wysiwyg')}
                         required
-                        ref={this.wysiwyg}
                       />
                       <Wysiwyg
                         label='WYSIWYG with hidden toolbar'
@@ -258,7 +255,6 @@ class App extends React.Component {
                         validator={value =>
                           'validators on wysiwyg has no impact on form validity. You should validate Wysiwyg values separately.'
                         }
-                        ref={this.wysiwyg2}
                       />
                     </div>
                   </div>
@@ -380,17 +376,7 @@ class App extends React.Component {
 
   componentDidMount() {
     if (window.sessionStorage.state) {
-      this.setState(
-        state => {
-          state = JSON.parse(window.sessionStorage.state)
-          return state
-        },
-        () => {
-          // because wysiwyg editors need a kick in the ass
-          this.wysiwyg.current.value = this.state.wysiwyg
-          this.wysiwyg2.current.value = this.state.wysiwyg2
-        }
-      )
+      this.setState(JSON.parse(window.sessionStorage.state))
     }
   }
 
