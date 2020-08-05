@@ -6,6 +6,7 @@ import sucrase from '@rollup/plugin-sucrase'
 import external from 'rollup-plugin-peer-deps-external'
 import { terser } from 'rollup-plugin-terser'
 import pkg from './package.json'
+import visualizer from 'rollup-plugin-visualizer'
 
 const plugins = [
   external(),
@@ -25,6 +26,7 @@ const plugins = [
 
 const cjsConfig = {
   input: 'index.js',
+  external: ['prop-types'],
   output: [
     {
       file: pkg.main,
@@ -46,11 +48,12 @@ const cjsConfig = {
       ]
     }
   ],
-  plugins
+  plugins: plugins.concat([visualizer({ filename: 'stats/cjs.html' })])
 }
 
 const esmConfig = {
   input: 'index.js',
+  external: ['prop-types'],
   output: [
     {
       file: pkg.module,
@@ -58,7 +61,7 @@ const esmConfig = {
       sourcemap: true
     }
   ],
-  plugins
+  plugins: plugins.concat([visualizer({ filename: 'stats/esm.html' })])
 }
 
 const umdConfigs = [
@@ -71,6 +74,7 @@ const umdConfigs = [
 ].map(filename => {
   const createConfig = filename => ({
     input: `src/${filename}.jsx`,
+    external: ['prop-types'],
     output: [
       {
         file: `dist/preaction-inputs.${filename.toLowerCase()}.umd.js`,
@@ -100,7 +104,9 @@ const umdConfigs = [
         ]
       }
     ],
-    plugins
+    plugins: plugins.concat([
+      visualizer({ filename: `stats/${filename.toLowerCase()}.umd.html` })
+    ])
   })
   return createConfig(filename)
 })
