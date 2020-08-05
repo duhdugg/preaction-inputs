@@ -26,7 +26,7 @@ const plugins = [
 
 const cjsConfig = {
   input: 'index.js',
-  external: ['prop-types'],
+  external: ['prop-types', 'react-quill'],
   output: [
     {
       file: pkg.main,
@@ -53,7 +53,7 @@ const cjsConfig = {
 
 const esmConfig = {
   input: 'index.js',
-  external: ['prop-types'],
+  external: ['prop-types', 'react-quill'],
   output: [
     {
       file: pkg.module,
@@ -64,6 +64,28 @@ const esmConfig = {
   plugins: plugins.concat([visualizer({ filename: 'stats/esm.html' })])
 }
 
+const umdOutputGlobals = {
+  react: 'React',
+  'react-dom': 'ReactDOM',
+  'react-dom/server': 'ReactDOMServer',
+  'prop-types': 'PropTypes',
+  'react-quill': 'ReactQuill'
+}
+const umdOutputPlugins = [
+  getBabelOutputPlugin({
+    allowAllFormats: true,
+    compact: true,
+    presets: [
+      [
+        '@babel/preset-env',
+        {
+          modules: 'umd',
+          targets: 'defaults'
+        }
+      ]
+    ]
+  })
+]
 const umdConfigs = [
   'Checkbox',
   'Form',
@@ -71,44 +93,43 @@ const umdConfigs = [
   'Select',
   'Textarea',
   'Wysiwyg'
-].map(filename => {
-  const createConfig = filename => ({
-    input: `src/${filename}.jsx`,
-    external: ['prop-types'],
-    output: [
-      {
-        file: `dist/preaction-inputs.${filename.toLowerCase()}.umd.js`,
-        format: 'umd',
-        globals: {
-          react: 'React',
-          'react-dom': 'ReactDOM',
-          'react-dom/server': 'ReactDOMServer',
-          'prop-types': 'PropTypes'
-        },
-        sourcemap: true,
-        name: `@preaction/inputs-${filename.toLowerCase()}`,
-        plugins: [
-          getBabelOutputPlugin({
-            allowAllFormats: true,
-            compact: true,
-            presets: [
-              [
-                '@babel/preset-env',
-                {
-                  modules: 'umd',
-                  targets: 'defaults'
-                }
-              ]
-            ]
-          })
-        ]
-      }
-    ],
-    plugins: plugins.concat([
-      visualizer({ filename: `stats/${filename.toLowerCase()}.umd.html` })
-    ])
+]
+  .map(filename => {
+    const createConfig = filename => ({
+      input: `src/${filename}.jsx`,
+      external: ['prop-types', 'react-quill'],
+      output: [
+        {
+          file: `dist/preaction-inputs.${filename.toLowerCase()}.umd.js`,
+          format: 'umd',
+          globals: umdOutputGlobals,
+          sourcemap: true,
+          name: `@preaction/inputs-${filename.toLowerCase()}`,
+          plugins: umdOutputPlugins
+        }
+      ],
+      plugins: plugins.concat([
+        visualizer({ filename: `stats/${filename.toLowerCase()}.umd.html` })
+      ])
+    })
+    return createConfig(filename)
   })
-  return createConfig(filename)
-})
+  .concat([
+    {
+      input: 'index.js',
+      external: ['prop-types', 'react-quill'],
+      output: [
+        {
+          file: 'dist/preaction-inputs.all.umd.js',
+          format: 'umd',
+          globals: umdOutputGlobals,
+          sourcemap: true,
+          name: '@preaction/inputs',
+          plugins: umdOutputPlugins
+        }
+      ],
+      plugins: plugins.concat([visualizer({ filename: 'stats/all.umd.html' })])
+    }
+  ])
 
 export default [esmConfig, cjsConfig, ...umdConfigs]

@@ -1,13 +1,9 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import AsterCheck from './AsterCheck.jsx'
+import ReactQuill, { Quill } from 'react-quill'
 
-// Quill depends heavily on DOM. These conditional assignments allow SSR.
 const ssr = typeof window === 'undefined'
-const mock = () => false
-const ssrQuill = { import: mock, register: mock }
-const ReactQuill = ssr ? mock : require('react-quill')
-const Quill = ssr ? ssrQuill : require('react-quill').Quill
 
 let defaultValidator = value => {
   return ''
