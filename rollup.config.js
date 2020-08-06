@@ -120,7 +120,7 @@ const umdConfigs = [
       external: ['prop-types', 'react-quill'],
       output: [
         {
-          file: 'dist/preaction-inputs.all.umd.js',
+          file: 'dist/preaction-inputs.umd.js',
           format: 'umd',
           globals: umdOutputGlobals,
           sourcemap: true,
@@ -128,7 +128,7 @@ const umdConfigs = [
           plugins: umdOutputPlugins
         }
       ],
-      plugins: plugins.concat([visualizer({ filename: 'stats/all.umd.html' })])
+      plugins: plugins.concat([visualizer({ filename: 'stats/umd.html' })])
     }
   ])
 
