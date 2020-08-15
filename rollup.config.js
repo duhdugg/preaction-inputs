@@ -96,7 +96,7 @@ const umdConfigs = [
 ]
   .map(filename => {
     const createConfig = filename => ({
-      input: `src/${filename}.jsx`,
+      input: `src/components/${filename}.jsx`,
       external: ['prop-types', 'react-quill'],
       output: [
         {

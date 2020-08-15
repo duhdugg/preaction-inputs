@@ -1,11 +1,16 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import AsterCheck from './AsterCheck.jsx'
 
 let defaultValidator = value => {
   return ''
 }
 
+/**
+ * All the elements you need to render an `<input>` in bootstrap
+ * @see [Bootstrap Documentation: Input group](https://getbootstrap.com/docs/4.5/components/input-group/)
+ * @see [Bootstrap Documentation: Forms](https://getbootstrap.com/docs/4.5/components/forms/)
+ * @see [MDN web docs: `<input>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)
+ */
 class Input extends React.Component {
   constructor(props) {
     super(props)
@@ -14,7 +19,6 @@ class Input extends React.Component {
       pristine: true,
       showInfo: false
     }
-    this.type = this.props.type || 'text'
     this.onChange = this.onChange.bind(this)
     this.toggleInfo = this.toggleInfo.bind(this)
     this.validate = this.validate.bind(this)
@@ -84,6 +88,10 @@ class Input extends React.Component {
     })
   }
 
+  get type() {
+    return this.props.type || 'text'
+  }
+
   get validationMessage() {
     return this.input.current ? this.input.current.validationMessage : ''
   }
@@ -125,13 +133,6 @@ class Input extends React.Component {
                 <span className='font-weight-bold text-monospace'>i</span>
               )}
             </button>
-          ) : (
-            ''
-          )}
-          {this.props.required ? (
-            <AsterCheck
-              valid={!this.validationMessage && !this.state.pristine}
-            />
           ) : (
             ''
           )}
@@ -226,11 +227,18 @@ class Input extends React.Component {
 }
 
 Input.propTypes = {
+  /** will default to `on` or `email`, `tel`, or `url`, depending on the `type`.
+   * See https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
+   */
   autoComplete: PropTypes.string,
   disabled: PropTypes.bool,
+  /** information which may be toggled by clicking a button next to the label */
   info: PropTypes.node,
+  /** by default, this will render a bold, monospaced, lowercase i. This button will not be rendered if `info` is falsey. */
   infoBtnContents: PropTypes.node,
+  /** https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode */
   inputMode: PropTypes.string,
+  /** value will be rendered inside `<label>` element. https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label */
   label: PropTypes.node,
   max: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   maxLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -272,9 +280,16 @@ Input.propTypes = {
   step: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   tabIndex: PropTypes.number,
   type: PropTypes.string,
+  /** function which accepts a value and returns an error message or empty string. See the NPM package [@preaction/validation](https://www.npmjs.com/package/@preaction/validation) */
   validator: PropTypes.func,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  /** callback which accepts a value. Use this to set state. It is triggered by the default `onChange` handler. */
   valueHandler: PropTypes.func
+}
+
+Input.defaultProps = {
+  inputMode: 'text',
+  type: 'text'
 }
 
 export { Input }

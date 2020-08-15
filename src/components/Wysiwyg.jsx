@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import AsterCheck from './AsterCheck.jsx'
 
 // Quill depends heavily on DOM. These conditional assignments allow SSR.
 const ssr = typeof window === 'undefined'
@@ -27,6 +26,12 @@ let defaultValidator = value => {
   return ''
 }
 
+/**
+ * All the elements you need to render a WYSIWYG input
+ * This uses the Quill Rich Text Editor and the `react-quill` library. The `Quill` class is also to allow you to call `Quill.import` and `Quill.register`
+ * @see [quilljs.com](https://quilljs.com/)
+ * @see [react-quill](https://github.com/zenoamaro/react-quill)
+ */
 class Wysiwyg extends React.Component {
   constructor(props) {
     super(props)
@@ -199,11 +204,6 @@ class Wysiwyg extends React.Component {
           ) : (
             ''
           )}
-          {this.props.required ? (
-            <AsterCheck valid={!this.validationMessage} />
-          ) : (
-            ''
-          )}
         </label>
         {this.props.info && this.state.showInfo ? (
           <div
@@ -272,27 +272,49 @@ class Wysiwyg extends React.Component {
 }
 
 Wysiwyg.propTypes = {
+  /** allows using the `dangerouslySetInnerHTML` attribute to render the value while in `fallbackMode`. **Do not set this to true unless you have sanitized `value`!** */
   allowDangerousFallback: PropTypes.bool,
+  /** the className to pass to `ReactQuill` */
   className: PropTypes.string,
+  /** passes the debug prop to `ReactQuill` */
   debug: PropTypes.bool,
+  /** setting this to `true` will force the component to go into `fallbackMode`, which may either display an error or try to render the value natively, according to the value of `allowDangerousFallback` */
   fallbackMode: PropTypes.bool,
+  /** information which may be toggled by clicking a button next to the label */
   info: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  /** by default, this will render a bold, monospaced, lowercase i. This button will not be rendered if `info` is falsey. */
   infoBtnContents: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  /** value will be rendered inside `<label>` element. https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label */
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  /** override the default modules to pass onto `ReactQuill` */
   modules: PropTypes.object,
   onChange: PropTypes.func,
   placeholder: PropTypes.string,
   readOnly: PropTypes.bool,
   required: PropTypes.bool,
+  /** passes the `scrollingContainer` prop to `ReactQuill` */
   scrollingContainer: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.instanceOf(Object)
   ]),
+  /** the Quill theme. defaults available are `bubble` and `snow`, but you must import the CSS required */
   theme: PropTypes.string,
+  /** use this if you want to override the toolbar in Quill. */
   toolbar: PropTypes.array,
+  /** function which accepts a value and returns an error message or empty string. See the NPM package [@preaction/validation](https://www.npmjs.com/package/@preaction/validation) */
   validator: PropTypes.func,
   value: PropTypes.string,
+  /** callback which accepts a value. Use this to set state. It is triggered by the default `onChange` handler. */
   valueHandler: PropTypes.func
+}
+
+Wysiwyg.defaultProps = {
+  allowDangerousFallback: false,
+  debug: false,
+  fallbackMode: false,
+  readOnly: false,
+  required: false,
+  theme: 'snow'
 }
 
 export { Wysiwyg, Quill }

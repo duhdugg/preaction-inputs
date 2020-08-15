@@ -11,6 +11,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "rollup -c",
+    "build-doc": "styleguidist build",
+    "doc": "styleguidist server",
     "test": "prettier -c src/* *.js package.json && eslint *.js src/*.j* && react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -47,6 +49,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "^3.4.1",
+    "react-styleguidist": "^11.0.8",
     "rollup": "^2.23.0",
     "rollup-plugin-peer-deps-external": "^2.2.3",
     "rollup-plugin-postcss": "^3.1.3",

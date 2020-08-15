@@ -11,6 +11,9 @@
 /dist
 /stats
 
+# documentation
+/styleguide
+
 # misc
 .DS_Store
 .env.local

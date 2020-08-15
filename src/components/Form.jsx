@@ -1,6 +1,11 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 
+/**
+ * This isn't much more than a wrapper around a `<form>` element that provides some high-level logic for validation. It is not required to use the other components of this library.
+ * @see [Bootstrap Documentation: Forms](https://getbootstrap.com/docs/4.5/components/forms/)
+ * @see [MDN web docs: `<form>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form)
+ */
 class Form extends React.Component {
   constructor(props) {
     super(props)

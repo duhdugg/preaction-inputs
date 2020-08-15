@@ -1,11 +1,16 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import AsterCheck from './AsterCheck.jsx'
 
 let defaultValidator = value => {
   return ''
 }
 
+/**
+ * All the elements you need to render a checkbox in bootstrap
+ * @see [Bootstrap Documentation: Input group](https://getbootstrap.com/docs/4.5/components/input-group/)
+ * @see [Bootstrap Documentation: Forms](https://getbootstrap.com/docs/4.5/components/forms/)
+ * @see [MDN web docs: `<input type="checkbox">`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox)
+ */
 class Checkbox extends React.Component {
   constructor(props) {
     super(props)
@@ -111,14 +116,6 @@ class Checkbox extends React.Component {
             htmlFor={this.id}
             style={this.labelStyle}>
             {this.props.label}
-            {this.props.required ? (
-              <AsterCheck
-                noCheck
-                valid={!this.validationMessage && !this.state.pristine}
-              />
-            ) : (
-              ''
-            )}
           </label>
           {this.validationMessage ? (
             <div className='invalid-tooltip' aria-live='polite'>
@@ -181,7 +178,9 @@ Checkbox.propTypes = {
   readOnly: PropTypes.bool,
   required: PropTypes.bool,
   tabIndex: PropTypes.number,
+  /** callback which accepts a value. Use this to set state. It is triggered by the default `onChange` handler. */
   valueHandler: PropTypes.func,
+  /** function which accepts a value and returns an error message or empty string. See the NPM package [@preaction/validation](https://www.npmjs.com/package/@preaction/validation) */
   validator: PropTypes.func
 }
 

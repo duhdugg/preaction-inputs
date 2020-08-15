@@ -1,77 +1,35 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import AsterCheck from './AsterCheck.jsx'
 
 let defaultValidator = value => {
   return ''
 }
 
-class Textarea extends React.Component {
+/**
+ * All the elements you need to render a `<select>` in bootstrap
+ * @see [Bootstrap Documentation: Input group](https://getbootstrap.com/docs/4.5/components/input-group/)
+ * @see [Bootstrap Documentation: Forms](https://getbootstrap.com/docs/4.5/components/forms/)
+ * @see [MDN web docs: `<select>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select)
+ */
+class Select extends React.Component {
   constructor(props) {
     super(props)
     this.genid()
     this.state = {
-      height: 'auto',
       pristine: true,
       showInfo: false
     }
     this.onChange = this.onChange.bind(this)
+    this.select = React.createRef()
     this.toggleInfo = this.toggleInfo.bind(this)
     this.validate = this.validate.bind(this)
-    this.hiddenDiv = React.createRef()
-    this.textarea = React.createRef()
-  }
-
-  autoResize() {
-    if (this.hiddenDiv.current) {
-      if (this.height !== this.hiddenDiv.current.clientHeight) {
-        let height = this.hiddenDiv.current.clientHeight
-        if (!this.textarea.current.value) {
-          height = height * 3
-          if (!height) {
-            // minimum
-            height = 16
-          }
-          if (this.state.height !== height) {
-            this.height = height
-          }
-        } else {
-          this.height = height
-        }
-      }
-    }
   }
 
   genid() {
     let now = +new Date()
     let rand = Math.random()
-    this.id = `preaction textarea-${now}-${rand}`
+    this.id = `preaction-select-${now}-${rand}`
     return this.id
-  }
-
-  get height() {
-    return this.state.height
-  }
-
-  set height(value) {
-    this.setState(state => {
-      state.height = value
-      return state
-    })
-  }
-
-  get hiddenDivStyle() {
-    return {
-      height: 'auto',
-      left: '-0.06em',
-      overflowWrap: 'break-word',
-      position: 'absolute',
-      top: '0',
-      visibility: 'hidden',
-      whiteSpace: 'pre-wrap',
-      width: '100%',
-      zIndex: -999
-    }
   }
 
   get labelStyle() {
@@ -85,29 +43,6 @@ class Textarea extends React.Component {
     return style
   }
 
-  onFocus(e) {
-    if (!this.props.noAutoResize) {
-      this.autoResize()
-    }
-    if (this.props.onFocus) {
-      this.props.onFocus(e)
-    }
-  }
-
-  get textareaStyle() {
-    let resize = 'none'
-    let overflow = 'hidden'
-    if (this.props.noAutoResize) {
-      resize = 'vertical'
-      overflow = 'auto'
-    }
-    return {
-      height: this.height,
-      resize,
-      overflow
-    }
-  }
-
   toggleInfo() {
     this.setState(state => {
       state.showInfo = !state.showInfo
@@ -116,7 +51,15 @@ class Textarea extends React.Component {
   }
 
   get validationMessage() {
-    return this.textarea.current ? this.textarea.current.validationMessage : ''
+    return this.select.current ? this.select.current.validationMessage : ''
+  }
+
+  get value() {
+    let retval = this.props.value || ''
+    if (this.props.multiple) {
+      retval = this.props.value || []
+    }
+    return retval
   }
 
   get validator() {
@@ -124,26 +67,37 @@ class Textarea extends React.Component {
   }
 
   onChange(event) {
+    let value = event.target.value
+    if (this.props.multiple) {
+      value = []
+      let options = Array.from(this.select.current.options)
+      options.forEach(option => {
+        if (option.selected) {
+          value.push(option.value)
+        }
+      })
+    }
+    this.dirty()
     this.validate(event.target.value)
     if (this.props.onChange) {
       event.persist()
       this.props.onChange(event)
     }
     if (this.props.valueHandler) {
-      this.props.valueHandler(event.target.value)
+      this.props.valueHandler(value)
     }
   }
 
   validate(value) {
     let validationMessage = this.validator(value)
-    this.textarea.current.setCustomValidity(validationMessage)
-    this.textarea.current.checkValidity()
+    this.select.current.setCustomValidity(validationMessage)
+    this.select.current.checkValidity()
     return validationMessage
   }
 
   render() {
     return (
-      <div className='preaction textarea form-group'>
+      <div className='preaction select form-group' ref={this.element}>
         <label htmlFor={this.id} style={this.labelStyle}>
           {this.props.label}
           {this.props.info ? (
@@ -158,13 +112,6 @@ class Textarea extends React.Component {
           ) : (
             ''
           )}
-          {this.props.required ? (
-            <AsterCheck
-              valid={!this.validationMessage && !this.state.pristine}
-            />
-          ) : (
-            ''
-          )}
         </label>
         {this.props.info && this.state.showInfo ? (
           <div
@@ -176,22 +123,12 @@ class Textarea extends React.Component {
           ''
         )}
         <div className='input-group'>
-          <div
+          <select
             className='form-control'
-            ref={this.hiddenDiv}
-            style={this.hiddenDivStyle}>
-            {this.props.value}
-          </div>
-          <textarea
-            id={this.id}
-            name={this.props.name}
-            className='form-control'
-            required={this.props.required}
-            readOnly={this.props.readOnly}
             disabled={this.props.disabled}
-            value={this.props.value}
-            maxLength={this.props.maxLength}
-            tabIndex={this.props.tabIndex}
+            id={this.id}
+            multiple={this.props.multiple}
+            name={this.props.name}
             onBlur={this.props.onBlur}
             onChange={this.onChange}
             onClick={this.props.onClick}
@@ -204,8 +141,7 @@ class Textarea extends React.Component {
             onDragOver={this.props.onDragOver}
             onDragStart={this.props.onDragStart}
             onDrop={this.props.onDrop}
-            onFocus={this.onFocus.bind(this)}
-            onInput={this.props.onInput}
+            onFocus={this.props.onFocus}
             onKeyDown={this.props.onKeyDown}
             onKeyPress={this.props.onKeyPress}
             onKeyUp={this.props.onKeyUp}
@@ -218,11 +154,13 @@ class Textarea extends React.Component {
             onMouseUp={this.props.onMouseUp}
             onSelect={this.props.onSelect}
             onSubmit={this.props.onSubmit}
-            placeholder={this.props.placeholder}
-            style={this.textareaStyle}
-            wrap={this.props.wrap}
-            ref={this.textarea}
-          />
+            readOnly={this.props.readOnly}
+            ref={this.select}
+            required={this.props.required}
+            tabIndex={this.props.tabIndex}
+            value={this.value}>
+            {this.props.children}
+          </select>
           {this.validationMessage ? (
             <div className='invalid-tooltip' aria-live='polite'>
               {this.validationMessage}
@@ -236,30 +174,35 @@ class Textarea extends React.Component {
   }
 
   componentDidMount() {
-    this.textarea.current.validate = this.validate
+    this.select.current.validate = this.validate
   }
 
   componentDidUpdate() {
+    this.dirty()
+  }
+
+  dirty() {
     if (this.state.pristine) {
       this.setState(state => {
         state.pristine = false
         return state
       })
     }
-    if (!this.props.noAutoResize) {
-      this.autoResize()
-    }
   }
 }
 
-Textarea.propTypes = {
+Select.propTypes = {
+  /** `<option>` and/or `<optgroup>` elements need to be passed as children to this component */
+  children: PropTypes.node,
   disabled: PropTypes.bool,
+  /** information which may be toggled by clicking a button next to the label */
   info: PropTypes.node,
+  /** by default, this will render a bold, monospaced, lowercase i. This button will not be rendered if `info` is falsey. */
   infoBtnContents: PropTypes.node,
+  /** value will be rendered inside `<label>` element. https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label */
   label: PropTypes.node,
-  maxLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  multiple: PropTypes.bool,
   name: PropTypes.string,
-  noAutoResize: PropTypes.bool,
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
   onClick: PropTypes.func,
@@ -273,10 +216,9 @@ Textarea.propTypes = {
   onDragStart: PropTypes.func,
   onDrop: PropTypes.func,
   onFocus: PropTypes.func,
-  onInput: PropTypes.func,
   onKeyDown: PropTypes.func,
-  onKeyUp: PropTypes.func,
   onKeyPress: PropTypes.func,
+  onKeyUp: PropTypes.func,
   onMouseDown: PropTypes.func,
   onMouseEnter: PropTypes.func,
   onMouseLeave: PropTypes.func,
@@ -286,14 +228,19 @@ Textarea.propTypes = {
   onMouseUp: PropTypes.func,
   onSelect: PropTypes.func,
   onSubmit: PropTypes.func,
-  placeholder: PropTypes.string,
   readOnly: PropTypes.bool,
   required: PropTypes.bool,
   tabIndex: PropTypes.number,
+  /** function which accepts a value and returns an error message or empty string. See the NPM package [@preaction/validation](https://www.npmjs.com/package/@preaction/validation) */
   validator: PropTypes.func,
-  value: PropTypes.string,
-  valueHandler: PropTypes.func,
-  wrap: PropTypes.string
+  /** use an array when `multiple` is `true` */
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.array
+  ]),
+  /** callback which accepts a value. Use this to set state. It is triggered by the default `onChange` handler. */
+  valueHandler: PropTypes.func
 }
 
-export { Textarea }
+export { Select }
