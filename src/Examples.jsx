@@ -3,12 +3,12 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'react-quill/dist/quill.core.css'
 import 'react-quill/dist/quill.bubble.css'
 import 'react-quill/dist/quill.snow.css'
-import { Input } from './Input.jsx'
-import { Form } from './Form.jsx'
-import { Select } from './Select.jsx'
-import { Textarea } from './Textarea.jsx'
-import { Checkbox } from './Checkbox.jsx'
-import { Wysiwyg, Quill } from './Wysiwyg.jsx'
+import { Input } from './components/Input.jsx'
+import { Form } from './components/Form.jsx'
+import { Select } from './components/Select.jsx'
+import { Textarea } from './components/Textarea.jsx'
+import { Checkbox } from './components/Checkbox.jsx'
+import { Wysiwyg, Quill } from './components/Wysiwyg.jsx'
 
 // for altering link behavior in Wysiwyg
 const LinkFormat = Quill.import('formats/link')
