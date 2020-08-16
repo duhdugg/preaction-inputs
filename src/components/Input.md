@@ -1,7 +1,6 @@
 ### Input Examples
 
 ```jsx
-import { Form } from './Form.jsx'
 const [name, setName] = React.useState('')
 const [email, setEmail] = React.useState('')
 const [birthdate, setBirthdate] = React.useState('')

@@ -1,7 +1,6 @@
 ### Form Example
 
 ```jsx
-import { Input } from './Input.jsx'
 const [name, setName] = React.useState('')
 ;<Form
   onSubmit={e => {
