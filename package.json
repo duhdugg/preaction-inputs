@@ -67,5 +67,10 @@
     "type": "git",
     "url": "git+ssh://git@github.com:duhdugg/preaction-inputs.git"
   },
-  "bugs": "https://github.com/duhdugg/preaction-inputs/issues"
+  "bugs": "https://github.com/duhdugg/preaction-inputs/issues",
+  "keywords": [
+    "react",
+    "bootstrap",
+    "bootstrap4"
+  ]
 }
