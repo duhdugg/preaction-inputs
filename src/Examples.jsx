@@ -8,7 +8,8 @@ import { Form } from './components/Form.jsx'
 import { Select } from './components/Select.jsx'
 import { Textarea } from './components/Textarea.jsx'
 import { Checkbox } from './components/Checkbox.jsx'
-import { Wysiwyg, Quill } from './components/Wysiwyg.jsx'
+import { Wysiwyg } from './components/Wysiwyg.jsx'
+import { Quill } from 'react-quill'
 
 // for altering link behavior in Wysiwyg
 const LinkFormat = Quill.import('formats/link')

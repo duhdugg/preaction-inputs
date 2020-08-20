@@ -17,16 +17,12 @@ const plugins = [
     transforms: ['jsx']
   }),
   commonjs(),
-  terser({
-    output: {
-      comments: 'all'
-    }
-  })
+  terser()
 ]
 
 const cjsConfig = {
   input: 'index.js',
-  external: ['prop-types', 'react-quill'],
+  external: ['prop-types', 'react-quill', '@loadable/component'],
   output: [
     {
       file: pkg.main,
@@ -53,7 +49,7 @@ const cjsConfig = {
 
 const esmConfig = {
   input: 'index.js',
-  external: ['prop-types', 'react-quill'],
+  external: ['prop-types', 'react-quill', '@loadable/component'],
   output: [
     {
       file: pkg.module,
@@ -69,7 +65,11 @@ const umdOutputGlobals = {
   'react-dom': 'ReactDOM',
   'react-dom/server': 'ReactDOMServer',
   'prop-types': 'PropTypes',
-  'react-quill': 'ReactQuill'
+  'react-quill': 'ReactQuill',
+  // there isn't actually a UMD bundle for @loadable/component,
+  // but there are try/catch statements where needed to allow importing the
+  // required components from the window object
+  '@loadable/component': 'loadable'
 }
 const umdOutputPlugins = [
   getBabelOutputPlugin({
@@ -97,7 +97,7 @@ const umdConfigs = [
   .map(filename => {
     const createConfig = filename => ({
       input: `src/components/${filename}.jsx`,
-      external: ['prop-types', 'react-quill'],
+      external: ['prop-types', 'react-quill', '@loadable/component'],
       output: [
         {
           file: `dist/preaction-inputs.${filename.toLowerCase()}.umd.js`,
@@ -117,7 +117,7 @@ const umdConfigs = [
   .concat([
     {
       input: 'index.js',
-      external: ['prop-types', 'react-quill'],
+      external: ['prop-types', 'react-quill', '@loadable/component'],
       output: [
         {
           file: 'dist/preaction-inputs.umd.js',

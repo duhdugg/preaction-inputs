@@ -1,26 +1,24 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import loadable from '@loadable/component'
+import { timeout } from 'promise-timeout'
 
 // Quill depends heavily on DOM. These conditional assignments allow SSR.
 const ssr = typeof window === 'undefined'
-class MockQuill extends React.Component {
-  render() {
-    return <div />
-  }
-}
-MockQuill.Quill = {
-  import: () => false,
-  register: () => false
-}
-// using this assignment pattern to also support hot-module reloading
+
+// using this assignment pattern to also allow importing react-quill from CDN
 let ReactQuill
-// this if/else block is needed to support UMD builds in browser
-if (typeof require === 'undefined') {
-  ReactQuill = window.ReactQuill
-} else {
-  ReactQuill = ssr ? MockQuill : require('react-quill')
+try {
+  ReactQuill = loadable(() => timeout(import('react-quill'), 5000), {
+    ssr: false
+  })
+} catch (e) {
+  ReactQuill = ssr
+    ? function () {
+        return <div />
+      }
+    : window.ReactQuill
 }
-const Quill = ReactQuill.Quill
 
 let defaultValidator = value => {
   return ''
@@ -28,7 +26,7 @@ let defaultValidator = value => {
 
 /**
  * All the elements you need to render a WYSIWYG input
- * This uses the Quill Rich Text Editor and the `react-quill` library. The `Quill` class is also to allow you to call `Quill.import` and `Quill.register`
+ * This uses the Quill Rich Text Editor and the `react-quill` library. To import the `Quill` class for customizing Quill's behavior via `Quill.import` and `Quill.register`, you would need to `import { Quill } from 'react-quill' in your application.
  * @see [quilljs.com](https://quilljs.com/)
  * @see [react-quill](https://github.com/zenoamaro/react-quill)
  */
@@ -37,6 +35,7 @@ class Wysiwyg extends React.Component {
     super(props)
     this.genid()
     this.state = {
+      // ssr will force fallbackMode
       fallbackMode: ssr || this.props.fallbackMode,
       pristine: true,
       showInfo: false,
@@ -226,7 +225,8 @@ class Wysiwyg extends React.Component {
           ) : (
             <div className='input-group'>
               <span className='badge badge-danger'>
-                Error: could not load WYSIWYG
+                Error: could not load Wysiwyg component. Try refreshing the
+                page.
               </span>
             </div>
           )
@@ -243,6 +243,7 @@ class Wysiwyg extends React.Component {
             scrollingContainer={this.props.scrollingContainer}
             theme={this.theme}
             value={this.value}
+            fallback={<div>{this.props.loadableFallback}</div>}
           />
         )}
         <div className='validator'>
@@ -286,6 +287,8 @@ Wysiwyg.propTypes = {
   infoBtnContents: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   /** value will be rendered inside `<label>` element. https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label */
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  /** sets the fallback prop on `<ReactQuill>`, which is loaded via `@loadable/component`. This is what appears when the `<ReactQuill>` component has not yet loaded. */
+  loadableFallback: PropTypes.node,
   /** override the default modules to pass onto `ReactQuill` */
   modules: PropTypes.object,
   onChange: PropTypes.func,
@@ -312,9 +315,10 @@ Wysiwyg.defaultProps = {
   allowDangerousFallback: false,
   debug: false,
   fallbackMode: false,
+  loadableFallback: 'Loading...',
   readOnly: false,
   required: false,
   theme: 'snow'
 }
 
-export { Wysiwyg, Quill }
+export { Wysiwyg }
