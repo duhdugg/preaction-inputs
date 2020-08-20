@@ -1,16 +1,18 @@
 {
   "files": {
-    "main.js": "/build/main.3014420a.js",
-    "runtime-main.js": "/build/bundle.e4600816.js",
-    "build/2.626789c6.js": "/build/2.626789c6.js",
-    "build/2.626789c6.js.LICENSE.txt": "/build/2.626789c6.js.LICENSE.txt",
+    "main.js": "/build/main.0890cf6b.js",
+    "runtime-main.js": "/build/bundle.4c31ea32.js",
+    "build/2.3e16b0b0.js": "/build/2.3e16b0b0.js",
+    "build/3.5a4f76c8.js": "/build/3.5a4f76c8.js",
+    "build/2.3e16b0b0.js.LICENSE.txt": "/build/2.3e16b0b0.js.LICENSE.txt",
+    "build/3.5a4f76c8.js.LICENSE.txt": "/build/3.5a4f76c8.js.LICENSE.txt",
     "index.html": "/index.html",
-    "precache-manifest.489200e25377a09b71186ef78e6bbd3a.js": "/precache-manifest.489200e25377a09b71186ef78e6bbd3a.js",
+    "precache-manifest.3bfb245e9c2326deb9d27098c89b9b95.js": "/precache-manifest.3bfb245e9c2326deb9d27098c89b9b95.js",
     "service-worker.js": "/service-worker.js"
   },
   "entrypoints": [
-    "build/bundle.e4600816.js",
-    "build/2.626789c6.js",
-    "build/main.3014420a.js"
+    "build/bundle.4c31ea32.js",
+    "build/2.3e16b0b0.js",
+    "build/main.0890cf6b.js"
   ]
 }
