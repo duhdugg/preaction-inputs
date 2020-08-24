@@ -26,7 +26,7 @@ let defaultValidator = value => {
 
 /**
  * All the elements you need to render a WYSIWYG input
- * This uses the Quill Rich Text Editor and the `react-quill` library. To import the `Quill` class for customizing Quill's behavior via `Quill.import` and `Quill.register`, you would need to `import { Quill } from 'react-quill' in your application.
+ * This uses the Quill Rich Text Editor and the `react-quill` library. To import the `Quill` class for customizing Quill's behavior via `Quill.import` and `Quill.register`, you would need to `import { Quill } from 'react-quill'` in your application.
  * @see [quilljs.com](https://quilljs.com/)
  * @see [react-quill](https://github.com/zenoamaro/react-quill)
  */
