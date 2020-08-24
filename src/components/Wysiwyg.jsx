@@ -215,7 +215,7 @@ class Wysiwyg extends React.Component {
         )}
         {this.state.fallbackMode ? (
           this.props.allowDangerousFallback ? (
-            <div className='quill'>
+            <div className='mock quill'>
               <div className={`ql-container ql-${this.theme}`}>
                 <div className='ql-editor'>
                   <div dangerouslySetInnerHTML={{ __html: this.value }} />
