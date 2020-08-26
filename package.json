@@ -13,7 +13,7 @@
     "build": "rollup -c",
     "build-doc": "styleguidist build",
     "doc": "styleguidist server",
-    "test": "prettier -c src/* *.js package.json && eslint *.js src/*.j* && react-scripts test",
+    "test": "prettier -c src/* *.js package.json && eslint *.js src/*.j* && react-scripts test --env=jest-environment-jsdom-sixteen",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -43,9 +43,13 @@
     "@rollup/plugin-commonjs": "^14.0.0",
     "@rollup/plugin-node-resolve": "^8.4.0",
     "@rollup/plugin-sucrase": "^3.1.0",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^10.4.9",
+    "@testing-library/user-event": "^12.1.3",
     "bootstrap": "^4.5.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "jest-environment-jsdom-sixteen": "^1.0.3",
     "prettier": "^2.0.5",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",

@@ -127,6 +127,7 @@ class Select extends React.Component {
             className='form-control'
             disabled={this.props.disabled}
             id={this.id}
+            autoComplete={this.props.autoComplete}
             multiple={this.props.multiple}
             name={this.props.name}
             onBlur={this.props.onBlur}
@@ -152,7 +153,6 @@ class Select extends React.Component {
             onMouseOut={this.props.onMouseOut}
             onMouseOver={this.props.onMouseOver}
             onMouseUp={this.props.onMouseUp}
-            onSelect={this.props.onSelect}
             onSubmit={this.props.onSubmit}
             readOnly={this.props.readOnly}
             ref={this.select}
@@ -192,6 +192,7 @@ class Select extends React.Component {
 }
 
 Select.propTypes = {
+  autoComplete: PropTypes.string,
   /** `<option>` and/or `<optgroup>` elements need to be passed as children to this component */
   children: PropTypes.node,
   disabled: PropTypes.bool,
@@ -226,11 +227,10 @@ Select.propTypes = {
   onMouseOut: PropTypes.func,
   onMouseOver: PropTypes.func,
   onMouseUp: PropTypes.func,
-  onSelect: PropTypes.func,
   onSubmit: PropTypes.func,
   readOnly: PropTypes.bool,
   required: PropTypes.bool,
-  tabIndex: PropTypes.number,
+  tabIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   /** function which accepts a value and returns an error message or empty string. See the NPM package [@preaction/validation](https://www.npmjs.com/package/@preaction/validation) */
   validator: PropTypes.func,
   /** use an array when `multiple` is `true` */

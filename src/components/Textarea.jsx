@@ -184,11 +184,13 @@ class Textarea extends React.Component {
             id={this.id}
             name={this.props.name}
             className='form-control'
+            autoComplete={this.props.autoComplete}
             required={this.props.required}
             readOnly={this.props.readOnly}
             disabled={this.props.disabled}
             value={this.props.value}
             maxLength={this.props.maxLength}
+            minLength={this.props.minLength}
             tabIndex={this.props.tabIndex}
             onBlur={this.props.onBlur}
             onChange={this.onChange}
@@ -217,6 +219,7 @@ class Textarea extends React.Component {
             onSelect={this.props.onSelect}
             onSubmit={this.props.onSubmit}
             placeholder={this.props.placeholder}
+            spellCheck={this.props.spellCheck}
             style={this.textareaStyle}
             wrap={this.props.wrap}
             ref={this.textarea}
@@ -251,6 +254,7 @@ class Textarea extends React.Component {
 }
 
 Textarea.propTypes = {
+  autoComplete: PropTypes.string,
   disabled: PropTypes.bool,
   /** information which may be toggled by clicking a button next to the label */
   info: PropTypes.node,
@@ -259,6 +263,7 @@ Textarea.propTypes = {
   /** value will be rendered inside `<label>` element. https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label */
   label: PropTypes.node,
   maxLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  minLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   name: PropTypes.string,
   /** disable automatic resizing */
   noAutoResize: PropTypes.bool,
@@ -291,13 +296,14 @@ Textarea.propTypes = {
   placeholder: PropTypes.string,
   readOnly: PropTypes.bool,
   required: PropTypes.bool,
-  tabIndex: PropTypes.number,
+  spellCheck: PropTypes.oneOf(['true', 'default', 'false']),
+  tabIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   /** function which accepts a value and returns an error message or empty string. See the NPM package [@preaction/validation](https://www.npmjs.com/package/@preaction/validation) */
   validator: PropTypes.func,
   value: PropTypes.string,
   /** callback which accepts a value. Use this to set state. It is triggered by the default `onChange` handler. */
   valueHandler: PropTypes.func,
-  wrap: PropTypes.string
+  wrap: PropTypes.oneOf(['hard', 'soft', 'off'])
 }
 
 Textarea.defaultProps = {

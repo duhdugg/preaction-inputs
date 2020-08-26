@@ -228,6 +228,7 @@ class Input extends React.Component {
 
 Input.propTypes = {
   /** will default to `on` or `email`, `tel`, or `url`, depending on the `type`.
+   * Set to `off` to disable.
    * See https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
    */
   autoComplete: PropTypes.string,
@@ -278,7 +279,7 @@ Input.propTypes = {
   required: PropTypes.bool,
   spellCheck: PropTypes.string,
   step: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  tabIndex: PropTypes.number,
+  tabIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   type: PropTypes.string,
   /** function which accepts a value and returns an error message or empty string. See the NPM package [@preaction/validation](https://www.npmjs.com/package/@preaction/validation) */
   validator: PropTypes.func,

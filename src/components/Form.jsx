@@ -13,6 +13,7 @@ class Form extends React.Component {
       formWasValidated: false
     }
     this.onSubmit = this.onSubmit.bind(this)
+    this.onReset = this.onReset.bind(this)
   }
 
   get className() {

@@ -232,19 +232,35 @@ class Wysiwyg extends React.Component {
           )
         ) : (
           <ReactQuill
+            bounds={this.props.bounds}
             className={this.props.className}
             debug={this.props.debug}
             formats={this.formats}
             modules={this.modules}
             onChange={this.onChange}
+            onChangeSelection={this.props.onChangeSelection}
+            onFocus={this.props.onFocus}
+            onBlur={this.props.onBlur}
+            onKeyPress={this.props.onKeyPress}
+            onKeyDown={this.props.onKeyDown}
+            onKeyUp={this.props.onKeyUp}
             placeholder={this.props.placeholder}
+            preserveWhitespace={this.props.preserveWhitespace}
             readOnly={this.props.readOnly}
             ref={this.quill}
-            scrollingContainer={this.props.scrollingContainer}
+            style={this.props.style}
+            tabIndex={
+              this.props.tabIndex ? Number(this.props.tabIndex) : undefined
+            }
             theme={this.theme}
             value={this.value}
-            fallback={<div>{this.props.loadableFallback}</div>}
-          />
+            fallback={
+              <div className='wysiwyg-loadable-fallback'>
+                {this.props.loadableFallback}
+              </div>
+            }>
+            {this.props.children}
+          </ReactQuill>
         )}
         <div className='validator'>
           {this.state.valid ? (
@@ -275,9 +291,13 @@ class Wysiwyg extends React.Component {
 Wysiwyg.propTypes = {
   /** allows using the `dangerouslySetInnerHTML` attribute to render the value while in `fallbackMode`. **Do not set this to true unless you have sanitized `value`!** */
   allowDangerousFallback: PropTypes.bool,
-  /** the className to pass to `ReactQuill` */
+  /** passed directly to `<ReactQuill>` */
+  bounds: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  /** passed directly to `<ReactQuill>` */
+  children: PropTypes.node,
+  /** passed directly to `<ReactQuill>` */
   className: PropTypes.string,
-  /** passes the debug prop to `ReactQuill` */
+  /** passed directly to `<ReactQuill>` */
   debug: PropTypes.bool,
   /** setting this to `true` will force the component to go into `fallbackMode`, which may either display an error or try to render the value natively, according to the value of `allowDangerousFallback` */
   fallbackMode: PropTypes.bool,
@@ -292,14 +312,28 @@ Wysiwyg.propTypes = {
   /** override the default modules to pass onto `ReactQuill` */
   modules: PropTypes.object,
   onChange: PropTypes.func,
+  /** passed directly to `<ReactQuill>` */
+  onChangeSelection: PropTypes.func,
+  /** passed directly to `<ReactQuill>` */
+  onFocus: PropTypes.func,
+  /** passed directly to `<ReactQuill>` */
+  onBlur: PropTypes.func,
+  /** passed directly to `<ReactQuill>` */
+  onKeyPress: PropTypes.func,
+  /** passed directly to `<ReactQuill>` */
+  onKeyDown: PropTypes.func,
+  /** passed directly to `<ReactQuill>` */
+  onKeyUp: PropTypes.func,
+  /** passed directly to `<ReactQuill>` */
   placeholder: PropTypes.string,
+  /** passed directly to `<ReactQuill>` */
+  preserveWhitespace: PropTypes.bool,
+  /** passed directly to `<ReactQuill>` */
   readOnly: PropTypes.bool,
-  required: PropTypes.bool,
-  /** passes the `scrollingContainer` prop to `ReactQuill` */
-  scrollingContainer: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.instanceOf(Object)
-  ]),
+  /** passed directly to `<ReactQuill>` */
+  style: PropTypes.object,
+  /** passed directly to `<ReactQuill>` */
+  tabIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   /** the Quill theme. defaults available are `bubble` and `snow`, but you must import the CSS required */
   theme: PropTypes.string,
   /** use this if you want to override the toolbar in Quill. */
@@ -317,7 +351,6 @@ Wysiwyg.defaultProps = {
   fallbackMode: false,
   loadableFallback: 'Loading...',
   readOnly: false,
-  required: false,
   theme: 'snow'
 }
 

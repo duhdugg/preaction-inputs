@@ -101,10 +101,7 @@ class Checkbox extends React.Component {
             onMouseOut={this.props.onMouseOut}
             onMouseOver={this.props.onMouseOver}
             onMouseUp={this.props.onMouseUp}
-            onSelect={this.props.onSelect}
             onSubmit={this.props.onSubmit}
-            placeholder={this.props.placeholder}
-            readOnly={this.props.readOnly}
             ref={this.input}
             required={this.props.required}
             style={this.inputStyle}
@@ -172,12 +169,9 @@ Checkbox.propTypes = {
   onMouseOut: PropTypes.func,
   onMouseOver: PropTypes.func,
   onMouseUp: PropTypes.func,
-  onSelect: PropTypes.func,
   onSubmit: PropTypes.func,
-  placeholder: PropTypes.string,
-  readOnly: PropTypes.bool,
   required: PropTypes.bool,
-  tabIndex: PropTypes.number,
+  tabIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   /** callback which accepts a value. Use this to set state. It is triggered by the default `onChange` handler. */
   valueHandler: PropTypes.func,
   /** function which accepts a value and returns an error message or empty string. See the NPM package [@preaction/validation](https://www.npmjs.com/package/@preaction/validation) */
