@@ -56,6 +56,35 @@ test('Input inputMode', () => {
   )
 })
 
+test('Input inputMode defaults based on type', () => {
+  const matchTypes = ['email', 'number', 'tel', 'url', 'text']
+  for (let type of matchTypes) {
+    let result = render(<Input type={type} />)
+    expect(result.container.querySelector('input')).toHaveAttribute(
+      'inputMode',
+      type.replace(/number/, 'numeric')
+    )
+  }
+  const textTypes = [
+    'color',
+    'date',
+    'datetime-local',
+    'month',
+    'password',
+    'range',
+    'search',
+    'time',
+    'week'
+  ]
+  for (let type of textTypes) {
+    let result = render(<Input type={type} />)
+    expect(result.container.querySelector('input')).toHaveAttribute(
+      'inputMode',
+      'text'
+    )
+  }
+})
+
 test('Input label', () => {
   const result = render(<Input label='Fooey' />)
   expect(result.getByText('Fooey')).toBeInTheDocument()
@@ -504,9 +533,7 @@ test('Input type', () => {
     'month',
     'number',
     'password',
-    'radio',
     'range',
-    'reset',
     'search',
     'tel',
     'text',

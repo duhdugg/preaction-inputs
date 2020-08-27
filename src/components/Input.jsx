@@ -35,8 +35,8 @@ class Input extends React.Component {
   get autoComplete() {
     let retval = this.props.autoComplete
     if (!retval) {
-      if (['email', 'tel', 'url'].includes(this.type)) {
-        retval = this.type
+      if (['email', 'tel', 'url'].includes(this.props.type)) {
+        retval = this.props.type
       } else {
         retval = 'on'
       }
@@ -49,7 +49,7 @@ class Input extends React.Component {
     if (this.props.inputMode) {
       retval = this.props.inputMode
     } else {
-      switch (this.type) {
+      switch (this.props.type) {
         case 'email':
           retval = 'email'
           break
@@ -86,10 +86,6 @@ class Input extends React.Component {
       state.showInfo = !state.showInfo
       return state
     })
-  }
-
-  get type() {
-    return this.props.type || 'text'
   }
 
   get validationMessage() {
@@ -193,7 +189,7 @@ class Input extends React.Component {
             spellCheck={this.props.spellCheck}
             step={this.props.step}
             tabIndex={this.props.tabIndex}
-            type={this.type}
+            type={this.props.type}
             value={this.props.value}
           />
           {this.validationMessage ? (
@@ -237,7 +233,10 @@ Input.propTypes = {
   info: PropTypes.node,
   /** by default, this will render a bold, monospaced, lowercase i. This button will not be rendered if `info` is falsey. */
   infoBtnContents: PropTypes.node,
-  /** https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode */
+  /**
+   * if not specified, this will be set to a sane default based on `type`.
+   * https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode
+   */
   inputMode: PropTypes.string,
   /** value will be rendered inside `<label>` element. https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label */
   label: PropTypes.node,
@@ -289,7 +288,6 @@ Input.propTypes = {
 }
 
 Input.defaultProps = {
-  inputMode: 'text',
   type: 'text'
 }
 
