@@ -5,8 +5,7 @@
   "module": "dist/preaction-inputs.esm.js",
   "files": [
     "dist/*",
-    "src/*",
-    "public/*"
+    "src/*"
   ],
   "scripts": {
     "start": "styleguidist server",
