@@ -9,11 +9,12 @@
     "public/*"
   ],
   "scripts": {
-    "start": "react-scripts start",
+    "start": "styleguidist server",
     "build": "rollup -c",
-    "build-doc": "styleguidist build",
-    "doc": "styleguidist server",
-    "test": "prettier -c src/* *.js package.json && eslint *.js src/*.j* && react-scripts test --env=jest-environment-jsdom-sixteen",
+    "build:doc": "styleguidist build",
+    "test": "prettier -c src/components/* src/components/__tests__/* *.js package.json && eslint *.js src/components/*.j* src/components/__tests__/*.j* && npm run test:react:with-coverage",
+    "test:react": "react-scripts test --env=jest-environment-jsdom-sixteen",
+    "test:react:with-coverage": "react-scripts test --env=jest-environment-jsdom-sixteen --coverage --watchAll=false",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -27,7 +28,11 @@
     }
   },
   "browserslist": {
-    "development": "defaults and supports es6-module",
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ],
     "production": "defaults"
   },
   "dependencies": {
