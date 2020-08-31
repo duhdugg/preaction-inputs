@@ -37,7 +37,6 @@ class Wysiwyg extends React.Component {
     this.state = {
       // ssr will force fallbackMode
       fallbackMode: ssr || this.props.fallbackMode,
-      pristine: true,
       showInfo: false,
       valid: true,
       validationMessage: '',
@@ -276,9 +275,6 @@ class Wysiwyg extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.state.pristine) {
-      this.setState({ pristine: false })
-    }
     if (this.props.fallbackMode !== prevProps.fallbackMode) {
       this.setState({ fallbackMode: this.props.fallbackMode })
     }
