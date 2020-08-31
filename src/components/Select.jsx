@@ -11,184 +11,154 @@ let defaultValidator = value => {
  * @see [Bootstrap Documentation: Forms](https://getbootstrap.com/docs/4.5/components/forms/)
  * @see [MDN web docs: `<select>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select)
  */
-class Select extends React.Component {
-  constructor(props) {
-    super(props)
-    this.genid()
-    this.state = {
-      pristine: true,
-      showInfo: false
-    }
-    this.onChange = this.onChange.bind(this)
-    this.select = React.createRef()
-    this.toggleInfo = this.toggleInfo.bind(this)
-    this.validate = this.validate.bind(this)
-  }
+function Select(props) {
+  const [elementId] = React.useState(
+    () => `preaction-select-${+new Date()}-${Math.random()}`
+  )
+  const [showInfo, setShowInfo] = React.useState(false)
+  const select = React.useRef()
 
-  genid() {
-    let now = +new Date()
-    let rand = Math.random()
-    this.id = `preaction-select-${now}-${rand}`
-    return this.id
-  }
-
-  get labelStyle() {
+  const getLabelStyle = () => {
     let style = {
       cursor: 'pointer'
     }
-    if (!this.props.label) {
+    if (!props.label) {
       style.position = 'absolute'
       style.zIndex = '10'
     }
     return style
   }
 
-  toggleInfo() {
-    this.setState(state => {
-      state.showInfo = !state.showInfo
-      return state
-    })
+  const toggleInfo = () => {
+    setShowInfo(!showInfo)
   }
 
-  get validationMessage() {
-    return this.select.current ? this.select.current.validationMessage : ''
+  const getValidationMessage = () => {
+    return select.current ? select.current.validationMessage : ''
   }
 
-  get value() {
-    let retval = this.props.value || ''
-    if (this.props.multiple) {
-      retval = this.props.value || []
+  const getValue = () => {
+    let retval = props.value || ''
+    if (props.multiple) {
+      retval = props.value || []
     }
     return retval
   }
 
-  get validator() {
-    return this.props.validator || defaultValidator
+  const getValidator = () => {
+    return props.validator || defaultValidator
   }
 
-  onChange(event) {
+  const onChange = event => {
     let value = event.target.value
-    if (this.props.multiple) {
+    if (props.multiple) {
       value = []
-      let options = Array.from(this.select.current.options)
+      let options = Array.from(select.current.options)
       options.forEach(option => {
         if (option.selected) {
           value.push(option.value)
         }
       })
     }
-    this.dirty()
-    this.validate(event.target.value)
-    if (this.props.onChange) {
+    validate(event.target.value)
+    if (props.onChange) {
       event.persist()
-      this.props.onChange(event)
+      props.onChange(event)
     }
-    if (this.props.valueHandler) {
-      this.props.valueHandler(value)
+    if (props.valueHandler) {
+      props.valueHandler(value)
     }
   }
 
-  validate(value) {
-    let validationMessage = this.validator(value)
-    this.select.current.setCustomValidity(validationMessage)
-    this.select.current.checkValidity()
+  const validate = value => {
+    let validationMessage = getValidator()(value)
+    select.current.setCustomValidity(validationMessage)
+    select.current.checkValidity()
     return validationMessage
   }
 
-  render() {
-    return (
-      <div className='preaction select form-group' ref={this.element}>
-        <label htmlFor={this.id} style={this.labelStyle}>
-          {this.props.label}
-          {this.props.info ? (
-            <button
-              type='button'
-              className='btn btn-sm btn-info ml-1 pt-0 pb-0'
-              onClick={this.toggleInfo}>
-              {this.props.infoBtnContents || (
-                <span className='font-weight-bold text-monospace'>i</span>
-              )}
-            </button>
-          ) : (
-            ''
-          )}
-        </label>
-        {this.props.info && this.state.showInfo ? (
-          <div
-            className='alert alert-info'
-            style={{ fontSize: '0.875rem', padding: '0.875rem' }}>
-            {this.props.info}
+  React.useEffect(() => {
+    select.current.validate = validate
+  })
+
+  const validationMessage = getValidationMessage()
+  const value = getValue()
+
+  return (
+    <div className='preaction select form-group'>
+      <label htmlFor={elementId} style={getLabelStyle()}>
+        {props.label}
+        {props.info ? (
+          <button
+            type='button'
+            className='btn btn-sm btn-info ml-1 pt-0 pb-0'
+            onClick={toggleInfo}>
+            {props.infoBtnContents || (
+              <span className='font-weight-bold text-monospace'>i</span>
+            )}
+          </button>
+        ) : (
+          ''
+        )}
+      </label>
+      {props.info && showInfo ? (
+        <div
+          className='alert alert-info'
+          style={{ fontSize: '0.875rem', padding: '0.875rem' }}>
+          {props.info}
+        </div>
+      ) : (
+        ''
+      )}
+      <div className='input-group'>
+        <select
+          className='form-control'
+          disabled={props.disabled}
+          id={elementId}
+          autoComplete={props.autoComplete}
+          multiple={props.multiple}
+          name={props.name}
+          onBlur={props.onBlur}
+          onChange={onChange}
+          onClick={props.onClick}
+          onContextMenu={props.onContextMenu}
+          onDoubleClick={props.onDoubleClick}
+          onDrag={props.onDrag}
+          onDragEnd={props.onDragEnd}
+          onDragEnter={props.onDragEnter}
+          onDragLeave={props.onDragLeave}
+          onDragOver={props.onDragOver}
+          onDragStart={props.onDragStart}
+          onDrop={props.onDrop}
+          onFocus={props.onFocus}
+          onKeyDown={props.onKeyDown}
+          onKeyPress={props.onKeyPress}
+          onKeyUp={props.onKeyUp}
+          onMouseDown={props.onMouseDown}
+          onMouseEnter={props.onMouseEnter}
+          onMouseLeave={props.onMouseLeave}
+          onMouseMove={props.onMouseMove}
+          onMouseOut={props.onMouseOut}
+          onMouseOver={props.onMouseOver}
+          onMouseUp={props.onMouseUp}
+          onSubmit={props.onSubmit}
+          readOnly={props.readOnly}
+          ref={select}
+          required={props.required}
+          tabIndex={props.tabIndex}
+          value={value}>
+          {props.children}
+        </select>
+        {validationMessage ? (
+          <div className='invalid-tooltip' aria-live='polite'>
+            {validationMessage}
           </div>
         ) : (
           ''
         )}
-        <div className='input-group'>
-          <select
-            className='form-control'
-            disabled={this.props.disabled}
-            id={this.id}
-            autoComplete={this.props.autoComplete}
-            multiple={this.props.multiple}
-            name={this.props.name}
-            onBlur={this.props.onBlur}
-            onChange={this.onChange}
-            onClick={this.props.onClick}
-            onContextMenu={this.props.onContextMenu}
-            onDoubleClick={this.props.onDoubleClick}
-            onDrag={this.props.onDrag}
-            onDragEnd={this.props.onDragEnd}
-            onDragEnter={this.props.onDragEnter}
-            onDragLeave={this.props.onDragLeave}
-            onDragOver={this.props.onDragOver}
-            onDragStart={this.props.onDragStart}
-            onDrop={this.props.onDrop}
-            onFocus={this.props.onFocus}
-            onKeyDown={this.props.onKeyDown}
-            onKeyPress={this.props.onKeyPress}
-            onKeyUp={this.props.onKeyUp}
-            onMouseDown={this.props.onMouseDown}
-            onMouseEnter={this.props.onMouseEnter}
-            onMouseLeave={this.props.onMouseLeave}
-            onMouseMove={this.props.onMouseMove}
-            onMouseOut={this.props.onMouseOut}
-            onMouseOver={this.props.onMouseOver}
-            onMouseUp={this.props.onMouseUp}
-            onSubmit={this.props.onSubmit}
-            readOnly={this.props.readOnly}
-            ref={this.select}
-            required={this.props.required}
-            tabIndex={this.props.tabIndex}
-            value={this.value}>
-            {this.props.children}
-          </select>
-          {this.validationMessage ? (
-            <div className='invalid-tooltip' aria-live='polite'>
-              {this.validationMessage}
-            </div>
-          ) : (
-            ''
-          )}
-        </div>
       </div>
-    )
-  }
-
-  componentDidMount() {
-    this.select.current.validate = this.validate
-  }
-
-  componentDidUpdate() {
-    this.dirty()
-  }
-
-  dirty() {
-    if (this.state.pristine) {
-      this.setState(state => {
-        state.pristine = false
-        return state
-      })
-    }
-  }
+    </div>
+  )
 }
 
 Select.propTypes = {

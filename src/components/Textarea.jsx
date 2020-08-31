@@ -11,61 +11,36 @@ let defaultValidator = value => {
  * @see [Bootstrap Documentation: Forms](https://getbootstrap.com/docs/4.5/components/forms/)
  * @see [MDN web docs: `<textarea>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea)
  */
-class Textarea extends React.Component {
-  constructor(props) {
-    super(props)
-    this.genid()
-    this.state = {
-      height: 'auto',
-      pristine: true,
-      showInfo: false
-    }
-    this.onChange = this.onChange.bind(this)
-    this.toggleInfo = this.toggleInfo.bind(this)
-    this.validate = this.validate.bind(this)
-    this.hiddenDiv = React.createRef()
-    this.textarea = React.createRef()
-  }
+function Textarea(props) {
+  const [elementId] = React.useState(
+    () => `preaction-textarea-${+new Date()}-${Math.random()}`
+  )
+  const [height, setHeight] = React.useState('auto')
+  const [showInfo, setShowInfo] = React.useState(false)
+  const hiddenDiv = React.useRef()
+  const textarea = React.useRef()
 
-  autoResize() {
-    if (this.hiddenDiv.current) {
-      if (this.height !== this.hiddenDiv.current.clientHeight) {
-        let height = this.hiddenDiv.current.clientHeight
-        if (!this.textarea.current.value) {
-          height = height * 3
-          if (!height) {
+  const autoResize = () => {
+    if (hiddenDiv.current) {
+      if (height !== hiddenDiv.current.clientHeight) {
+        let height = hiddenDiv.current.clientHeight
+        if (!textarea.current.value) {
+          let h = height * 3
+          if (!h) {
             // minimum
-            height = 16
+            h = 16
           }
-          if (this.state.height !== height) {
-            this.height = height
+          if (height !== h) {
+            setHeight(h)
           }
         } else {
-          this.height = height
+          setHeight(height)
         }
       }
     }
   }
 
-  genid() {
-    let now = +new Date()
-    let rand = Math.random()
-    this.id = `preaction textarea-${now}-${rand}`
-    return this.id
-  }
-
-  get height() {
-    return this.state.height
-  }
-
-  set height(value) {
-    this.setState(state => {
-      state.height = value
-      return state
-    })
-  }
-
-  get hiddenDivStyle() {
+  const getHiddenDivStyle = () => {
     return {
       height: 'auto',
       left: '-0.06em',
@@ -79,178 +54,169 @@ class Textarea extends React.Component {
     }
   }
 
-  get labelStyle() {
+  const getLabelStyle = () => {
     let style = {
       cursor: 'pointer'
     }
-    if (!this.props.label) {
+    if (!props.label) {
       style.position = 'absolute'
       style.zIndex = '10'
     }
     return style
   }
 
-  onFocus(e) {
-    if (!this.props.noAutoResize) {
-      this.autoResize()
+  const onFocus = e => {
+    if (!props.noAutoResize) {
+      autoResize()
     }
-    if (this.props.onFocus) {
-      this.props.onFocus(e)
+    if (props.onFocus) {
+      props.onFocus(e)
     }
   }
 
-  get textareaStyle() {
+  const getTextareaStyle = () => {
     let resize = 'none'
     let overflow = 'hidden'
-    if (this.props.noAutoResize) {
+    if (props.noAutoResize) {
       resize = 'vertical'
       overflow = 'auto'
     }
     return {
-      height: this.height,
+      height,
       resize,
       overflow
     }
   }
 
-  toggleInfo() {
-    this.setState(state => {
-      state.showInfo = !state.showInfo
-      return state
-    })
+  const toggleInfo = () => {
+    setShowInfo(!showInfo)
   }
 
-  get validationMessage() {
-    return this.textarea.current ? this.textarea.current.validationMessage : ''
+  const getValidationMessage = () => {
+    return textarea.current ? textarea.current.validationMessage : ''
   }
 
-  get validator() {
-    return this.props.validator || defaultValidator
+  const getValidator = () => {
+    return props.validator || defaultValidator
   }
 
-  onChange(event) {
-    this.validate(event.target.value)
-    if (this.props.onChange) {
+  const onChange = event => {
+    validate(event.target.value)
+    if (props.onChange) {
       event.persist()
-      this.props.onChange(event)
+      props.onChange(event)
     }
-    if (this.props.valueHandler) {
-      this.props.valueHandler(event.target.value)
+    if (props.valueHandler) {
+      props.valueHandler(event.target.value)
     }
   }
 
-  validate(value) {
-    let validationMessage = this.validator(value)
-    this.textarea.current.setCustomValidity(validationMessage)
-    this.textarea.current.checkValidity()
+  const validate = value => {
+    let validationMessage = getValidator()(value)
+    textarea.current.setCustomValidity(validationMessage)
+    textarea.current.checkValidity()
     return validationMessage
   }
 
-  render() {
-    return (
-      <div className='preaction textarea form-group'>
-        <label htmlFor={this.id} style={this.labelStyle}>
-          {this.props.label}
-          {this.props.info ? (
-            <button
-              type='button'
-              className='btn btn-sm btn-info ml-1 pt-0 pb-0'
-              onClick={this.toggleInfo}>
-              {this.props.infoBtnContents || (
-                <span className='font-weight-bold text-monospace'>i</span>
-              )}
-            </button>
-          ) : (
-            ''
-          )}
-        </label>
-        {this.props.info && this.state.showInfo ? (
-          <div
-            className='alert alert-info'
-            style={{ fontSize: '0.875rem', padding: '0.875rem' }}>
-            {this.props.info}
+  const validationMessage = getValidationMessage()
+
+  React.useEffect(() => {
+    textarea.current.validate = validate
+  })
+
+  React.useEffect(() => {
+    if (!props.noAutoResize) {
+      autoResize()
+    }
+  })
+
+  return (
+    <div className='preaction textarea form-group'>
+      <label htmlFor={elementId} style={getLabelStyle()}>
+        {props.label}
+        {props.info ? (
+          <button
+            type='button'
+            className='btn btn-sm btn-info ml-1 pt-0 pb-0'
+            onClick={toggleInfo}>
+            {props.infoBtnContents || (
+              <span className='font-weight-bold text-monospace'>i</span>
+            )}
+          </button>
+        ) : (
+          ''
+        )}
+      </label>
+      {props.info && showInfo ? (
+        <div
+          className='alert alert-info'
+          style={{ fontSize: '0.875rem', padding: '0.875rem' }}>
+          {props.info}
+        </div>
+      ) : (
+        ''
+      )}
+      <div className='input-group'>
+        <div
+          className='form-control'
+          ref={hiddenDiv}
+          style={getHiddenDivStyle()}>
+          {props.value}
+        </div>
+        <textarea
+          id={elementId}
+          name={props.name}
+          className='form-control'
+          autoComplete={props.autoComplete}
+          required={props.required}
+          readOnly={props.readOnly}
+          disabled={props.disabled}
+          value={props.value}
+          maxLength={props.maxLength}
+          minLength={props.minLength}
+          tabIndex={props.tabIndex}
+          onBlur={props.onBlur}
+          onChange={onChange}
+          onClick={props.onClick}
+          onContextMenu={props.onContextMenu}
+          onDoubleClick={props.onDoubleClick}
+          onDrag={props.onDrag}
+          onDragEnd={props.onDragEnd}
+          onDragEnter={props.onDragEnter}
+          onDragLeave={props.onDragLeave}
+          onDragOver={props.onDragOver}
+          onDragStart={props.onDragStart}
+          onDrop={props.onDrop}
+          onFocus={onFocus}
+          onInput={props.onInput}
+          onKeyDown={props.onKeyDown}
+          onKeyPress={props.onKeyPress}
+          onKeyUp={props.onKeyUp}
+          onMouseDown={props.onMouseDown}
+          onMouseEnter={props.onMouseEnter}
+          onMouseLeave={props.onMouseLeave}
+          onMouseMove={props.onMouseMove}
+          onMouseOut={props.onMouseOut}
+          onMouseOver={props.onMouseOver}
+          onMouseUp={props.onMouseUp}
+          onSelect={props.onSelect}
+          onSubmit={props.onSubmit}
+          placeholder={props.placeholder}
+          spellCheck={props.spellCheck}
+          style={getTextareaStyle()}
+          wrap={props.wrap}
+          ref={textarea}
+        />
+        {validationMessage ? (
+          <div className='invalid-tooltip' aria-live='polite'>
+            {validationMessage}
           </div>
         ) : (
           ''
         )}
-        <div className='input-group'>
-          <div
-            className='form-control'
-            ref={this.hiddenDiv}
-            style={this.hiddenDivStyle}>
-            {this.props.value}
-          </div>
-          <textarea
-            id={this.id}
-            name={this.props.name}
-            className='form-control'
-            autoComplete={this.props.autoComplete}
-            required={this.props.required}
-            readOnly={this.props.readOnly}
-            disabled={this.props.disabled}
-            value={this.props.value}
-            maxLength={this.props.maxLength}
-            minLength={this.props.minLength}
-            tabIndex={this.props.tabIndex}
-            onBlur={this.props.onBlur}
-            onChange={this.onChange}
-            onClick={this.props.onClick}
-            onContextMenu={this.props.onContextMenu}
-            onDoubleClick={this.props.onDoubleClick}
-            onDrag={this.props.onDrag}
-            onDragEnd={this.props.onDragEnd}
-            onDragEnter={this.props.onDragEnter}
-            onDragLeave={this.props.onDragLeave}
-            onDragOver={this.props.onDragOver}
-            onDragStart={this.props.onDragStart}
-            onDrop={this.props.onDrop}
-            onFocus={this.onFocus.bind(this)}
-            onInput={this.props.onInput}
-            onKeyDown={this.props.onKeyDown}
-            onKeyPress={this.props.onKeyPress}
-            onKeyUp={this.props.onKeyUp}
-            onMouseDown={this.props.onMouseDown}
-            onMouseEnter={this.props.onMouseEnter}
-            onMouseLeave={this.props.onMouseLeave}
-            onMouseMove={this.props.onMouseMove}
-            onMouseOut={this.props.onMouseOut}
-            onMouseOver={this.props.onMouseOver}
-            onMouseUp={this.props.onMouseUp}
-            onSelect={this.props.onSelect}
-            onSubmit={this.props.onSubmit}
-            placeholder={this.props.placeholder}
-            spellCheck={this.props.spellCheck}
-            style={this.textareaStyle}
-            wrap={this.props.wrap}
-            ref={this.textarea}
-          />
-          {this.validationMessage ? (
-            <div className='invalid-tooltip' aria-live='polite'>
-              {this.validationMessage}
-            </div>
-          ) : (
-            ''
-          )}
-        </div>
       </div>
-    )
-  }
-
-  componentDidMount() {
-    this.textarea.current.validate = this.validate
-  }
-
-  componentDidUpdate() {
-    if (this.state.pristine) {
-      this.setState(state => {
-        state.pristine = false
-        return state
-      })
-    }
-    if (!this.props.noAutoResize) {
-      this.autoResize()
-    }
-  }
+    </div>
+  )
 }
 
 Textarea.propTypes = {

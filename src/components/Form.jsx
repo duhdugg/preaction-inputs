@@ -6,36 +6,25 @@ import React from 'react'
  * @see [Bootstrap Documentation: Forms](https://getbootstrap.com/docs/4.5/components/forms/)
  * @see [MDN web docs: `<form>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form)
  */
-class Form extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      formWasValidated: false
-    }
-    this.onSubmit = this.onSubmit.bind(this)
-    this.onReset = this.onReset.bind(this)
-  }
-
-  get className() {
+function Form(props) {
+  const [formWasValidated, setFormWasValidated] = React.useState(false)
+  const getClassName = () => {
     let retval = 'preaction form'
-    if (this.state.formWasValidated) {
+    if (formWasValidated) {
       retval += ' was-validated'
     }
     return retval
   }
 
-  onReset(event) {
-    this.setState(state => {
-      state.formWasValidated = false
-      return state
-    })
-    if (this.props.onReset) {
+  const onReset = event => {
+    setFormWasValidated(false)
+    if (props.onReset) {
       event.persist()
-      this.props.onReset(event)
+      props.onReset(event)
     }
   }
 
-  onSubmit(event) {
+  const onSubmit = event => {
     let inputElements = Array.from(event.target.getElementsByTagName('input'))
     inputElements.forEach(input => {
       if (input.validate) {
@@ -71,34 +60,29 @@ class Form extends React.Component {
       }
     })
     event.target.checkValidity()
-    this.setState(state => {
-      state.formWasValidated = true
-      return state
-    })
-    if (this.props.onSubmit) {
+    setFormWasValidated(true)
+    if (props.onSubmit) {
       event.persist()
-      this.props.onSubmit(event)
+      props.onSubmit(event)
     }
   }
 
-  render() {
-    return (
-      <form
-        acceptCharset={this.props.acceptCharset}
-        action={this.props.action}
-        autoComplete={this.props.autoComplete}
-        className={this.className}
-        encType={this.props.encType}
-        method={this.props.method}
-        name={this.props.name}
-        noValidate={this.props.noValidate}
-        onReset={this.onReset}
-        onSubmit={this.onSubmit}
-        target={this.props.target}>
-        {this.props.children}
-      </form>
-    )
-  }
+  return (
+    <form
+      acceptCharset={props.acceptCharset}
+      action={props.action}
+      autoComplete={props.autoComplete}
+      className={getClassName()}
+      encType={props.encType}
+      method={props.method}
+      name={props.name}
+      noValidate={props.noValidate}
+      onReset={onReset}
+      onSubmit={onSubmit}
+      target={props.target}>
+      {props.children}
+    </form>
+  )
 }
 
 Form.propTypes = {

@@ -11,133 +11,108 @@ let defaultValidator = value => {
  * @see [Bootstrap Documentation: Forms](https://getbootstrap.com/docs/4.5/components/forms/)
  * @see [MDN web docs: `<input type="checkbox">`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox)
  */
-class Checkbox extends React.Component {
-  constructor(props) {
-    super(props)
-    this.genid()
-    this.state = { pristine: true }
-    this.onChange = this.onChange.bind(this)
-    this.validate = this.validate.bind(this)
-    this.element = React.createRef()
-    this.input = React.createRef()
+function Checkbox(props) {
+  const [elementId] = React.useState(
+    () => `preaction-checkbox-${+new Date()}-${Math.random()}`
+  )
+  const element = React.useRef()
+  const input = React.useRef()
+
+  const labelStyle = {
+    cursor: 'pointer'
   }
 
-  genid() {
-    let now = +new Date()
-    let rand = Math.random()
-    this.id = `preaction-checkbox-${now}-${rand}`
-    return this.id
+  const inputStyle = {
+    cursor: 'pointer'
   }
 
-  get labelStyle() {
-    return {
-      cursor: 'pointer'
-    }
+  const getValidationMessage = () => {
+    return input.current ? input.current.validationMessage : ''
   }
 
-  get inputStyle() {
-    return {
-      cursor: 'pointer'
-    }
-  }
+  const getValidator = React.useCallback(() => {
+    return props.validator || defaultValidator
+  }, [props])
 
-  get validationMessage() {
-    return this.input.current ? this.input.current.validationMessage : ''
-  }
-
-  get validator() {
-    return this.props.validator || defaultValidator
-  }
-
-  onChange(event) {
-    this.validate(event.target.checked)
-    if (this.props.onChange) {
+  const onChange = event => {
+    validate(event.target.checked)
+    if (props.onChange) {
       event.persist()
-      this.props.onChange(event)
+      props.onChange(event)
     }
-    if (this.props.valueHandler) {
-      this.props.valueHandler(event.target.checked)
+    if (props.valueHandler) {
+      props.valueHandler(event.target.checked)
     }
   }
 
-  validate(value) {
-    let validationMessage = this.validator(value)
-    this.input.current.setCustomValidity(validationMessage)
-    this.input.current.checkValidity()
-    return validationMessage
-  }
+  const validate = React.useCallback(
+    value => {
+      let validationMessage = getValidator()(value)
+      input.current.setCustomValidity(validationMessage)
+      input.current.checkValidity()
+      return validationMessage
+    },
+    [getValidator, input]
+  )
 
-  render() {
-    return (
-      <div className='preaction checkbox form-group' ref={this.element}>
-        <div className='form-check'>
-          <input
-            checked={this.props.checked}
-            className='form-check-input'
-            disabled={this.props.disabled}
-            id={this.id}
-            name={this.props.name}
-            onBlur={this.props.onBlur}
-            onChange={this.onChange}
-            onClick={this.props.onClick}
-            onContextMenu={this.props.onContextMenu}
-            onDoubleClick={this.props.onDoubleClick}
-            onDrag={this.props.onDrag}
-            onDragEnd={this.props.onDragEnd}
-            onDragEnter={this.props.onDragEnter}
-            onDragLeave={this.props.onDragLeave}
-            onDragOver={this.props.onDragOver}
-            onDragStart={this.props.onDragStart}
-            onDrop={this.props.onDrop}
-            onFocus={this.props.onFocus}
-            onInput={this.props.onInput}
-            onKeyDown={this.props.onKeyDown}
-            onKeyPress={this.props.onKeyPress}
-            onKeyUp={this.props.onKeyUp}
-            onMouseDown={this.props.onMouseDown}
-            onMouseEnter={this.props.onMouseEnter}
-            onMouseLeave={this.props.onMouseLeave}
-            onMouseMove={this.props.onMouseMove}
-            onMouseOut={this.props.onMouseOut}
-            onMouseOver={this.props.onMouseOver}
-            onMouseUp={this.props.onMouseUp}
-            onSubmit={this.props.onSubmit}
-            ref={this.input}
-            required={this.props.required}
-            style={this.inputStyle}
-            tabIndex={this.props.tabIndex}
-            type='checkbox'
-          />
-          <label
-            className='form-check-label'
-            htmlFor={this.id}
-            style={this.labelStyle}>
-            {this.props.label}
-          </label>
-          {this.validationMessage ? (
-            <div className='invalid-tooltip' aria-live='polite'>
-              {this.validationMessage}
-            </div>
-          ) : (
-            ''
-          )}
-        </div>
+  const validationMessage = getValidationMessage()
+
+  return (
+    <div className='preaction checkbox form-group' ref={element}>
+      <div className='form-check'>
+        <input
+          checked={props.checked}
+          className='form-check-input'
+          disabled={props.disabled}
+          id={elementId}
+          name={props.name}
+          onBlur={props.onBlur}
+          onChange={onChange}
+          onClick={props.onClick}
+          onContextMenu={props.onContextMenu}
+          onDoubleClick={props.onDoubleClick}
+          onDrag={props.onDrag}
+          onDragEnd={props.onDragEnd}
+          onDragEnter={props.onDragEnter}
+          onDragLeave={props.onDragLeave}
+          onDragOver={props.onDragOver}
+          onDragStart={props.onDragStart}
+          onDrop={props.onDrop}
+          onFocus={props.onFocus}
+          onInput={props.onInput}
+          onKeyDown={props.onKeyDown}
+          onKeyPress={props.onKeyPress}
+          onKeyUp={props.onKeyUp}
+          onMouseDown={props.onMouseDown}
+          onMouseEnter={props.onMouseEnter}
+          onMouseLeave={props.onMouseLeave}
+          onMouseMove={props.onMouseMove}
+          onMouseOut={props.onMouseOut}
+          onMouseOver={props.onMouseOver}
+          onMouseUp={props.onMouseUp}
+          onSubmit={props.onSubmit}
+          ref={input}
+          required={props.required}
+          style={inputStyle}
+          tabIndex={props.tabIndex}
+          type='checkbox'
+        />
+        <label
+          className='form-check-label'
+          htmlFor={elementId}
+          style={labelStyle}>
+          {props.label}
+        </label>
+        {validationMessage ? (
+          <div className='invalid-tooltip' aria-live='polite'>
+            {validationMessage}
+          </div>
+        ) : (
+          ''
+        )}
       </div>
-    )
-  }
-
-  componentDidMount() {
-    this.element.current.validate = this.validate
-  }
-
-  componentDidUpdate() {
-    if (this.state.pristine) {
-      this.setState(state => {
-        state.pristine = false
-        return state
-      })
-    }
-  }
+    </div>
+  )
 }
 
 Checkbox.propTypes = {
