@@ -1,4 +1,3 @@
-/* global test, expect */
 import React from 'react'
 import '@testing-library/jest-dom'
 import { render, waitFor, fireEvent } from '@testing-library/react'
