@@ -1,18 +1,16 @@
 {
   "files": {
-    "main.js": "/build/main.bfc24e12.js",
-    "runtime-main.js": "/build/bundle.2be6c3fa.js",
-    "build/2.b93e8656.js": "/build/2.b93e8656.js",
-    "build/3.d6d22333.js": "/build/3.d6d22333.js",
-    "build/2.b93e8656.js.LICENSE.txt": "/build/2.b93e8656.js.LICENSE.txt",
-    "build/3.d6d22333.js.LICENSE.txt": "/build/3.d6d22333.js.LICENSE.txt",
-    "index.html": "/index.html",
-    "precache-manifest.6b3b94308e1f548835df108a2c433318.js": "/precache-manifest.6b3b94308e1f548835df108a2c433318.js",
-    "service-worker.js": "/service-worker.js"
+    "main.js": "/build/main.7c1fc650.js",
+    "runtime-main.js": "/build/bundle.bf9186be.js",
+    "build/2.2005f8c5.js": "/build/2.2005f8c5.js",
+    "build/3.202b7be6.js": "/build/3.202b7be6.js",
+    "build/2.2005f8c5.js.LICENSE.txt": "/build/2.2005f8c5.js.LICENSE.txt",
+    "build/3.202b7be6.js.LICENSE.txt": "/build/3.202b7be6.js.LICENSE.txt",
+    "index.html": "/index.html"
   },
   "entrypoints": [
-    "build/bundle.2be6c3fa.js",
-    "build/2.b93e8656.js",
-    "build/main.bfc24e12.js"
+    "build/bundle.bf9186be.js",
+    "build/2.2005f8c5.js",
+    "build/main.7c1fc650.js"
   ]
 }
