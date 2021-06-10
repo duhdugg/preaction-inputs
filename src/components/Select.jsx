@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 
+const validatorMessageTypes = ['feedback', 'tooltip']
+
 /**
  * All the elements you need to render a `<select>` in bootstrap
  * @see [Bootstrap Documentation: Forms](https://getbootstrap.com/docs/5.0/forms/overview/)
@@ -84,7 +86,8 @@ function Select(props) {
       className={[
         'pxn-input',
         'pxn-input-select',
-        props.labelFloat ? 'form-floating' : ''
+        props.labelFloat ? 'form-floating' : '',
+        props.validatorMessageType === 'tooltip' ? 'position-relative' : ''
       ]
         .filter(x => !!x.length)
         .join(' ')}>
@@ -160,7 +163,13 @@ function Select(props) {
         {props.children}
       </select>
       {validationMessage ? (
-        <div className='invalid-tooltip' aria-live='polite'>
+        <div
+          className={`invalid-${
+            validatorMessageTypes.includes(props.validatorMessageType)
+              ? props.validatorMessageType
+              : 'feedback'
+          }`}
+          aria-live='polite'>
           {validationMessage}
         </div>
       ) : (
@@ -228,6 +237,7 @@ Select.propTypes = {
   tabIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   /** function which accepts a value and returns an error message or empty string. See the NPM package [@preaction/validation](https://www.npmjs.com/package/@preaction/validation) */
   validator: PropTypes.func,
+  validatorMessageType: PropTypes.oneOf(validatorMessageTypes),
   /** use an array when `multiple` is `true` */
   value: PropTypes.oneOfType([
     PropTypes.string,
@@ -236,6 +246,10 @@ Select.propTypes = {
   ]),
   /** callback which accepts a value. Use this to set state. It is triggered by the default `onChange` handler. */
   valueHandler: PropTypes.func
+}
+
+Select.defaultProps = {
+  validatorMessageType: 'feedback'
 }
 
 export { Select }
