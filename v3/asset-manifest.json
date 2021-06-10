@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.js": "/build/main.da74bd6e.js",
+    "runtime-main.js": "/build/bundle.9cd35846.js",
+    "build/2.5d547d55.js": "/build/2.5d547d55.js",
+    "build/3.86b7c72a.js": "/build/3.86b7c72a.js",
+    "build/2.5d547d55.js.LICENSE.txt": "/build/2.5d547d55.js.LICENSE.txt",
+    "build/3.86b7c72a.js.LICENSE.txt": "/build/3.86b7c72a.js.LICENSE.txt",
+    "index.html": "/index.html"
+  },
+  "entrypoints": [
+    "build/bundle.9cd35846.js",
+    "build/2.5d547d55.js",
+    "build/main.da74bd6e.js"
+  ]
+}
