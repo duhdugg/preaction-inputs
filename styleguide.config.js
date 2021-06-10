@@ -1,6 +1,9 @@
 const path = require('path')
+const pkg = require('./package.json')
 module.exports = {
   require: [path.resolve(__dirname, 'styleguide.imports.js')],
+  styleguideDir: 'styleguide/v3',
+  version: pkg.version,
   sections: [
     { name: 'Introduction', content: 'docs/introduction.md' },
     { name: 'Getting Started', content: 'docs/getting-started.md' },
