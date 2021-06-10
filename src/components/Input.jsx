@@ -1,83 +1,74 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 
-let defaultValidator = value => {
-  return ''
-}
+const validatorMessageTypes = ['feedback', 'tooltip']
 
 /**
  * All the elements you need to render an `<input>` in bootstrap
- * @see [Bootstrap Documentation: Input group](https://getbootstrap.com/docs/4.5/components/input-group/)
- * @see [Bootstrap Documentation: Forms](https://getbootstrap.com/docs/4.5/components/forms/)
+ * @see [Bootstrap Documentation: Forms](https://getbootstrap.com/docs/5.0/forms/overview/)
  * @see [MDN web docs: `<input>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)
  */
 function Input(props) {
   const [elementId] = React.useState(
-    () => `preaction-input-${+new Date()}-${Math.random()}`
+    () => `pxn-input-${+new Date()}-${Math.random()}`
   )
   const [showInfo, setShowInfo] = React.useState(false)
-  const input = React.useRef()
+  const inputRef = React.useRef()
 
-  const getAutoComplete = () => {
-    let retval = props.autoComplete
-    if (!retval) {
-      if (['email', 'tel', 'url'].includes(props.type)) {
-        retval = props.type
-      } else {
-        retval = 'on'
-      }
-    }
-    return retval
-  }
-
-  const getInputMode = () => {
-    let retval = 'text'
-    if (props.inputMode) {
-      retval = props.inputMode
+  let autoComplete = props.autoComplete
+  if (!autoComplete) {
+    if (['email', 'tel', 'url'].includes(props.type)) {
+      autoComplete = props.type
     } else {
-      switch (props.type) {
-        case 'email':
-          retval = 'email'
-          break
-        case 'number':
-          retval = 'numeric'
-          break
-        case 'tel':
-          retval = 'tel'
-          break
-        case 'url':
-          retval = 'url'
-          break
-        default:
-          retval = 'text'
-          break
-      }
+      autoComplete = 'on'
     }
-    return retval
   }
 
-  const getLabelStyle = () => {
-    let style = {
-      cursor: 'pointer'
+  const inputClass = props.type === 'range' ? 'form-range' : 'form-control'
+
+  let inputMode = 'text'
+  if (props.inputMode) {
+    inputMode = props.inputMode
+  } else {
+    switch (props.type) {
+      case 'email':
+        inputMode = 'email'
+        break
+      case 'number':
+        inputMode = 'numeric'
+        break
+      case 'tel':
+        inputMode = 'tel'
+        break
+      case 'url':
+        inputMode = 'url'
+        break
+      default:
+        inputMode = 'text'
+        break
     }
-    if (!props.label) {
-      style.position = 'absolute'
-      style.zIndex = '10'
-    }
-    return style
   }
+
+  const labelStyle = {
+    cursor: 'pointer',
+    position: props.label ? undefined : 'absolute',
+    zIndex: props.label ? undefined : '10'
+  }
+
+  const placeholder = props.placeholder || (props.labelFloat ? props.label : '')
 
   const toggleInfo = () => {
     setShowInfo(!showInfo)
   }
 
-  const getValidationMessage = () => {
-    return input.current ? input.current.validationMessage : ''
+  const defaultValidator = value => {
+    let errorMessage = ''
+    if (props.required && !value) {
+      errorMessage = 'Please fill out this field.'
+    }
+    return errorMessage
   }
-
-  const getValidator = () => {
-    return props.validator || defaultValidator
-  }
+  const validator = props.validator || defaultValidator
 
   const onChange = event => {
     validate(event.target.value)
@@ -91,35 +82,54 @@ function Input(props) {
   }
 
   const validate = value => {
-    let validationMessage = getValidator()(value)
-    input.current.setCustomValidity(validationMessage)
-    input.current.checkValidity()
+    let validationMessage = validator(value)
+    inputRef.current.setCustomValidity(validationMessage)
+    inputRef.current.checkValidity()
     return validationMessage
   }
 
   React.useEffect(() => {
-    input.current.validate = validate
+    inputRef.current.validate = validate
   })
 
-  const validationMessage = getValidationMessage()
+  const validationMessage = inputRef.current
+    ? inputRef.current.validationMessage || validator(inputRef.current.value)
+    : validator(props.value)
 
   return (
-    <div className='preaction input form-group'>
-      <label htmlFor={elementId} style={getLabelStyle()}>
-        {props.label}
-        {props.info ? (
-          <button
-            type='button'
-            className='btn btn-sm btn-info ml-1 pt-0 pb-0'
-            onClick={toggleInfo}>
-            {props.infoBtnContents || (
-              <span className='font-weight-bold text-monospace'>i</span>
-            )}
-          </button>
-        ) : (
-          ''
-        )}
-      </label>
+    <div
+      className={[
+        'pxn-input',
+        'pxn-input-input',
+        props.labelFloat ? 'form-floating' : '',
+        props.validatorMessageType === 'tooltip' ? 'position-relative' : ''
+      ]
+        .filter(x => !!x.length)
+        .join(' ')}>
+      {props.labelFloat ? (
+        ''
+      ) : (
+        <label htmlFor={elementId} style={labelStyle} className='form-label'>
+          {props.label}{' '}
+          {props.label && props.required && !props.noAsterisk ? (
+            <span className='text-danger fw-bold'>*</span>
+          ) : (
+            ''
+          )}
+          {props.info ? (
+            <button
+              type='button'
+              className='btn btn-sm btn-info ml-1 pt-0 pb-0'
+              onClick={toggleInfo}>
+              {props.infoBtnContents || (
+                <span className='font-weight-bold text-monospace'>i</span>
+              )}
+            </button>
+          ) : (
+            ''
+          )}
+        </label>
+      )}
       {props.info && showInfo ? (
         <div
           className='alert alert-info'
@@ -129,64 +139,80 @@ function Input(props) {
       ) : (
         ''
       )}
-      <div className='input-group'>
-        <input
-          autoComplete={getAutoComplete()}
-          className='form-control'
-          disabled={props.disabled}
-          id={elementId}
-          inputMode={getInputMode()}
-          max={props.max}
-          maxLength={props.maxLength}
-          min={props.min}
-          minLength={props.minLength}
-          multiple={props.multiple}
-          name={props.name}
-          onBlur={props.onBlur}
-          onChange={onChange}
-          onClick={props.onClick}
-          onContextMenu={props.onContextMenu}
-          onDoubleClick={props.onDoubleClick}
-          onDrag={props.onDrag}
-          onDragEnd={props.onDragEnd}
-          onDragEnter={props.onDragEnter}
-          onDragLeave={props.onDragLeave}
-          onDragOver={props.onDragOver}
-          onDragStart={props.onDragStart}
-          onDrop={props.onDrop}
-          onFocus={props.onFocus}
-          onInput={props.onInput}
-          onKeyDown={props.onKeyDown}
-          onKeyPress={props.onKeyPress}
-          onKeyUp={props.onKeyUp}
-          onMouseDown={props.onMouseDown}
-          onMouseEnter={props.onMouseEnter}
-          onMouseLeave={props.onMouseLeave}
-          onMouseMove={props.onMouseMove}
-          onMouseOut={props.onMouseOut}
-          onMouseOver={props.onMouseOver}
-          onMouseUp={props.onMouseUp}
-          onSelect={props.onSelect}
-          onSubmit={props.onSubmit}
-          pattern={props.pattern}
-          placeholder={props.placeholder}
-          readOnly={props.readOnly}
-          ref={input}
-          required={props.required}
-          spellCheck={props.spellCheck}
-          step={props.step}
-          tabIndex={props.tabIndex}
-          type={props.type}
-          value={props.value}
-        />
-        {validationMessage ? (
-          <div className='invalid-tooltip' aria-live='polite'>
-            {validationMessage}
-          </div>
-        ) : (
-          ''
-        )}
-      </div>
+      <input
+        autoComplete={autoComplete}
+        className={inputClass}
+        disabled={props.disabled}
+        id={elementId}
+        inputMode={inputMode}
+        max={props.max}
+        maxLength={props.maxLength}
+        min={props.min}
+        minLength={props.minLength}
+        multiple={props.multiple}
+        name={props.name}
+        onBlur={props.onBlur}
+        onChange={onChange}
+        onClick={props.onClick}
+        onContextMenu={props.onContextMenu}
+        onDoubleClick={props.onDoubleClick}
+        onDrag={props.onDrag}
+        onDragEnd={props.onDragEnd}
+        onDragEnter={props.onDragEnter}
+        onDragLeave={props.onDragLeave}
+        onDragOver={props.onDragOver}
+        onDragStart={props.onDragStart}
+        onDrop={props.onDrop}
+        onFocus={props.onFocus}
+        onInput={props.onInput}
+        onKeyDown={props.onKeyDown}
+        onKeyPress={props.onKeyPress}
+        onKeyUp={props.onKeyUp}
+        onMouseDown={props.onMouseDown}
+        onMouseEnter={props.onMouseEnter}
+        onMouseLeave={props.onMouseLeave}
+        onMouseMove={props.onMouseMove}
+        onMouseOut={props.onMouseOut}
+        onMouseOver={props.onMouseOver}
+        onMouseUp={props.onMouseUp}
+        onSelect={props.onSelect}
+        onSubmit={props.onSubmit}
+        pattern={props.pattern}
+        placeholder={placeholder}
+        readOnly={props.readOnly}
+        ref={inputRef}
+        required={props.required}
+        spellCheck={props.spellCheck}
+        step={props.step}
+        tabIndex={props.tabIndex}
+        type={props.type}
+        value={props.value}
+      />
+      {validationMessage ? (
+        <div
+          className={`invalid-${
+            validatorMessageTypes.includes(props.validatorMessageType)
+              ? props.validatorMessageType
+              : 'feedback'
+          }`}
+          aria-live='polite'>
+          {validationMessage}
+        </div>
+      ) : (
+        ''
+      )}
+      {props.labelFloat ? (
+        <label htmlFor={elementId} style={labelStyle} className='form-label'>
+          {props.label}{' '}
+          {props.label && props.required && !props.noAsterisk ? (
+            <span className='text-danger fw-bold'>*</span>
+          ) : (
+            ''
+          )}
+        </label>
+      ) : (
+        ''
+      )}
     </div>
   )
 }
@@ -209,12 +235,16 @@ Input.propTypes = {
   inputMode: PropTypes.string,
   /** value will be rendered inside `<label>` element. https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label */
   label: PropTypes.node,
+  /** use floating label https://getbootstrap.com/docs/5.0/forms/floating-labels/ */
+  labelFloat: PropTypes.bool,
   max: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   maxLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   min: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   minLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   multiple: PropTypes.bool,
   name: PropTypes.string,
+  /** prevent the asterisk from appearing in the label when `required` is true */
+  noAsterisk: PropTypes.bool,
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
   onClick: PropTypes.func,
@@ -251,13 +281,15 @@ Input.propTypes = {
   type: PropTypes.string,
   /** function which accepts a value and returns an error message or empty string. See the NPM package [@preaction/validation](https://www.npmjs.com/package/@preaction/validation) */
   validator: PropTypes.func,
+  validatorMessageType: PropTypes.oneOf(validatorMessageTypes),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   /** callback which accepts a value. Use this to set state. It is triggered by the default `onChange` handler. */
   valueHandler: PropTypes.func
 }
 
 Input.defaultProps = {
-  type: 'text'
+  type: 'text',
+  validatorMessageType: 'feedback'
 }
 
 export { Input }

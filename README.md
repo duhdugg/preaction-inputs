@@ -1,6 +1,6 @@
 # Preaction Inputs
 
-This is a Bootstrap v4 compatible library of React components intended to provide a consistent and responsive experience for basic user input needs.
+This is a Bootstrap v5 compatible library of React components intended to provide a consistent and responsive experience for basic user input needs.
 
 Components provided by this library include:
 

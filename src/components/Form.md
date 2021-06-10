@@ -8,7 +8,7 @@ const [name, setName] = React.useState('')
     alert('Form submitted')
   }}>
   <Input value={name} valueHandler={setName} placeholder='Name' required />
-  <button type='submit' className='btn btn-primary'>
+  <button type='submit' className='mt-3 btn btn-primary'>
     Submit
   </button>
 </Form>

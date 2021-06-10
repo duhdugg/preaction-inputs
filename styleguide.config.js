@@ -11,15 +11,15 @@ module.exports = {
       links: [
         {
           rel: 'stylesheet',
-          href: 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css'
+          href: 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css'
         },
         {
           rel: 'stylesheet',
-          href: 'https://unpkg.com/react-quill@1.3.3/dist/quill.snow.css'
+          href: 'https://cdn.jsdelivr.net/npm/react-quill@1.3.5/dist/quill.snow.css'
         },
         {
           rel: 'stylesheet',
-          href: 'https://unpkg.com/react-quill@1.3.3/dist/quill.bubble.css'
+          href: 'https://cdn.jsdelivr.net/npm/react-quill@1.3.5/dist/quill.bubble.css'
         }
       ]
     }

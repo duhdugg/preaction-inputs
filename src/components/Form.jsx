@@ -8,13 +8,9 @@ import React from 'react'
  */
 function Form(props) {
   const [formWasValidated, setFormWasValidated] = React.useState(false)
-  const getClassName = () => {
-    let retval = 'preaction form'
-    if (formWasValidated) {
-      retval += ' was-validated'
-    }
-    return retval
-  }
+  const className = ['pxn-input-form', formWasValidated ? 'was-validated' : '']
+    .filter(x => !!x.length)
+    .join(' ')
 
   const onReset = event => {
     setFormWasValidated(false)
@@ -72,7 +68,7 @@ function Form(props) {
       acceptCharset={props.acceptCharset}
       action={props.action}
       autoComplete={props.autoComplete}
-      className={getClassName()}
+      className={className}
       encType={props.encType}
       method={props.method}
       name={props.name}
@@ -93,6 +89,7 @@ Form.propTypes = {
   encType: PropTypes.string,
   method: PropTypes.string,
   name: PropTypes.string,
+  /** skip the browser-default form validation behavior */
   noValidate: PropTypes.bool,
   onReset: PropTypes.func,
   onSubmit: PropTypes.func,

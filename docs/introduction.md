@@ -1,4 +1,4 @@
-Preaction Inputs is a Bootstrap v4 compatible library of React components intended to provide a consistent and responsive experience for basic user input needs.
+Preaction Inputs is a Bootstrap v5 compatible library of React components intended to provide a consistent and responsive experience for basic user input needs.
 
 ### More Info
 
