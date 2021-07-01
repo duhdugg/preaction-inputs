@@ -187,7 +187,7 @@ class Wysiwyg extends React.Component {
 
   render() {
     return (
-      <div className='pxn-input pxn-input-wysiwyg mb-3'>
+      <div className='pxn-input pxn-input-wysiwyg'>
         <label
           htmlFor={this.id}
           style={this.labelStyle}
