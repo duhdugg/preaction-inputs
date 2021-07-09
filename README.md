@@ -22,12 +22,12 @@ The full documentation can be found in the [styleguide](https://duhdugg.github.i
 ### Usage
 
 ```jsx
-// imports must be named, as this alllows shaking unused components from your bundle
-import { Form, Input } from '@preaction/inputs'
-
 // bootstrap as a peerDependency means you need to import bootstrap CSS yourself.
 // This gives you the flexibility to choose a different build or theme, if you wish.
 import 'bootstrap/dist/css/bootstrap.min.css'
+
+// imports must be named, as this alllows shaking unused components from your bundle
+import { Form, Input } from '@preaction/inputs'
 
 function App() {
   const [name, setName] = React.useState('')
