@@ -17,7 +17,7 @@ The full documentation can be found in the [styleguide](https://duhdugg.github.i
 
 ### Installation
 
-`npm install --save-dev @preaction/inputs@5.0.0-alpha.4`
+`npm install --save-dev @preaction/inputs@latest`
 
 ### Usage
 
