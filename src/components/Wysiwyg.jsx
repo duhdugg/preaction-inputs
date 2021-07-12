@@ -69,7 +69,7 @@ class Wysiwyg extends React.Component {
   genid() {
     let now = +new Date()
     let rand = Math.random()
-    this.id = `preaction-wysiwyg-${now}-${rand}`
+    this.id = `pxn-wysiwyg-${now}-${rand}`
     return this.id
   }
 
@@ -187,8 +187,12 @@ class Wysiwyg extends React.Component {
 
   render() {
     return (
-      <div className='preaction wysiwyg mb-3'>
-        <label htmlFor={this.id} style={this.labelStyle} onClick={this.focus}>
+      <div className='pxn-input pxn-input-wysiwyg'>
+        <label
+          htmlFor={this.id}
+          style={this.labelStyle}
+          onClick={this.focus}
+          className='form-label'>
           {this.props.label}
           {this.props.info ? (
             <button
@@ -222,7 +226,7 @@ class Wysiwyg extends React.Component {
               </div>
             </div>
           ) : (
-            <div className='input-group'>
+            <div>
               <span className='badge badge-danger'>
                 Error: could not load Wysiwyg component. Try refreshing the
                 page.

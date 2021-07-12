@@ -23,15 +23,22 @@
 ### Wysiwyg Examples
 
 ```jsx
-const [bio, setBio] = React.useState('')
+const [value, valueHandler] = React.useState(
+  '<p><strong><em>Howdy</em></strong><em>, strangers!</em></p>'
+)
 ;<div>
-  <Wysiwyg label='Wysiwyg (top toolbar)' value={bio} valueHandler={setBio} />
+  <Wysiwyg
+    label='Wysiwyg (top toolbar)'
+    value={value}
+    valueHandler={valueHandler}
+  />
   <Wysiwyg
     label='Wysiwyg (hidden toolbar)'
     info='try typing some text, and then selecting it to get the toolbar to appear'
-    value={bio}
-    valueHandler={setBio}
+    value={value}
+    valueHandler={valueHandler}
     theme='bubble'
   />
+  <Textarea label='HTML' value={value} readOnly />
 </div>
 ```

@@ -1,19 +1,20 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 
+const validatorMessageTypes = ['feedback', 'tooltip']
+
 let defaultValidator = value => {
   return ''
 }
 
 /**
  * All the elements you need to render a `<textarea>` in bootstrap. By default, it will automatically resize as you type.
- * @see [Bootstrap Documentation: Input group](https://getbootstrap.com/docs/4.5/components/input-group/)
- * @see [Bootstrap Documentation: Forms](https://getbootstrap.com/docs/4.5/components/forms/)
+ * @see [Bootstrap Documentation: Forms](https://getbootstrap.com/docs/5.0/forms/overview/)
  * @see [MDN web docs: `<textarea>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea)
  */
 function Textarea(props) {
   const [elementId] = React.useState(
-    () => `preaction-textarea-${+new Date()}-${Math.random()}`
+    () => `pxn-textarea-${+new Date()}-${Math.random()}`
   )
   const [height, setHeight] = React.useState('auto')
   const [showInfo, setShowInfo] = React.useState(false)
@@ -40,29 +41,23 @@ function Textarea(props) {
     }
   }
 
-  const getHiddenDivStyle = () => {
-    return {
-      height: 'auto',
-      left: '-0.06em',
-      overflowWrap: 'break-word',
-      position: 'absolute',
-      top: '0',
-      visibility: 'hidden',
-      whiteSpace: 'pre-wrap',
-      width: '100%',
-      zIndex: -999
-    }
+  const hiddenDivStyle = {
+    height: 'auto',
+    left: '-0.06em',
+    overflowWrap: 'break-word',
+    padding: '0.375rem 0.75rem',
+    position: 'absolute',
+    top: '0',
+    visibility: 'hidden',
+    whiteSpace: 'pre-wrap',
+    width: textarea.current ? textarea.current.clientWidth : '100%',
+    zIndex: -999
   }
 
-  const getLabelStyle = () => {
-    let style = {
-      cursor: 'pointer'
-    }
-    if (!props.label) {
-      style.position = 'absolute'
-      style.zIndex = '10'
-    }
-    return style
+  const labelStyle = {
+    cursor: 'pointer',
+    position: props.label ? undefined : 'absolute',
+    zIndex: props.label ? undefined : '10'
   }
 
   const onFocus = e => {
@@ -74,19 +69,16 @@ function Textarea(props) {
     }
   }
 
-  const getTextareaStyle = () => {
-    let resize = 'none'
-    let overflow = 'hidden'
-    if (props.noAutoResize) {
-      resize = 'vertical'
-      overflow = 'auto'
-    }
-    return {
-      height,
-      resize,
-      overflow
-    }
+  const textareaStyle = {
+    height:
+      height +
+      (props.labelFloat ? 24 : 0) +
+      (textarea.current && textarea.current.value.match(/\n$/) ? 24 : 0),
+    resize: props.noAutoResize ? 'vertical' : 'none',
+    overflow: props.noAutoResize ? 'auto' : 'hidden'
   }
+
+  const placeholder = props.placeholder || (props.labelFloat ? props.label : '')
 
   const toggleInfo = () => {
     setShowInfo(!showInfo)
@@ -131,22 +123,39 @@ function Textarea(props) {
   })
 
   return (
-    <div className='preaction textarea form-group'>
-      <label htmlFor={elementId} style={getLabelStyle()}>
-        {props.label}
-        {props.info ? (
-          <button
-            type='button'
-            className='btn btn-sm btn-info ml-1 pt-0 pb-0'
-            onClick={toggleInfo}>
-            {props.infoBtnContents || (
-              <span className='font-weight-bold text-monospace'>i</span>
-            )}
-          </button>
-        ) : (
-          ''
-        )}
-      </label>
+    <div
+      className={[
+        'pxn-input',
+        'pxn-input-textarea',
+        props.labelFloat ? 'form-floating' : '',
+        props.validatorMessageType === 'tooltip' ? 'position-relative' : ''
+      ]
+        .filter(x => !!x.length)
+        .join(' ')}>
+      {props.labelFloat ? (
+        ''
+      ) : (
+        <label htmlFor={elementId} style={labelStyle} className='form-label'>
+          {props.label}{' '}
+          {props.label && props.required ? (
+            <span className='text-danger fw-bold'>*</span>
+          ) : (
+            ''
+          )}
+          {props.info ? (
+            <button
+              type='button'
+              className='btn btn-sm btn-info ml-1 pt-0 pb-0'
+              onClick={toggleInfo}>
+              {props.infoBtnContents || (
+                <span className='font-weight-bold text-monospace'>i</span>
+              )}
+            </button>
+          ) : (
+            ''
+          )}
+        </label>
+      )}
       {props.info && showInfo ? (
         <div
           className='alert alert-info'
@@ -156,64 +165,82 @@ function Textarea(props) {
       ) : (
         ''
       )}
-      <div className='input-group'>
+      <textarea
+        id={elementId}
+        name={props.name}
+        className='form-control'
+        autoComplete={props.autoComplete}
+        required={props.required}
+        readOnly={props.readOnly}
+        disabled={props.disabled}
+        value={props.value}
+        maxLength={props.maxLength}
+        minLength={props.minLength}
+        tabIndex={props.tabIndex}
+        onBlur={props.onBlur}
+        onChange={onChange}
+        onClick={props.onClick}
+        onContextMenu={props.onContextMenu}
+        onDoubleClick={props.onDoubleClick}
+        onDrag={props.onDrag}
+        onDragEnd={props.onDragEnd}
+        onDragEnter={props.onDragEnter}
+        onDragLeave={props.onDragLeave}
+        onDragOver={props.onDragOver}
+        onDragStart={props.onDragStart}
+        onDrop={props.onDrop}
+        onFocus={onFocus}
+        onInput={props.onInput}
+        onKeyDown={props.onKeyDown}
+        onKeyPress={props.onKeyPress}
+        onKeyUp={props.onKeyUp}
+        onMouseDown={props.onMouseDown}
+        onMouseEnter={props.onMouseEnter}
+        onMouseLeave={props.onMouseLeave}
+        onMouseMove={props.onMouseMove}
+        onMouseOut={props.onMouseOut}
+        onMouseOver={props.onMouseOver}
+        onMouseUp={props.onMouseUp}
+        onSelect={props.onSelect}
+        onSubmit={props.onSubmit}
+        placeholder={placeholder}
+        spellCheck={props.spellCheck}
+        style={textareaStyle}
+        wrap={props.wrap}
+        ref={textarea}
+      />
+      {validationMessage ? (
         <div
-          className='form-control'
-          ref={hiddenDiv}
-          style={getHiddenDivStyle()}>
-          {props.value}
+          className={`invalid-${
+            validatorMessageTypes.includes(props.validatorMessageType)
+              ? props.validatorMessageType
+              : 'feedback'
+          }`}
+          aria-live='polite'>
+          {validationMessage}
         </div>
-        <textarea
-          id={elementId}
-          name={props.name}
-          className='form-control'
-          autoComplete={props.autoComplete}
-          required={props.required}
-          readOnly={props.readOnly}
-          disabled={props.disabled}
-          value={props.value}
-          maxLength={props.maxLength}
-          minLength={props.minLength}
-          tabIndex={props.tabIndex}
-          onBlur={props.onBlur}
-          onChange={onChange}
-          onClick={props.onClick}
-          onContextMenu={props.onContextMenu}
-          onDoubleClick={props.onDoubleClick}
-          onDrag={props.onDrag}
-          onDragEnd={props.onDragEnd}
-          onDragEnter={props.onDragEnter}
-          onDragLeave={props.onDragLeave}
-          onDragOver={props.onDragOver}
-          onDragStart={props.onDragStart}
-          onDrop={props.onDrop}
-          onFocus={onFocus}
-          onInput={props.onInput}
-          onKeyDown={props.onKeyDown}
-          onKeyPress={props.onKeyPress}
-          onKeyUp={props.onKeyUp}
-          onMouseDown={props.onMouseDown}
-          onMouseEnter={props.onMouseEnter}
-          onMouseLeave={props.onMouseLeave}
-          onMouseMove={props.onMouseMove}
-          onMouseOut={props.onMouseOut}
-          onMouseOver={props.onMouseOver}
-          onMouseUp={props.onMouseUp}
-          onSelect={props.onSelect}
-          onSubmit={props.onSubmit}
-          placeholder={props.placeholder}
-          spellCheck={props.spellCheck}
-          style={getTextareaStyle()}
-          wrap={props.wrap}
-          ref={textarea}
-        />
-        {validationMessage ? (
-          <div className='invalid-tooltip' aria-live='polite'>
-            {validationMessage}
-          </div>
-        ) : (
-          ''
-        )}
+      ) : (
+        ''
+      )}
+      {props.labelFloat ? (
+        <label htmlFor={elementId} style={labelStyle} className='form-label'>
+          {props.label}{' '}
+          {props.label && props.required ? (
+            <span className='text-danger fw-bold'>*</span>
+          ) : (
+            ''
+          )}
+        </label>
+      ) : (
+        ''
+      )}
+      <div
+        ref={hiddenDiv}
+        style={hiddenDivStyle}
+        tabIndex='-1'
+        aria-hidden='true'
+        role='presentation'>
+        {props.value}
       </div>
     </div>
   )
@@ -228,9 +255,13 @@ Textarea.propTypes = {
   infoBtnContents: PropTypes.node,
   /** value will be rendered inside `<label>` element. https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label */
   label: PropTypes.node,
+  /** use floating label https://getbootstrap.com/docs/5.0/forms/floating-labels/ */
+  labelFloat: PropTypes.bool,
   maxLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   minLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   name: PropTypes.string,
+  /** prevent the asterisk from appearing in the label when `required` is true */
+  noAsterisk: PropTypes.bool,
   /** disable automatic resizing */
   noAutoResize: PropTypes.bool,
   onBlur: PropTypes.func,
@@ -266,6 +297,7 @@ Textarea.propTypes = {
   tabIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   /** function which accepts a value and returns an error message or empty string. See the NPM package [@preaction/validation](https://www.npmjs.com/package/@preaction/validation) */
   validator: PropTypes.func,
+  validatorMessageType: PropTypes.oneOf(validatorMessageTypes),
   value: PropTypes.string,
   /** callback which accepts a value. Use this to set state. It is triggered by the default `onChange` handler. */
   valueHandler: PropTypes.func,
@@ -273,7 +305,8 @@ Textarea.propTypes = {
 }
 
 Textarea.defaultProps = {
-  noAutoResize: false
+  noAutoResize: false,
+  validatorMessageType: 'feedback'
 }
 
 export { Textarea }

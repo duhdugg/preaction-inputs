@@ -1,32 +1,24 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 
-let defaultValidator = value => {
-  return ''
-}
+const validatorMessageTypes = ['feedback', 'tooltip']
 
 /**
  * All the elements you need to render a `<select>` in bootstrap
- * @see [Bootstrap Documentation: Input group](https://getbootstrap.com/docs/4.5/components/input-group/)
- * @see [Bootstrap Documentation: Forms](https://getbootstrap.com/docs/4.5/components/forms/)
+ * @see [Bootstrap Documentation: Forms](https://getbootstrap.com/docs/5.0/forms/overview/)
  * @see [MDN web docs: `<select>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select)
  */
 function Select(props) {
   const [elementId] = React.useState(
-    () => `preaction-select-${+new Date()}-${Math.random()}`
+    () => `pxn-select-${+new Date()}-${Math.random()}`
   )
   const [showInfo, setShowInfo] = React.useState(false)
   const select = React.useRef()
 
-  const getLabelStyle = () => {
-    let style = {
-      cursor: 'pointer'
-    }
-    if (!props.label) {
-      style.position = 'absolute'
-      style.zIndex = '10'
-    }
-    return style
+  const labelStyle = {
+    cursor: 'pointer',
+    position: props.label ? undefined : 'absolute',
+    zIndex: props.label ? undefined : '10'
   }
 
   const toggleInfo = () => {
@@ -45,15 +37,20 @@ function Select(props) {
     return retval
   }
 
-  const getValidator = () => {
-    return props.validator || defaultValidator
+  const defaultValidator = value => {
+    let errorMessage = ''
+    if (props.required && !value) {
+      errorMessage = 'Please select an item in the list.'
+    }
+    return errorMessage
   }
+  const validator = props.validator || defaultValidator
 
   const onChange = event => {
     let value = event.target.value
     if (props.multiple) {
       value = []
-      let options = Array.from(select.current.options)
+      const options = Array.from(select.current.options)
       options.forEach(option => {
         if (option.selected) {
           value.push(option.value)
@@ -71,7 +68,7 @@ function Select(props) {
   }
 
   const validate = value => {
-    let validationMessage = getValidator()(value)
+    const validationMessage = validator(value)
     select.current.setCustomValidity(validationMessage)
     select.current.checkValidity()
     return validationMessage
@@ -85,22 +82,39 @@ function Select(props) {
   const value = getValue()
 
   return (
-    <div className='preaction select form-group'>
-      <label htmlFor={elementId} style={getLabelStyle()}>
-        {props.label}
-        {props.info ? (
-          <button
-            type='button'
-            className='btn btn-sm btn-info ml-1 pt-0 pb-0'
-            onClick={toggleInfo}>
-            {props.infoBtnContents || (
-              <span className='font-weight-bold text-monospace'>i</span>
-            )}
-          </button>
-        ) : (
-          ''
-        )}
-      </label>
+    <div
+      className={[
+        'pxn-input',
+        'pxn-input-select',
+        props.labelFloat ? 'form-floating' : '',
+        props.validatorMessageType === 'tooltip' ? 'position-relative' : ''
+      ]
+        .filter(x => !!x.length)
+        .join(' ')}>
+      {props.labelFloat ? (
+        ''
+      ) : (
+        <label htmlFor={elementId} style={labelStyle} className='form-label'>
+          {props.label}{' '}
+          {props.label && props.required && !props.noAsterisk ? (
+            <span className='text-danger fw-bold'>*</span>
+          ) : (
+            ''
+          )}
+          {props.info ? (
+            <button
+              type='button'
+              className='btn btn-sm btn-info ms-1 pt-0 pb-0'
+              onClick={toggleInfo}>
+              {props.infoBtnContents || (
+                <span className='font-weight-bold text-monospace'>i</span>
+              )}
+            </button>
+          ) : (
+            ''
+          )}
+        </label>
+      )}
       {props.info && showInfo ? (
         <div
           className='alert alert-info'
@@ -110,53 +124,69 @@ function Select(props) {
       ) : (
         ''
       )}
-      <div className='input-group'>
-        <select
-          className='form-control'
-          disabled={props.disabled}
-          id={elementId}
-          autoComplete={props.autoComplete}
-          multiple={props.multiple}
-          name={props.name}
-          onBlur={props.onBlur}
-          onChange={onChange}
-          onClick={props.onClick}
-          onContextMenu={props.onContextMenu}
-          onDoubleClick={props.onDoubleClick}
-          onDrag={props.onDrag}
-          onDragEnd={props.onDragEnd}
-          onDragEnter={props.onDragEnter}
-          onDragLeave={props.onDragLeave}
-          onDragOver={props.onDragOver}
-          onDragStart={props.onDragStart}
-          onDrop={props.onDrop}
-          onFocus={props.onFocus}
-          onKeyDown={props.onKeyDown}
-          onKeyPress={props.onKeyPress}
-          onKeyUp={props.onKeyUp}
-          onMouseDown={props.onMouseDown}
-          onMouseEnter={props.onMouseEnter}
-          onMouseLeave={props.onMouseLeave}
-          onMouseMove={props.onMouseMove}
-          onMouseOut={props.onMouseOut}
-          onMouseOver={props.onMouseOver}
-          onMouseUp={props.onMouseUp}
-          onSubmit={props.onSubmit}
-          readOnly={props.readOnly}
-          ref={select}
-          required={props.required}
-          tabIndex={props.tabIndex}
-          value={value}>
-          {props.children}
-        </select>
-        {validationMessage ? (
-          <div className='invalid-tooltip' aria-live='polite'>
-            {validationMessage}
-          </div>
-        ) : (
-          ''
-        )}
-      </div>
+      <select
+        className='form-control'
+        disabled={props.disabled}
+        id={elementId}
+        autoComplete={props.autoComplete}
+        multiple={props.multiple}
+        name={props.name}
+        onBlur={props.onBlur}
+        onChange={onChange}
+        onClick={props.onClick}
+        onContextMenu={props.onContextMenu}
+        onDoubleClick={props.onDoubleClick}
+        onDrag={props.onDrag}
+        onDragEnd={props.onDragEnd}
+        onDragEnter={props.onDragEnter}
+        onDragLeave={props.onDragLeave}
+        onDragOver={props.onDragOver}
+        onDragStart={props.onDragStart}
+        onDrop={props.onDrop}
+        onFocus={props.onFocus}
+        onKeyDown={props.onKeyDown}
+        onKeyPress={props.onKeyPress}
+        onKeyUp={props.onKeyUp}
+        onMouseDown={props.onMouseDown}
+        onMouseEnter={props.onMouseEnter}
+        onMouseLeave={props.onMouseLeave}
+        onMouseMove={props.onMouseMove}
+        onMouseOut={props.onMouseOut}
+        onMouseOver={props.onMouseOver}
+        onMouseUp={props.onMouseUp}
+        onSubmit={props.onSubmit}
+        readOnly={props.readOnly}
+        ref={select}
+        required={props.required}
+        tabIndex={props.tabIndex}
+        value={value}>
+        {props.children}
+      </select>
+      {validationMessage ? (
+        <div
+          className={`invalid-${
+            validatorMessageTypes.includes(props.validatorMessageType)
+              ? props.validatorMessageType
+              : 'feedback'
+          }`}
+          aria-live='polite'>
+          {validationMessage}
+        </div>
+      ) : (
+        ''
+      )}
+      {props.labelFloat ? (
+        <label htmlFor={elementId} style={labelStyle} className='form-label'>
+          {props.label}{' '}
+          {props.label && props.required && !props.noAsterisk ? (
+            <span className='text-danger fw-bold'>*</span>
+          ) : (
+            ''
+          )}
+        </label>
+      ) : (
+        ''
+      )}
     </div>
   )
 }
@@ -172,8 +202,12 @@ Select.propTypes = {
   infoBtnContents: PropTypes.node,
   /** value will be rendered inside `<label>` element. https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label */
   label: PropTypes.node,
+  /** use floating label https://getbootstrap.com/docs/5.0/forms/floating-labels/ */
+  labelFloat: PropTypes.bool,
   multiple: PropTypes.bool,
   name: PropTypes.string,
+  /** prevent the asterisk from appearing in the label when `required` is true */
+  noAsterisk: PropTypes.bool,
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
   onClick: PropTypes.func,
@@ -203,6 +237,7 @@ Select.propTypes = {
   tabIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   /** function which accepts a value and returns an error message or empty string. See the NPM package [@preaction/validation](https://www.npmjs.com/package/@preaction/validation) */
   validator: PropTypes.func,
+  validatorMessageType: PropTypes.oneOf(validatorMessageTypes),
   /** use an array when `multiple` is `true` */
   value: PropTypes.oneOfType([
     PropTypes.string,
@@ -211,6 +246,10 @@ Select.propTypes = {
   ]),
   /** callback which accepts a value. Use this to set state. It is triggered by the default `onChange` handler. */
   valueHandler: PropTypes.func
+}
+
+Select.defaultProps = {
+  validatorMessageType: 'feedback'
 }
 
 export { Select }

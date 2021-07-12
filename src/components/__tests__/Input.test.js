@@ -554,7 +554,7 @@ test('Input type', () => {
 
 test('Input validator', async () => {
   const errMsg = 'This is required!'
-  const errClass = 'invalid-tooltip'
+  const errClass = 'invalid-feedback'
   const func = value => {
     return value !== 'foobar' ? '' : errMsg
   }

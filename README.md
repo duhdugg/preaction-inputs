@@ -1,6 +1,6 @@
 # Preaction Inputs
 
-This is a Bootstrap v4 compatible library of React components intended to provide a consistent and responsive experience for basic user input needs.
+This is a Bootstrap v5 compatible library of React components intended to provide a consistent and responsive experience for basic user input needs.
 
 Components provided by this library include:
 
@@ -17,17 +17,17 @@ The full documentation can be found in the [styleguide](https://duhdugg.github.i
 
 ### Installation
 
-`npm install --save-dev @preaction/inputs`
+`npm install --save-dev @preaction/inputs@latest`
 
 ### Usage
 
 ```jsx
-// imports must be named, as this alllows shaking unused components from your bundle
-import { Form, Input } from '@preaction/inputs'
-
 // bootstrap as a peerDependency means you need to import bootstrap CSS yourself.
 // This gives you the flexibility to choose a different build or theme, if you wish.
 import 'bootstrap/dist/css/bootstrap.min.css'
+
+// imports must be named, as this alllows shaking unused components from your bundle
+import { Form, Input } from '@preaction/inputs'
 
 function App() {
   const [name, setName] = React.useState('')

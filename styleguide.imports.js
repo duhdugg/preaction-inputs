@@ -4,6 +4,7 @@ import { Input } from './src/components/Input.jsx'
 import { Select } from './src/components/Select.jsx'
 import { Textarea } from './src/components/Textarea.jsx'
 import { Wysiwyg } from './src/components/Wysiwyg.jsx'
+import './src/custom-styleguide.css'
 
 global.Checkbox = Checkbox
 global.Form = Form

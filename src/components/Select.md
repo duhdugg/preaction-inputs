@@ -10,7 +10,7 @@ const superHeroOptions = [
   'thunder guy'
 ]
 const [favoriteTacoIngredients, setFavoriteTacoIngredients] = React.useState('')
-;<form>
+;<Form onSubmit={e => e.preventDefault()} noValidate>
   <Select
     label='Favorite superhero'
     info='You must select one on these options'
@@ -23,6 +23,7 @@ const [favoriteTacoIngredients, setFavoriteTacoIngredients] = React.useState('')
     ))}
   </Select>
   <Select
+    name='ingredients'
     label='Favorite taco ingredients'
     value={favoriteTacoIngredients}
     valueHandler={setFavoriteTacoIngredients}
@@ -39,5 +40,8 @@ const [favoriteTacoIngredients, setFavoriteTacoIngredients] = React.useState('')
     <option>shells</option>
     <option>sour cream</option>
   </Select>
-</form>
+  <button type='submit' className='mt-3 btn btn-primary'>
+    Submit
+  </button>
+</Form>
 ```

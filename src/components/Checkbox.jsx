@@ -1,38 +1,32 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 
-let defaultValidator = value => {
-  return ''
-}
+const validatorMessageTypes = ['feedback', 'tooltip']
 
 /**
  * All the elements you need to render a checkbox in bootstrap
- * @see [Bootstrap Documentation: Input group](https://getbootstrap.com/docs/4.5/components/input-group/)
- * @see [Bootstrap Documentation: Forms](https://getbootstrap.com/docs/4.5/components/forms/)
+ * @see [Bootstrap Documentation: Forms](https://getbootstrap.com/docs/5.0/forms/overview/)
  * @see [MDN web docs: `<input type="checkbox">`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox)
  */
 function Checkbox(props) {
   const [elementId] = React.useState(
-    () => `preaction-checkbox-${+new Date()}-${Math.random()}`
+    () => `pxn-checkbox-${+new Date()}-${Math.random()}`
   )
   const element = React.useRef()
   const input = React.useRef()
 
-  const labelStyle = {
+  const pointerStyle = {
     cursor: 'pointer'
   }
 
-  const inputStyle = {
-    cursor: 'pointer'
+  const defaultValidator = value => {
+    let errorMessage = ''
+    if (props.required && !value) {
+      errorMessage = 'Please check this box if you want to proceed.'
+    }
+    return errorMessage
   }
-
-  const getValidationMessage = () => {
-    return input.current ? input.current.validationMessage : ''
-  }
-
-  const getValidator = React.useCallback(() => {
-    return props.validator || defaultValidator
-  }, [props])
+  const validator = props.validator || defaultValidator
 
   const onChange = event => {
     validate(event.target.checked)
@@ -45,20 +39,21 @@ function Checkbox(props) {
     }
   }
 
-  const validate = React.useCallback(
-    value => {
-      let validationMessage = getValidator()(value)
-      input.current.setCustomValidity(validationMessage)
-      input.current.checkValidity()
-      return validationMessage
-    },
-    [getValidator, input]
-  )
+  const validate = value => {
+    let validationMessage = validator(value)
+    input.current.setCustomValidity(validationMessage)
+    input.current.checkValidity()
+    return validationMessage
+  }
 
-  const validationMessage = getValidationMessage()
+  const validationMessage = input.current
+    ? input.current.validationMessage || validator(input.current.checked)
+    : validator(props.checked)
 
   return (
-    <div className='preaction checkbox form-group' ref={element}>
+    <div
+      className='pxn-input pxn-input-checkbox position-relative'
+      ref={element}>
       <div className='form-check'>
         <input
           checked={props.checked}
@@ -93,18 +88,29 @@ function Checkbox(props) {
           onSubmit={props.onSubmit}
           ref={input}
           required={props.required}
-          style={inputStyle}
+          style={pointerStyle}
           tabIndex={props.tabIndex}
           type='checkbox'
         />
         <label
           className='form-check-label'
           htmlFor={elementId}
-          style={labelStyle}>
-          {props.label}
+          style={pointerStyle}>
+          {props.label}{' '}
+          {props.label && props.required ? (
+            <span className='text-danger fw-bold'>*</span>
+          ) : (
+            ''
+          )}
         </label>
         {validationMessage ? (
-          <div className='invalid-tooltip' aria-live='polite'>
+          <div
+            className={`invalid-${
+              validatorMessageTypes.includes(props.validatorMessageType)
+                ? props.validatorMessageType
+                : 'feedback'
+            }`}
+            aria-live='polite'>
             {validationMessage}
           </div>
         ) : (
@@ -120,6 +126,8 @@ Checkbox.propTypes = {
   disabled: PropTypes.bool,
   label: PropTypes.node,
   name: PropTypes.string,
+  /** prevent the asterisk from appearing in the label when `required` is true */
+  noAsterisk: PropTypes.bool,
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
   onClick: PropTypes.func,
@@ -150,7 +158,8 @@ Checkbox.propTypes = {
   /** callback which accepts a value. Use this to set state. It is triggered by the default `onChange` handler. */
   valueHandler: PropTypes.func,
   /** function which accepts a value and returns an error message or empty string. See the NPM package [@preaction/validation](https://www.npmjs.com/package/@preaction/validation) */
-  validator: PropTypes.func
+  validator: PropTypes.func,
+  validatorMessageType: PropTypes.oneOf(validatorMessageTypes)
 }
 
 export { Checkbox }

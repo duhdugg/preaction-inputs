@@ -2,11 +2,11 @@
 
 #### yarn:
 
-`yarn add --dev @preaction/inputs`
+`yarn add --dev @preaction/inputs@latest`
 
 #### npm:
 
-`npm install --save-dev @preaction/inputs`
+`npm install --save-dev @preaction/inputs@latest`
 
 ### Import
 
