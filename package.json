@@ -76,7 +76,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com:duhdugg/preaction-inputs.git"
+    "url": "https://github.com/duhdugg/preaction-inputs"
   },
   "bugs": "https://github.com/duhdugg/preaction-inputs/issues",
   "keywords": [
