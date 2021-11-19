@@ -13,9 +13,7 @@ let defaultValidator = value => {
  * @see [MDN web docs: `<textarea>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea)
  */
 function Textarea(props) {
-  const [elementId] = React.useState(
-    () => `pxn-textarea-${+new Date()}-${Math.random()}`
-  )
+  const elementId = React.useRef(`pxn-textarea-${+new Date()}-${Math.random()}`)
   const [height, setHeight] = React.useState('auto')
   const [showInfo, setShowInfo] = React.useState(false)
   const hiddenDiv = React.useRef()
@@ -135,7 +133,10 @@ function Textarea(props) {
       {props.labelFloat ? (
         ''
       ) : (
-        <label htmlFor={elementId} style={labelStyle} className='form-label'>
+        <label
+          htmlFor={elementId.current}
+          style={labelStyle}
+          className='form-label'>
           {props.label}{' '}
           {props.label && props.required ? (
             <span className='text-danger fw-bold'>*</span>
@@ -166,7 +167,7 @@ function Textarea(props) {
         ''
       )}
       <textarea
-        id={elementId}
+        id={elementId.current}
         name={props.name}
         className='form-control'
         autoComplete={props.autoComplete}
@@ -223,7 +224,10 @@ function Textarea(props) {
         ''
       )}
       {props.labelFloat ? (
-        <label htmlFor={elementId} style={labelStyle} className='form-label'>
+        <label
+          htmlFor={elementId.current}
+          style={labelStyle}
+          className='form-label'>
           {props.label}{' '}
           {props.label && props.required ? (
             <span className='text-danger fw-bold'>*</span>

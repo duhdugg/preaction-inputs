@@ -9,9 +9,7 @@ const validatorMessageTypes = ['feedback', 'tooltip']
  * @see [MDN web docs: `<input type="checkbox">`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox)
  */
 function Checkbox(props) {
-  const [elementId] = React.useState(
-    () => `pxn-checkbox-${+new Date()}-${Math.random()}`
-  )
+  const elementId = React.useRef(`pxn-checkbox-${+new Date()}-${Math.random()}`)
   const inputRef = React.useRef()
 
   const pointerStyle = {
@@ -60,7 +58,7 @@ function Checkbox(props) {
           checked={props.checked}
           className='form-check-input'
           disabled={props.disabled}
-          id={elementId}
+          id={elementId.current}
           name={props.name}
           onBlur={props.onBlur}
           onChange={onChange}
@@ -95,7 +93,7 @@ function Checkbox(props) {
         />
         <label
           className='form-check-label'
-          htmlFor={elementId}
+          htmlFor={elementId.current}
           style={pointerStyle}>
           {props.label}{' '}
           {props.label && props.required ? (

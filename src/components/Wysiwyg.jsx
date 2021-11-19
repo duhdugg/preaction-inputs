@@ -36,7 +36,7 @@ function Wysiwyg(props) {
   const [value, setValue] = React.useState(props.value || '')
   const [valid, setValid] = React.useState(undefined)
   const [validationMessage, setValidationMessage] = React.useState('')
-  const id = React.useRef(`pxn-wysiwyg-${+new Date()}-${Math.random()}`)
+  const elementId = React.useRef(`pxn-wysiwyg-${+new Date()}-${Math.random()}`)
   const labelStyle = { cursor: 'pointer' }
   const quill = React.useRef()
   const focus = () => {
@@ -117,7 +117,7 @@ function Wysiwyg(props) {
       ref={ref}
       onBlur={test ? props.onBlur : undefined}>
       <label
-        htmlFor={id.current}
+        htmlFor={elementId.current}
         style={labelStyle}
         onClick={focus}
         className='form-label'>

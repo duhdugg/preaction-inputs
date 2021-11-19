@@ -9,9 +9,7 @@ const validatorMessageTypes = ['feedback', 'tooltip']
  * @see [MDN web docs: `<input>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)
  */
 function Input(props) {
-  const [elementId] = React.useState(
-    () => `pxn-input-${+new Date()}-${Math.random()}`
-  )
+  const elementId = React.useRef(`pxn-input-${+new Date()}-${Math.random()}`)
   const [showInfo, setShowInfo] = React.useState(false)
   const inputRef = React.useRef()
 
@@ -109,7 +107,10 @@ function Input(props) {
       {props.labelFloat ? (
         ''
       ) : (
-        <label htmlFor={elementId} style={labelStyle} className='form-label'>
+        <label
+          htmlFor={elementId.current}
+          style={labelStyle}
+          className='form-label'>
           {props.label}{' '}
           {props.label && props.required && !props.noAsterisk ? (
             <span className='text-danger fw-bold'>*</span>
@@ -143,7 +144,7 @@ function Input(props) {
         autoComplete={autoComplete}
         className={inputClass}
         disabled={props.disabled}
-        id={elementId}
+        id={elementId.current}
         inputMode={inputMode}
         max={props.max}
         maxLength={props.maxLength}
@@ -202,7 +203,10 @@ function Input(props) {
         ''
       )}
       {props.labelFloat ? (
-        <label htmlFor={elementId} style={labelStyle} className='form-label'>
+        <label
+          htmlFor={elementId.current}
+          style={labelStyle}
+          className='form-label'>
           {props.label}{' '}
           {props.label && props.required && !props.noAsterisk ? (
             <span className='text-danger fw-bold'>*</span>
