@@ -21,6 +21,7 @@ function Form(props) {
   }
 
   const onSubmit = event => {
+    let allValid = true
     let inputElements = Array.from(event.target.getElementsByTagName('input'))
     inputElements.forEach(input => {
       if (input.validate) {
@@ -28,7 +29,9 @@ function Form(props) {
         if (input.type === 'checkbox') {
           value = input.checked
         }
-        input.validate(value)
+        if (input.validate(value)) {
+          allValid = false
+        }
       }
     })
     let selectElements = Array.from(event.target.getElementsByTagName('select'))
@@ -44,7 +47,9 @@ function Form(props) {
             }
           })
         }
-        select.validate(value)
+        if (select.validate(value)) {
+          allValid = false
+        }
       }
     })
     let textareaElements = Array.from(
@@ -52,11 +57,27 @@ function Form(props) {
     )
     textareaElements.forEach(textarea => {
       if (textarea.validate) {
-        textarea.validate(textarea.value)
+        if (textarea.validate(textarea.value)) {
+          allValid = false
+        }
+      }
+    })
+    let wysiwygElements = Array.from(
+      event.target.getElementsByClassName('pxn-input-wysiwyg')
+    )
+    wysiwygElements.forEach(wysiwyg => {
+      if (wysiwyg.validate) {
+        if (wysiwyg.validate()) {
+          allValid = false
+        }
       }
     })
     event.target.checkValidity()
     setFormWasValidated(true)
+    if (!allValid) {
+      event.preventDefault()
+      return
+    }
     if (props.onSubmit) {
       event.persist()
       props.onSubmit(event)
