@@ -1,6 +1,6 @@
 import React from 'react'
 import '@testing-library/jest-dom'
-import { render, waitFor } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Wysiwyg } from '../Wysiwyg.jsx'
 
@@ -64,16 +64,24 @@ test('Wysiwyg loadableFallback', () => {
 
 test('Wysiwyg onBlur', async () => {
   let x = null
-  const func = () => {
-    x = 'foo'
+  const focus = () => {
+    x = 'focus'
   }
-  const ref = React.createRef()
-  const result = render(<Wysiwyg onBlur={func} ref={ref} />)
+  const blur = () => {
+    x = 'blur'
+  }
+  const result = render(
+    <div>
+      <Wysiwyg onFocus={focus} onBlur={blur} />
+      <button>test-button</button>
+    </div>
+  )
   await waitFor(loadableComponent)
   expect(result.container.querySelector('.ql-editor')).toBeInTheDocument()
-  ref.current.quill.current.focus()
-  ref.current.quill.current.blur()
-  await waitFor(() => expect(x).toBe('foo'))
+  userEvent.click(result.container.querySelector('.pxn-input-wysiwyg label'))
+  await waitFor(() => expect(x).toBe('focus'))
+  userEvent.click(result.getByText('test-button'))
+  await waitFor(() => expect(x).toBe('blur'))
 })
 
 test('Wysiwyg onChange', async () => {
@@ -93,11 +101,10 @@ test('Wysiwyg onFocus', async () => {
   const func = () => {
     x = 'foo'
   }
-  const ref = React.createRef()
-  const result = render(<Wysiwyg onFocus={func} ref={ref} />)
+  const result = render(<Wysiwyg onFocus={func} />)
   await waitFor(loadableComponent)
   expect(result.container.querySelector('.ql-editor')).toBeInTheDocument()
-  ref.current.quill.current.focus()
+  userEvent.click(result.container.querySelector('.pxn-input-wysiwyg label'))
   await waitFor(() => expect(x).toBe('foo'))
 })
 
@@ -115,8 +122,7 @@ test('Wysiwyg onKeyDown', async () => {
   )
 })
 
-// FIXME: test causes error: "messageParent" can only be used inside a worker
-test.skip('Wysiwyg onKeyPress', async () => {
+test('Wysiwyg onKeyPress', async () => {
   let x = null
   const func = event => {
     x = event.target
@@ -124,7 +130,10 @@ test.skip('Wysiwyg onKeyPress', async () => {
   const result = render(<Wysiwyg onKeyPress={func} />)
   await waitFor(loadableComponent)
   expect(result.container.querySelector('.ql-editor')).toBeInTheDocument()
-  userEvent.type(result.container.querySelector('.ql-editor'), '{enter}')
+  fireEvent.keyPress(result.container.querySelector('.ql-editor'), {
+    key: 'Enter',
+    keyCode: 13
+  })
   await waitFor(() =>
     expect(x).toBe(result.container.querySelector('.ql-editor'))
   )
@@ -196,14 +205,11 @@ test('Wysiwyg validator', async () => {
   const setX = value => {
     x = value
   }
-  const ref = React.createRef()
   const result = render(
-    <Wysiwyg validator={func} valueHandler={setX} value={x} ref={ref} />
+    <Wysiwyg validator={func} valueHandler={setX} value={x} />
   )
   const rerender = () => {
-    result.rerender(
-      <Wysiwyg validator={func} valueHandler={setX} value={x} ref={ref} />
-    )
+    result.rerender(<Wysiwyg validator={func} valueHandler={setX} value={x} />)
   }
 
   await waitFor(loadableComponent)
@@ -212,31 +218,26 @@ test('Wysiwyg validator', async () => {
   rerender()
   await waitFor(() => expect(x).toBe('<p>f</p>'))
   expect(result.container.querySelector('.' + errClass)).toBe(null)
-  expect(!ref.current.validate(x)).toBe(true)
 
   userEvent.type(result.container.querySelector('.ql-editor'), 'o')
   rerender()
   await waitFor(() => expect(x).toBe('<p>fo</p>'))
   expect(result.container.querySelector('.' + errClass)).toBe(null)
-  expect(!ref.current.validate(x)).toBe(true)
 
   userEvent.type(result.container.querySelector('.ql-editor'), 'o')
   rerender()
   await waitFor(() => expect(x).toBe('<p>foo</p>'))
   expect(result.container.querySelector('.' + errClass)).toBe(null)
-  expect(!ref.current.validate(x)).toBe(true)
 
   userEvent.type(result.container.querySelector('.ql-editor'), 'b')
   rerender()
   await waitFor(() => expect(x).toBe('<p>foob</p>'))
   expect(result.container.querySelector('.' + errClass)).toBe(null)
-  expect(!ref.current.validate(x)).toBe(true)
 
   userEvent.type(result.container.querySelector('.ql-editor'), 'a')
   rerender()
   await waitFor(() => expect(x).toBe('<p>fooba</p>'))
   expect(result.container.querySelector('.' + errClass)).toBe(null)
-  expect(!ref.current.validate(x)).toBe(true)
 
   userEvent.type(result.container.querySelector('.ql-editor'), 'r')
   rerender()
@@ -244,7 +245,6 @@ test('Wysiwyg validator', async () => {
   expect(result.getByText(errMsg)).toHaveClass(errClass)
   expect(result.container.querySelector('.' + errClass)).toBeInTheDocument()
   expect(result.container.querySelector('.' + errClass)).toBeVisible()
-  expect(!ref.current.validate(x)).toBe(false)
 })
 
 test('Wysiwyg value', async () => {
