@@ -7,6 +7,7 @@ import { Checkbox } from '../Checkbox.jsx'
 import { Input } from '../Input.jsx'
 import { Select } from '../Select.jsx'
 import { Textarea } from '../Textarea.jsx'
+import { Wysiwyg } from '../Wysiwyg.jsx'
 
 test('Form basic', () => {
   const result = render(<Form />)
@@ -48,4 +49,28 @@ test('Form onSubmit', async () => {
   )
   userEvent.click(result.getByText('submit'))
   await waitFor(() => expect(x).toBe(result.container.querySelector('form')))
+})
+
+test('Form validation', async () => {
+  let x = null
+  const func = event => {
+    event.preventDefault()
+    x = event.target
+  }
+  const result = render(
+    <Form onSubmit={func}>
+      <Checkbox required validator={value => 'invalid'} />
+      <Input required validator={value => 'invalid'} />
+      <Select multiple required validator={value => 'invalid'}>
+        <option>one</option>
+        <option>two</option>
+        <option>three</option>
+      </Select>
+      <Textarea required validator={value => 'invalid'} />
+      <Wysiwyg validator={value => 'invalid'} />
+      <button type='submit'>submit</button>
+    </Form>
+  )
+  userEvent.click(result.getByText('submit'))
+  await waitFor(() => expect(x).toBe(null))
 })

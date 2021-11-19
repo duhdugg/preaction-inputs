@@ -12,8 +12,7 @@ function Checkbox(props) {
   const [elementId] = React.useState(
     () => `pxn-checkbox-${+new Date()}-${Math.random()}`
   )
-  const element = React.useRef()
-  const input = React.useRef()
+  const inputRef = React.useRef()
 
   const pointerStyle = {
     cursor: 'pointer'
@@ -41,19 +40,21 @@ function Checkbox(props) {
 
   const validate = value => {
     let validationMessage = validator(value)
-    input.current.setCustomValidity(validationMessage)
-    input.current.checkValidity()
+    inputRef.current.setCustomValidity(validationMessage)
+    inputRef.current.checkValidity()
     return validationMessage
   }
 
-  const validationMessage = input.current
-    ? input.current.validationMessage || validator(input.current.checked)
+  React.useEffect(() => {
+    inputRef.current.validate = validate
+  })
+
+  const validationMessage = inputRef.current
+    ? inputRef.current.validationMessage || validator(inputRef.current.checked)
     : validator(props.checked)
 
   return (
-    <div
-      className='pxn-input pxn-input-checkbox position-relative'
-      ref={element}>
+    <div className='pxn-input pxn-input-checkbox position-relative'>
       <div className='form-check'>
         <input
           checked={props.checked}
@@ -86,7 +87,7 @@ function Checkbox(props) {
           onMouseOver={props.onMouseOver}
           onMouseUp={props.onMouseUp}
           onSubmit={props.onSubmit}
-          ref={input}
+          ref={inputRef}
           required={props.required}
           style={pointerStyle}
           tabIndex={props.tabIndex}
