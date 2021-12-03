@@ -34,6 +34,7 @@ let defaultValidator = value => {
  */
 function Wysiwyg(props) {
   const [value, setValue] = React.useState(props.value || '')
+  const [pval, setPval] = React.useState(props.value || '')
   const [valid, setValid] = React.useState(undefined)
   const [validationMessage, setValidationMessage] = React.useState('')
   const elementId = React.useRef(`pxn-wysiwyg-${+new Date()}-${Math.random()}`)
@@ -111,7 +112,15 @@ function Wysiwyg(props) {
       ref.current.validate = () => validate(value)
     }
   }, [ref, validate, value])
-  const retval = (
+  // props.value changes should apply to the local state
+  React.useEffect(() => {
+    if (props.value !== pval) {
+      const v = props.value || ''
+      setValue(v)
+      setPval(v)
+    }
+  }, [props.value, setValue, setPval, pval])
+  return (
     <div
       className='pxn-input pxn-input-wysiwyg'
       ref={ref}
@@ -201,7 +210,6 @@ function Wysiwyg(props) {
       </div>
     </div>
   )
-  return retval
 }
 
 Wysiwyg.propTypes = {
