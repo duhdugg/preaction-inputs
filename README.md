@@ -13,7 +13,7 @@ Components provided by this library include:
 
 ## Quick Start
 
-The full documentation can be found in the [styleguide](https://duhdugg.github.io/preaction-inputs/) with live, editable examples.
+The full documentation can be found in the [styleguide](https://duhdugg.github.io/preaction-inputs/v5/index.html) with live, editable examples.
 
 ### Installation
 
