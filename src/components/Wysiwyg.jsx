@@ -3,7 +3,7 @@ import React from 'react'
 import loadable from '@loadable/component'
 import { timeout } from 'promise-timeout'
 
-const test = process.env.NODE_ENV === 'test'
+const test = globalThis?.process?.env?.NODE_ENV === 'test'
 
 // Quill depends heavily on DOM. These conditional assignments allow SSR.
 const ssr = typeof window === 'undefined'

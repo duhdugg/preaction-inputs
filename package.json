@@ -23,6 +23,9 @@
       "plugin:prettier/recommended",
       "plugin:react/recommended"
     ],
+    "globals": {
+      "globalThis": false
+    },
     "parserOptions": {
       "ecmaVersion": 2020
     }
