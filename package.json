@@ -9,13 +9,13 @@
   ],
   "scripts": {
     "start": "DISABLE_ESLINT_PLUGIN=true styleguidist server",
-    "build": "rollup -c",
+    "build": "NODE_OPTIONS='--no-experimental-fetch' rollup -c",
     "build:doc": "styleguidist build",
     "eslint:check": "eslint --max-warnings 0 *.js src/components/*.j* src/components/__tests__/*.j*",
     "prettier:check": "prettier -c src/components/* src/components/__tests__/* *.js *.json",
     "test": "npm run prettier:check && npm run eslint:check && npm run test:react:with-coverage",
-    "test:react": "react-scripts test --env=jest-environment-jsdom-sixteen",
-    "test:react:with-coverage": "react-scripts test --env=jest-environment-jsdom-sixteen --coverage --watchAll=false"
+    "test:react": "react-scripts test",
+    "test:react:with-coverage": "react-scripts test --coverage --watchAll=false"
   },
   "eslintConfig": {
     "extends": [
@@ -47,41 +47,41 @@
     "production": "defaults"
   },
   "dependencies": {
-    "@loadable/component": "^5.14.1",
+    "@loadable/component": "^5.15.2",
     "promise-timeout": "^1.3.0",
-    "prop-types": "^15.7.2",
-    "react-quill": "^1.3.5"
+    "prop-types": "^15.8.1",
+    "react-quill": "https://github.com/duhdugg/react-quill/releases/download/v2.0.1-alpha.836/react-quill-2.0.1-alpha.836.tgz"
   },
   "devDependencies": {
-    "@babel/core": "^7.16.0",
-    "@babel/preset-env": "^7.16.4",
-    "@rollup/plugin-babel": "^5.2.2",
-    "@rollup/plugin-commonjs": "^21.0.1",
-    "@rollup/plugin-node-resolve": "^13.0.6",
-    "@rollup/plugin-sucrase": "^4.0.1",
-    "@testing-library/jest-dom": "^5.15.1",
-    "@testing-library/react": "^12.1.2",
-    "@testing-library/user-event": "^13.5.0",
-    "bootstrap": "^5.1.3",
-    "eslint-config-prettier": "^8.2.0",
-    "eslint-plugin-prettier": "^4.0.0",
+    "@babel/core": "^7.19.1",
+    "@babel/preset-env": "^7.19.1",
+    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-commonjs": "^22.0.2",
+    "@rollup/plugin-node-resolve": "^14.1.0",
+    "@rollup/plugin-sucrase": "^4.0.4",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.4.3",
+    "bootstrap": "^5.2.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "jest-environment-jsdom-sixteen": "^2.0.0",
-    "prettier": "^2.5.0",
+    "prettier": "^2.7.1",
     "prop-types": "^15.7.2",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-scripts": "^4.0.1",
-    "react-styleguidist": "^11.1.5",
-    "rollup": "^2.60.2",
+    "react-styleguidist": "^11.2.0",
+    "rollup": "^2.79.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-visualizer": "^5.5.2"
+    "rollup-plugin-visualizer": "^5.8.1"
   },
   "peerDependencies": {
-    "bootstrap": "^5.1.3",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "bootstrap": "^5.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "author": "Doug Elkin <doug@dougelkin.com> (https://dougelkin.com)",
   "license": "MIT",

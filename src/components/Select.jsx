@@ -9,7 +9,7 @@ const validatorMessageTypes = ['feedback', 'tooltip']
  * @see [MDN web docs: `<select>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select)
  */
 function Select(props) {
-  const elementId = React.useRef(`pxn-select-${+new Date()}-${Math.random()}`)
+  const elementId = React.useId()
   const [showInfo, setShowInfo] = React.useState(false)
   const select = React.useRef()
 
@@ -92,10 +92,7 @@ function Select(props) {
       {props.labelFloat ? (
         ''
       ) : (
-        <label
-          htmlFor={elementId.current}
-          style={labelStyle}
-          className='form-label'>
+        <label htmlFor={elementId} style={labelStyle} className='form-label'>
           {props.label}{' '}
           {props.label && props.required && !props.noAsterisk ? (
             <span className='text-danger fw-bold'>*</span>
@@ -128,7 +125,7 @@ function Select(props) {
       <select
         className='form-control'
         disabled={props.disabled}
-        id={elementId.current}
+        id={elementId}
         autoComplete={props.autoComplete}
         multiple={props.multiple}
         name={props.name}
@@ -177,10 +174,7 @@ function Select(props) {
         ''
       )}
       {props.labelFloat ? (
-        <label
-          htmlFor={elementId.current}
-          style={labelStyle}
-          className='form-label'>
+        <label htmlFor={elementId} style={labelStyle} className='form-label'>
           {props.label}{' '}
           {props.label && props.required && !props.noAsterisk ? (
             <span className='text-danger fw-bold'>*</span>

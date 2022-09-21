@@ -14,15 +14,15 @@ module.exports = {
       links: [
         {
           rel: 'stylesheet',
-          href: 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css'
+          href: 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css'
         },
         {
           rel: 'stylesheet',
-          href: 'https://cdn.jsdelivr.net/npm/react-quill@1.3.5/dist/quill.snow.css'
+          href: 'https://cdn.jsdelivr.net/npm/react-quill@2.0.0/dist/quill.snow.css'
         },
         {
           rel: 'stylesheet',
-          href: 'https://cdn.jsdelivr.net/npm/react-quill@1.3.5/dist/quill.bubble.css'
+          href: 'https://cdn.jsdelivr.net/npm/react-quill@2.0.0/dist/quill.bubble.css'
         }
       ]
     }
