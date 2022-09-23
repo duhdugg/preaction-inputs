@@ -7,7 +7,9 @@ const test = globalThis?.process?.env?.NODE_ENV === 'test'
 const ssr = typeof window === 'undefined'
 
 // using this assignment pattern to also allow importing react-quill from CDN
-const ReactQuill = window.ReactQuill || React.lazy(() => import('react-quill'))
+const ReactQuill = ssr
+  ? React.lazy(() => import('react-quill'))
+  : window.ReactQuill || React.lazy(() => import('react-quill'))
 
 let defaultValidator = value => {
   return ''
