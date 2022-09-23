@@ -161,8 +161,8 @@ function Wysiwyg(props) {
       ) : (
         <Suspense
           fallback={
-            <div className='wysiwyg-loadable-fallback'>
-              {props.loadableFallback}
+            <div className='wysiwyg-suspense-fallback'>
+              {props.suspenseFallback}
             </div>
           }>
           <ReactQuill
@@ -222,8 +222,6 @@ Wysiwyg.propTypes = {
   infoBtnContents: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   /** value will be rendered inside `<label>` element. https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label */
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  /** sets the fallback prop on `<ReactQuill>`, which is loaded via `@loadable/component`. This is what appears when the `<ReactQuill>` component has not yet loaded. */
-  loadableFallback: PropTypes.node,
   /** override the default modules to pass onto `ReactQuill` */
   modules: PropTypes.object,
   onChange: PropTypes.func,
@@ -247,6 +245,8 @@ Wysiwyg.propTypes = {
   readOnly: PropTypes.bool,
   /** passed directly to `<ReactQuill>` */
   style: PropTypes.object,
+  /** sets the fallback prop on the `<Suspense>` component as `<ReactQuill>` is lazy-loaded */
+  suspenseFallback: PropTypes.node,
   /** passed directly to `<ReactQuill>` */
   tabIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   /** the Quill theme. defaults available are `bubble` and `snow`, but you must import the CSS required */
@@ -264,7 +264,7 @@ Wysiwyg.defaultProps = {
   allowDangerousFallback: false,
   debug: false,
   fallbackMode: false,
-  loadableFallback: 'Loading...',
+  suspenseFallback: 'Loading...',
   readOnly: false,
   theme: 'snow'
 }
