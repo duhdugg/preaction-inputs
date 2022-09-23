@@ -11,6 +11,9 @@
 /dist
 /stats
 
+# package artifacts
+/preaction-inputs-*.tgz
+
 # documentation
 /styleguide
 
