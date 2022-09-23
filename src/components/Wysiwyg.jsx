@@ -1,7 +1,5 @@
 import PropTypes from 'prop-types'
-import React from 'react'
-import loadable from '@loadable/component'
-import { timeout } from 'promise-timeout'
+import React, { Suspense } from 'react'
 
 const test = globalThis?.process?.env?.NODE_ENV === 'test'
 
@@ -9,18 +7,7 @@ const test = globalThis?.process?.env?.NODE_ENV === 'test'
 const ssr = typeof window === 'undefined'
 
 // using this assignment pattern to also allow importing react-quill from CDN
-let ReactQuill
-try {
-  ReactQuill = loadable(() => timeout(import('react-quill'), 5000), {
-    ssr: false
-  })
-} catch (e) {
-  ReactQuill = ssr
-    ? function () {
-        return <div />
-      }
-    : window.ReactQuill
-}
+const ReactQuill = window.ReactQuill || React.lazy(() => import('react-quill'))
 
 let defaultValidator = value => {
   return ''
@@ -170,34 +157,36 @@ function Wysiwyg(props) {
           </div>
         )
       ) : (
-        <ReactQuill
-          bounds={props.bounds}
-          className={props.className}
-          debug={props.debug}
-          formats={formats}
-          modules={modules}
-          onChange={onChange}
-          onChangeSelection={props.onChangeSelection}
-          onFocus={props.onFocus}
-          onBlur={props.onBlur}
-          onKeyPress={props.onKeyPress}
-          onKeyDown={props.onKeyDown}
-          onKeyUp={props.onKeyUp}
-          placeholder={props.placeholder}
-          preserveWhitespace={props.preserveWhitespace}
-          readOnly={props.readOnly}
-          ref={quill}
-          style={props.style}
-          tabIndex={props.tabIndex ? Number(props.tabIndex) : undefined}
-          theme={theme}
-          value={value}
+        <Suspense
           fallback={
             <div className='wysiwyg-loadable-fallback'>
               {props.loadableFallback}
             </div>
           }>
-          {props.children}
-        </ReactQuill>
+          <ReactQuill
+            bounds={props.bounds}
+            className={props.className}
+            debug={props.debug}
+            formats={formats}
+            modules={modules}
+            onChange={onChange}
+            onChangeSelection={props.onChangeSelection}
+            onFocus={props.onFocus}
+            onBlur={props.onBlur}
+            onKeyPress={props.onKeyPress}
+            onKeyDown={props.onKeyDown}
+            onKeyUp={props.onKeyUp}
+            placeholder={props.placeholder}
+            preserveWhitespace={props.preserveWhitespace}
+            readOnly={props.readOnly}
+            ref={quill}
+            style={props.style}
+            tabIndex={props.tabIndex ? Number(props.tabIndex) : undefined}
+            theme={theme}
+            value={value}>
+            {props.children}
+          </ReactQuill>
+        </Suspense>
       )}
       <div className='validator'>
         {valid ? (
