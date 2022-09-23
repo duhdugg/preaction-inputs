@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, waitFor } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import { Form } from '../Form.jsx'
@@ -24,8 +24,8 @@ test('Form onReset', async () => {
       <button type='reset'>reset</button>
     </Form>
   )
-  userEvent.click(result.getByText('reset'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('form')))
+  await userEvent.click(result.getByText('reset'))
+  expect(x).toBe(result.container.querySelector('form'))
 })
 
 test('Form onSubmit', async () => {
@@ -47,8 +47,8 @@ test('Form onSubmit', async () => {
       <button type='submit'>submit</button>
     </Form>
   )
-  userEvent.click(result.getByText('submit'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('form')))
+  await userEvent.click(result.getByText('submit'))
+  expect(x).toBe(result.container.querySelector('form'))
 })
 
 test('Form validation', async () => {
@@ -71,6 +71,6 @@ test('Form validation', async () => {
       <button type='submit'>submit</button>
     </Form>
   )
-  userEvent.click(result.getByText('submit'))
-  await waitFor(() => expect(x).toBe(null))
+  await userEvent.click(result.getByText('submit'))
+  expect(x).toBe(null)
 })

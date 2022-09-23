@@ -1,6 +1,6 @@
 import React from 'react'
 import '@testing-library/jest-dom'
-import { render, waitFor, fireEvent } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Select } from '../Select.jsx'
 
@@ -26,10 +26,8 @@ test('Select disabled', () => {
 
 test('Select info', async () => {
   const result = render(<Select info='contextual information' />)
-  userEvent.click(result.container.querySelector('.btn-info'))
-  await waitFor(() =>
-    expect(result.getByText('contextual information')).toBeInTheDocument()
-  )
+  await userEvent.click(result.container.querySelector('.btn-info'))
+  expect(result.getByText('contextual information')).toBeInTheDocument()
   expect(result.getByText('contextual information')).toBeVisible()
   expect(result.getByText('contextual information')).toHaveClass('alert-info')
 })
@@ -68,10 +66,10 @@ test('Select onBlur', async () => {
     x = event.target
   }
   const result = render(<Select onBlur={func} />)
-  userEvent.tab()
-  await waitFor(() => expect(x).toBe(null))
-  userEvent.tab()
-  await waitFor(() => expect(x).toBe(result.container.querySelector('select')))
+  await userEvent.tab()
+  expect(x).toBe(null)
+  await userEvent.tab()
+  expect(x).toBe(result.container.querySelector('select'))
 })
 
 test('Select onChange', async () => {
@@ -86,8 +84,8 @@ test('Select onChange', async () => {
       <option>bar</option>
     </Select>
   )
-  userEvent.selectOptions(result.container.querySelector('select'), 'foo')
-  await waitFor(() => expect(x).toBe(result.container.querySelector('select')))
+  await userEvent.selectOptions(result.container.querySelector('select'), 'foo')
+  expect(x).toBe(result.container.querySelector('select'))
 })
 
 test('Select onClick', async () => {
@@ -96,8 +94,8 @@ test('Select onClick', async () => {
     x = event.target
   }
   const result = render(<Select onClick={func} />)
-  userEvent.click(result.container.querySelector('select'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('select')))
+  await userEvent.click(result.container.querySelector('select'))
+  expect(x).toBe(result.container.querySelector('select'))
 })
 
 test('Select onContextMenu', async () => {
@@ -107,7 +105,7 @@ test('Select onContextMenu', async () => {
   }
   const result = render(<Select onContextMenu={func} />)
   fireEvent.contextMenu(result.container.querySelector('select'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('select')))
+  expect(x).toBe(result.container.querySelector('select'))
 })
 
 test('Select onDoubleClick', async () => {
@@ -116,8 +114,8 @@ test('Select onDoubleClick', async () => {
     x = event.target
   }
   const result = render(<Select onDoubleClick={func} />)
-  userEvent.dblClick(result.container.querySelector('select'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('select')))
+  await userEvent.dblClick(result.container.querySelector('select'))
+  expect(x).toBe(result.container.querySelector('select'))
 })
 
 test('Select onDrag', async () => {
@@ -127,7 +125,7 @@ test('Select onDrag', async () => {
   }
   const result = render(<Select onDrag={func} />)
   fireEvent.drag(result.container.querySelector('select'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('select')))
+  expect(x).toBe(result.container.querySelector('select'))
 })
 
 test('Select onDragEnd', async () => {
@@ -137,7 +135,7 @@ test('Select onDragEnd', async () => {
   }
   const result = render(<Select onDragEnd={func} />)
   fireEvent.dragEnd(result.container.querySelector('select'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('select')))
+  expect(x).toBe(result.container.querySelector('select'))
 })
 
 test('Select onDragEnter', async () => {
@@ -147,7 +145,7 @@ test('Select onDragEnter', async () => {
   }
   const result = render(<Select onDragEnter={func} />)
   fireEvent.dragEnter(result.container.querySelector('select'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('select')))
+  expect(x).toBe(result.container.querySelector('select'))
 })
 
 test('Select onDragLeave', async () => {
@@ -157,7 +155,7 @@ test('Select onDragLeave', async () => {
   }
   const result = render(<Select onDragLeave={func} />)
   fireEvent.dragLeave(result.container.querySelector('select'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('select')))
+  expect(x).toBe(result.container.querySelector('select'))
 })
 
 test('Select onDragOver', async () => {
@@ -167,7 +165,7 @@ test('Select onDragOver', async () => {
   }
   const result = render(<Select onDragOver={func} />)
   fireEvent.dragOver(result.container.querySelector('select'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('select')))
+  expect(x).toBe(result.container.querySelector('select'))
 })
 
 test('Select onDragStart', async () => {
@@ -177,7 +175,7 @@ test('Select onDragStart', async () => {
   }
   const result = render(<Select onDragStart={func} />)
   fireEvent.dragStart(result.container.querySelector('select'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('select')))
+  expect(x).toBe(result.container.querySelector('select'))
 })
 
 test('Select onDrop', async () => {
@@ -187,7 +185,7 @@ test('Select onDrop', async () => {
   }
   const result = render(<Select onDrop={func} />)
   fireEvent.drop(result.container.querySelector('select'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('select')))
+  expect(x).toBe(result.container.querySelector('select'))
 })
 
 test('Select onFocus', async () => {
@@ -196,8 +194,8 @@ test('Select onFocus', async () => {
     x = event.target
   }
   const result = render(<Select onFocus={func} />)
-  userEvent.tab()
-  await waitFor(() => expect(x).toBe(result.container.querySelector('select')))
+  await userEvent.tab()
+  expect(x).toBe(result.container.querySelector('select'))
 })
 
 test('Select onKeyDown', async () => {
@@ -206,8 +204,8 @@ test('Select onKeyDown', async () => {
     x = event.target
   }
   const result = render(<Select onKeyDown={func} />)
-  userEvent.type(result.container.querySelector('select'), '{enter}')
-  await waitFor(() => expect(x).toBe(result.container.querySelector('select')))
+  await userEvent.type(result.container.querySelector('select'), '{enter}')
+  expect(x).toBe(result.container.querySelector('select'))
 })
 
 test('Select onKeyPress', async () => {
@@ -216,8 +214,8 @@ test('Select onKeyPress', async () => {
     x = event.target
   }
   const result = render(<Select onKeyPress={func} />)
-  userEvent.type(result.container.querySelector('select'), '{enter}')
-  await waitFor(() => expect(x).toBe(result.container.querySelector('select')))
+  await userEvent.type(result.container.querySelector('select'), '{enter}')
+  expect(x).toBe(result.container.querySelector('select'))
 })
 
 test('Select onKeyUp', async () => {
@@ -226,8 +224,8 @@ test('Select onKeyUp', async () => {
     x = event.target
   }
   const result = render(<Select onKeyUp={func} />)
-  userEvent.type(result.container.querySelector('select'), '{enter}')
-  await waitFor(() => expect(x).toBe(result.container.querySelector('select')))
+  await userEvent.type(result.container.querySelector('select'), '{enter}')
+  expect(x).toBe(result.container.querySelector('select'))
 })
 
 test('Select onMouseDown', async () => {
@@ -236,8 +234,8 @@ test('Select onMouseDown', async () => {
     x = event.target
   }
   const result = render(<Select onMouseDown={func} />)
-  userEvent.click(result.container.querySelector('select'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('select')))
+  await userEvent.click(result.container.querySelector('select'))
+  expect(x).toBe(result.container.querySelector('select'))
 })
 
 test('Select onMouseEnter', async () => {
@@ -247,7 +245,7 @@ test('Select onMouseEnter', async () => {
   }
   const result = render(<Select onMouseEnter={func} />)
   fireEvent.mouseEnter(result.container.querySelector('select'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('select')))
+  expect(x).toBe(result.container.querySelector('select'))
 })
 
 test('Select onMouseLeave', async () => {
@@ -257,7 +255,7 @@ test('Select onMouseLeave', async () => {
   }
   const result = render(<Select onMouseLeave={func} />)
   fireEvent.mouseLeave(result.container.querySelector('select'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('select')))
+  expect(x).toBe(result.container.querySelector('select'))
 })
 
 test('Select onMouseMove', async () => {
@@ -267,7 +265,7 @@ test('Select onMouseMove', async () => {
   }
   const result = render(<Select onMouseMove={func} />)
   fireEvent.mouseMove(result.container.querySelector('select'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('select')))
+  expect(x).toBe(result.container.querySelector('select'))
 })
 
 test('Select onMouseOut', async () => {
@@ -277,7 +275,7 @@ test('Select onMouseOut', async () => {
   }
   const result = render(<Select onMouseOut={func} />)
   fireEvent.mouseOut(result.container.querySelector('select'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('select')))
+  expect(x).toBe(result.container.querySelector('select'))
 })
 
 test('Select onMouseOver', async () => {
@@ -287,7 +285,7 @@ test('Select onMouseOver', async () => {
   }
   const result = render(<Select onMouseOver={func} />)
   fireEvent.mouseOver(result.container.querySelector('select'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('select')))
+  expect(x).toBe(result.container.querySelector('select'))
 })
 
 test('Select onMouseUp', async () => {
@@ -297,7 +295,7 @@ test('Select onMouseUp', async () => {
   }
   const result = render(<Select onMouseUp={func} />)
   fireEvent.mouseUp(result.container.querySelector('select'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('select')))
+  expect(x).toBe(result.container.querySelector('select'))
 })
 
 test('Select onSubmit', async () => {
@@ -312,7 +310,7 @@ test('Select onSubmit', async () => {
     </form>
   )
   fireEvent.submit(result.container.querySelector('select'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('select')))
+  expect(x).toBe(result.container.querySelector('select'))
 })
 
 test('Select readOnly', async () => {
@@ -321,8 +319,8 @@ test('Select readOnly', async () => {
     x = value
   }
   const result = render(<Select value={x} valueHandler={setX} readOnly />)
-  userEvent.type(result.container.querySelector('select'), 'y')
-  await waitFor(() => expect(x).toBe('x'))
+  await userEvent.type(result.container.querySelector('select'), 'y')
+  expect(x).toBe('x')
 })
 
 test('Select required', async () => {
@@ -351,10 +349,10 @@ test('Select tabIndex', async () => {
       <Select tabIndex='1' onFocus={x1} />
     </div>
   )
-  userEvent.tab()
-  await waitFor(() => expect(x).toBe(1))
-  userEvent.tab()
-  await waitFor(() => expect(x).toBe(2))
+  await userEvent.tab()
+  expect(x).toBe(1)
+  await userEvent.tab()
+  expect(x).toBe(2)
 })
 
 test('Select validator', async () => {
@@ -384,15 +382,18 @@ test('Select validator', async () => {
     )
   }
 
-  userEvent.selectOptions(result.container.querySelector('select'), 'foo')
+  await userEvent.selectOptions(result.container.querySelector('select'), 'foo')
   rerender()
-  await waitFor(() => expect(x).toBe('foo'))
+  expect(x).toBe('foo')
   expect(result.container.querySelector('.' + errClass)).toBe(null)
   expect(result.container.querySelector('select').checkValidity()).toBe(true)
 
-  userEvent.selectOptions(result.container.querySelector('select'), 'foobar')
+  await userEvent.selectOptions(
+    result.container.querySelector('select'),
+    'foobar'
+  )
   rerender()
-  await waitFor(() => expect(x).toBe('foobar'))
+  expect(x).toBe('foobar')
   expect(result.getByText(errMsg)).toHaveClass(errClass)
   expect(result.container.querySelector('.' + errClass)).toBeInTheDocument()
   expect(result.container.querySelector('.' + errClass)).toBeVisible()
@@ -433,11 +434,11 @@ test('Select valueHandler: single', async () => {
     )
   }
 
-  userEvent.selectOptions(result.container.querySelector('select'), 'foo')
+  await userEvent.selectOptions(result.container.querySelector('select'), 'foo')
   rerender()
-  await waitFor(() => expect(x).toBe('foo'))
+  expect(x).toBe('foo')
 
-  userEvent.selectOptions(result.container.querySelector('select'), 'bar')
+  await userEvent.selectOptions(result.container.querySelector('select'), 'bar')
   rerender()
-  await waitFor(() => expect(x).toBe('bar'))
+  expect(x).toBe('bar')
 })

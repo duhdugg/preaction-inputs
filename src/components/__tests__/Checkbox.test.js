@@ -1,6 +1,6 @@
 import React from 'react'
 import '@testing-library/jest-dom'
-import { render, waitFor, fireEvent } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Checkbox } from '../Checkbox.jsx'
 
@@ -45,10 +45,10 @@ test('Checkbox onBlur', async () => {
     x = event.target
   }
   const result = render(<Checkbox onBlur={func} />)
-  userEvent.tab()
-  await waitFor(() => expect(x).toBe(null))
-  userEvent.tab()
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  await userEvent.tab()
+  expect(x).toBe(null)
+  await userEvent.tab()
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Checkbox onChange', async () => {
@@ -57,8 +57,8 @@ test('Checkbox onChange', async () => {
     x = event.target
   }
   const result = render(<Checkbox onChange={func} />)
-  userEvent.click(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  await userEvent.click(result.container.querySelector('input'))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Checkbox onClick', async () => {
@@ -67,8 +67,8 @@ test('Checkbox onClick', async () => {
     x = event.target
   }
   const result = render(<Checkbox onClick={func} />)
-  userEvent.click(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  await userEvent.click(result.container.querySelector('input'))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Checkbox onContextMenu', async () => {
@@ -78,7 +78,7 @@ test('Checkbox onContextMenu', async () => {
   }
   const result = render(<Checkbox onContextMenu={func} />)
   fireEvent.contextMenu(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Checkbox onDoubleClick', async () => {
@@ -87,8 +87,8 @@ test('Checkbox onDoubleClick', async () => {
     x = event.target
   }
   const result = render(<Checkbox onDoubleClick={func} />)
-  userEvent.dblClick(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  await userEvent.dblClick(result.container.querySelector('input'))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Checkbox onDrag', async () => {
@@ -98,7 +98,7 @@ test('Checkbox onDrag', async () => {
   }
   const result = render(<Checkbox onDrag={func} />)
   fireEvent.drag(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Checkbox onDragEnd', async () => {
@@ -108,7 +108,7 @@ test('Checkbox onDragEnd', async () => {
   }
   const result = render(<Checkbox onDragEnd={func} />)
   fireEvent.dragEnd(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Checkbox onDragEnter', async () => {
@@ -118,7 +118,7 @@ test('Checkbox onDragEnter', async () => {
   }
   const result = render(<Checkbox onDragEnter={func} />)
   fireEvent.dragEnter(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Checkbox onDragLeave', async () => {
@@ -128,7 +128,7 @@ test('Checkbox onDragLeave', async () => {
   }
   const result = render(<Checkbox onDragLeave={func} />)
   fireEvent.dragLeave(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Checkbox onDragOver', async () => {
@@ -138,7 +138,7 @@ test('Checkbox onDragOver', async () => {
   }
   const result = render(<Checkbox onDragOver={func} />)
   fireEvent.dragOver(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Checkbox onDragStart', async () => {
@@ -148,7 +148,7 @@ test('Checkbox onDragStart', async () => {
   }
   const result = render(<Checkbox onDragStart={func} />)
   fireEvent.dragStart(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Checkbox onDrop', async () => {
@@ -158,7 +158,7 @@ test('Checkbox onDrop', async () => {
   }
   const result = render(<Checkbox onDrop={func} />)
   fireEvent.drop(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Checkbox onFocus', async () => {
@@ -167,8 +167,8 @@ test('Checkbox onFocus', async () => {
     x = event.target
   }
   const result = render(<Checkbox onFocus={func} />)
-  userEvent.tab()
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  await userEvent.tab()
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Checkbox onInput', async () => {
@@ -177,8 +177,8 @@ test('Checkbox onInput', async () => {
     x = event.target
   }
   const result = render(<Checkbox onInput={func} />)
-  userEvent.click(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  await userEvent.click(result.container.querySelector('input'))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Checkbox onKeyDown', async () => {
@@ -187,8 +187,8 @@ test('Checkbox onKeyDown', async () => {
     x = event.target
   }
   const result = render(<Checkbox onKeyDown={func} />)
-  userEvent.type(result.container.querySelector('input'), '{enter}')
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  await userEvent.type(result.container.querySelector('input'), '{enter}')
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Checkbox onKeyPress', async () => {
@@ -197,8 +197,8 @@ test('Checkbox onKeyPress', async () => {
     x = event.target
   }
   const result = render(<Checkbox onKeyPress={func} />)
-  userEvent.type(result.container.querySelector('input'), '{enter}')
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  await userEvent.type(result.container.querySelector('input'), '{enter}')
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Checkbox onKeyUp', async () => {
@@ -207,8 +207,8 @@ test('Checkbox onKeyUp', async () => {
     x = event.target
   }
   const result = render(<Checkbox onKeyUp={func} />)
-  userEvent.type(result.container.querySelector('input'), '{enter}')
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  await userEvent.type(result.container.querySelector('input'), '{enter}')
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Checkbox onMouseDown', async () => {
@@ -217,8 +217,8 @@ test('Checkbox onMouseDown', async () => {
     x = event.target
   }
   const result = render(<Checkbox onMouseDown={func} />)
-  userEvent.click(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  await userEvent.click(result.container.querySelector('input'))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Checkbox onMouseEnter', async () => {
@@ -228,7 +228,7 @@ test('Checkbox onMouseEnter', async () => {
   }
   const result = render(<Checkbox onMouseEnter={func} />)
   fireEvent.mouseEnter(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Checkbox onMouseLeave', async () => {
@@ -238,7 +238,7 @@ test('Checkbox onMouseLeave', async () => {
   }
   const result = render(<Checkbox onMouseLeave={func} />)
   fireEvent.mouseLeave(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Checkbox onMouseMove', async () => {
@@ -248,7 +248,7 @@ test('Checkbox onMouseMove', async () => {
   }
   const result = render(<Checkbox onMouseMove={func} />)
   fireEvent.mouseMove(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Checkbox onMouseOut', async () => {
@@ -258,7 +258,7 @@ test('Checkbox onMouseOut', async () => {
   }
   const result = render(<Checkbox onMouseOut={func} />)
   fireEvent.mouseOut(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Checkbox onMouseOver', async () => {
@@ -268,7 +268,7 @@ test('Checkbox onMouseOver', async () => {
   }
   const result = render(<Checkbox onMouseOver={func} />)
   fireEvent.mouseOver(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Checkbox onMouseUp', async () => {
@@ -278,7 +278,7 @@ test('Checkbox onMouseUp', async () => {
   }
   const result = render(<Checkbox onMouseUp={func} />)
   fireEvent.mouseUp(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Checkbox onSubmit', async () => {
@@ -293,7 +293,7 @@ test('Checkbox onSubmit', async () => {
     </form>
   )
   fireEvent.submit(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Checkbox required', async () => {
@@ -308,10 +308,10 @@ test('Checkbox required', async () => {
     </form>
   )
   fireEvent.submit(result.container.querySelector('form'))
-  await waitFor(() => expect(x).toBe(false))
-  userEvent.click(result.container.querySelector('input'))
+  expect(x).toBe(false)
+  await userEvent.click(result.container.querySelector('input'))
   fireEvent.submit(result.container.querySelector('form'))
-  await waitFor(() => expect(x).toBe(true))
+  expect(x).toBe(true)
 })
 
 test('Checkbox tabIndex', async () => {
@@ -326,10 +326,10 @@ test('Checkbox tabIndex', async () => {
       <Checkbox tabIndex='1' onFocus={x1} />
     </div>
   )
-  userEvent.tab()
-  await waitFor(() => expect(x).toBe(1))
-  userEvent.tab()
-  await waitFor(() => expect(x).toBe(2))
+  await userEvent.tab()
+  expect(x).toBe(1)
+  await userEvent.tab()
+  expect(x).toBe(2)
 })
 
 test('Checkbox validator', async () => {
@@ -345,13 +345,13 @@ test('Checkbox validator', async () => {
   const result = render(
     <Checkbox validator={func} valueHandler={setX} checked={x} />
   )
-  userEvent.click(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(true))
+  await userEvent.click(result.container.querySelector('input'))
+  expect(x).toBe(true)
   result.rerender(<Checkbox valueHandler={setX} checked={x} validator={func} />)
   // FIXME: this line causes error: "messageParent" can only be used inside a worker
   // expect(result.container.querySelector('.' + errClass)).toBe(null)
-  userEvent.click(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(false))
+  await userEvent.click(result.container.querySelector('input'))
+  expect(x).toBe(false)
   result.rerender(<Checkbox valueHandler={setX} checked={x} validator={func} />)
   expect(result.getByText(errMsg)).toHaveClass(errClass)
   expect(result.container.querySelector('.' + errClass)).toBeInTheDocument()
@@ -364,9 +364,9 @@ test('Checkbox valueHandler', async () => {
     x = value
   }
   const result = render(<Checkbox valueHandler={setX} checked={x} />)
-  userEvent.click(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(true))
+  await userEvent.click(result.container.querySelector('input'))
+  expect(x).toBe(true)
   result.rerender(<Checkbox valueHandler={setX} checked={x} />)
-  userEvent.click(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(false))
+  await userEvent.click(result.container.querySelector('input'))
+  expect(x).toBe(false)
 })

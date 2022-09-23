@@ -1,6 +1,6 @@
 import React from 'react'
 import '@testing-library/jest-dom'
-import { render, waitFor, fireEvent } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Input } from '../Input.jsx'
 
@@ -30,10 +30,8 @@ test('Input disabled', () => {
 
 test('Input info', async () => {
   const result = render(<Input info='contextual information' />)
-  userEvent.click(result.container.querySelector('.btn-info'))
-  await waitFor(() =>
-    expect(result.getByText('contextual information')).toBeInTheDocument()
-  )
+  await userEvent.click(result.container.querySelector('.btn-info'))
+  expect(result.getByText('contextual information')).toBeInTheDocument()
   expect(result.getByText('contextual information')).toBeVisible()
   expect(result.getByText('contextual information')).toHaveClass('alert-info')
 })
@@ -103,11 +101,9 @@ test('Input max', async () => {
       <Input type='number' value={x} valueHandler={setX} max='3' />
     )
   }
-  userEvent.type(result.container.querySelector('input'), '4')
+  await userEvent.type(result.container.querySelector('input'), '4')
   rerender()
-  await waitFor(() =>
-    expect(result.container.querySelector('input').checkValidity()).toBe(false)
-  )
+  expect(result.container.querySelector('input').checkValidity()).toBe(false)
 })
 
 test('Input maxLength', async () => {
@@ -120,21 +116,21 @@ test('Input maxLength', async () => {
     result.rerender(<Input value={x} valueHandler={setX} maxLength='3' />)
   }
 
-  userEvent.type(result.container.querySelector('input'), 'f')
+  await userEvent.type(result.container.querySelector('input'), 'f')
   rerender()
-  await waitFor(() => expect(x).toBe('f'))
+  expect(x).toBe('f')
 
-  userEvent.type(result.container.querySelector('input'), 'o')
+  await userEvent.type(result.container.querySelector('input'), 'o')
   rerender()
-  await waitFor(() => expect(x).toBe('fo'))
+  expect(x).toBe('fo')
 
-  userEvent.type(result.container.querySelector('input'), 'o')
+  await userEvent.type(result.container.querySelector('input'), 'o')
   rerender()
-  await waitFor(() => expect(x).toBe('foo'))
+  expect(x).toBe('foo')
 
-  userEvent.type(result.container.querySelector('input'), 'b')
+  await userEvent.type(result.container.querySelector('input'), 'b')
   rerender()
-  await waitFor(() => expect(x).toBe('foo'))
+  expect(x).toBe('foo')
 })
 
 test('Input min', async () => {
@@ -150,11 +146,9 @@ test('Input min', async () => {
       <Input type='number' value={x} valueHandler={setX} min='1' />
     )
   }
-  userEvent.type(result.container.querySelector('input'), '0')
+  await userEvent.type(result.container.querySelector('input'), '0')
   rerender()
-  await waitFor(() =>
-    expect(result.container.querySelector('input').checkValidity()).toBe(false)
-  )
+  expect(result.container.querySelector('input').checkValidity()).toBe(false)
 })
 
 test('Input minLength', () => {
@@ -196,10 +190,10 @@ test('Input onBlur', async () => {
     x = event.target
   }
   const result = render(<Input onBlur={func} />)
-  userEvent.tab()
-  await waitFor(() => expect(x).toBe(null))
-  userEvent.tab()
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  await userEvent.tab()
+  expect(x).toBe(null)
+  await userEvent.tab()
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Input onChange', async () => {
@@ -208,8 +202,8 @@ test('Input onChange', async () => {
     x = event.target
   }
   const result = render(<Input onChange={func} />)
-  userEvent.type(result.container.querySelector('input'), 'test')
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  await userEvent.type(result.container.querySelector('input'), 'test')
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Input onClick', async () => {
@@ -218,8 +212,8 @@ test('Input onClick', async () => {
     x = event.target
   }
   const result = render(<Input onClick={func} />)
-  userEvent.click(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  await userEvent.click(result.container.querySelector('input'))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Input onContextMenu', async () => {
@@ -229,7 +223,7 @@ test('Input onContextMenu', async () => {
   }
   const result = render(<Input onContextMenu={func} />)
   fireEvent.contextMenu(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Input onDoubleClick', async () => {
@@ -238,8 +232,8 @@ test('Input onDoubleClick', async () => {
     x = event.target
   }
   const result = render(<Input onDoubleClick={func} />)
-  userEvent.dblClick(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  await userEvent.dblClick(result.container.querySelector('input'))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Input onDrag', async () => {
@@ -249,7 +243,7 @@ test('Input onDrag', async () => {
   }
   const result = render(<Input onDrag={func} />)
   fireEvent.drag(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Input onDragEnd', async () => {
@@ -259,7 +253,7 @@ test('Input onDragEnd', async () => {
   }
   const result = render(<Input onDragEnd={func} />)
   fireEvent.dragEnd(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Input onDragEnter', async () => {
@@ -269,7 +263,7 @@ test('Input onDragEnter', async () => {
   }
   const result = render(<Input onDragEnter={func} />)
   fireEvent.dragEnter(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Input onDragLeave', async () => {
@@ -279,7 +273,7 @@ test('Input onDragLeave', async () => {
   }
   const result = render(<Input onDragLeave={func} />)
   fireEvent.dragLeave(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Input onDragOver', async () => {
@@ -289,7 +283,7 @@ test('Input onDragOver', async () => {
   }
   const result = render(<Input onDragOver={func} />)
   fireEvent.dragOver(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Input onDragStart', async () => {
@@ -299,7 +293,7 @@ test('Input onDragStart', async () => {
   }
   const result = render(<Input onDragStart={func} />)
   fireEvent.dragStart(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Input onDrop', async () => {
@@ -309,7 +303,7 @@ test('Input onDrop', async () => {
   }
   const result = render(<Input onDrop={func} />)
   fireEvent.drop(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Input onFocus', async () => {
@@ -318,8 +312,8 @@ test('Input onFocus', async () => {
     x = event.target
   }
   const result = render(<Input onFocus={func} />)
-  userEvent.tab()
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  await userEvent.tab()
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Input onInput', async () => {
@@ -328,8 +322,8 @@ test('Input onInput', async () => {
     x = event.target
   }
   const result = render(<Input onInput={func} />)
-  userEvent.type(result.container.querySelector('input'), 'test')
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  await userEvent.type(result.container.querySelector('input'), 'test')
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Input onKeyDown', async () => {
@@ -338,8 +332,8 @@ test('Input onKeyDown', async () => {
     x = event.target
   }
   const result = render(<Input onKeyDown={func} />)
-  userEvent.type(result.container.querySelector('input'), '{enter}')
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  await userEvent.type(result.container.querySelector('input'), '{enter}')
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Input onKeyPress', async () => {
@@ -348,8 +342,8 @@ test('Input onKeyPress', async () => {
     x = event.target
   }
   const result = render(<Input onKeyPress={func} />)
-  userEvent.type(result.container.querySelector('input'), '{enter}')
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  await userEvent.type(result.container.querySelector('input'), '{enter}')
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Input onKeyUp', async () => {
@@ -358,8 +352,8 @@ test('Input onKeyUp', async () => {
     x = event.target
   }
   const result = render(<Input onKeyUp={func} />)
-  userEvent.type(result.container.querySelector('input'), '{enter}')
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  await userEvent.type(result.container.querySelector('input'), '{enter}')
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Input onMouseDown', async () => {
@@ -368,8 +362,8 @@ test('Input onMouseDown', async () => {
     x = event.target
   }
   const result = render(<Input onMouseDown={func} />)
-  userEvent.click(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  await userEvent.click(result.container.querySelector('input'))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Input onMouseEnter', async () => {
@@ -379,7 +373,7 @@ test('Input onMouseEnter', async () => {
   }
   const result = render(<Input onMouseEnter={func} />)
   fireEvent.mouseEnter(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Input onMouseLeave', async () => {
@@ -389,7 +383,7 @@ test('Input onMouseLeave', async () => {
   }
   const result = render(<Input onMouseLeave={func} />)
   fireEvent.mouseLeave(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Input onMouseMove', async () => {
@@ -399,7 +393,7 @@ test('Input onMouseMove', async () => {
   }
   const result = render(<Input onMouseMove={func} />)
   fireEvent.mouseMove(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Input onMouseOut', async () => {
@@ -409,7 +403,7 @@ test('Input onMouseOut', async () => {
   }
   const result = render(<Input onMouseOut={func} />)
   fireEvent.mouseOut(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Input onMouseOver', async () => {
@@ -419,7 +413,7 @@ test('Input onMouseOver', async () => {
   }
   const result = render(<Input onMouseOver={func} />)
   fireEvent.mouseOver(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Input onMouseUp', async () => {
@@ -429,7 +423,7 @@ test('Input onMouseUp', async () => {
   }
   const result = render(<Input onMouseUp={func} />)
   fireEvent.mouseUp(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Input onSelect', async () => {
@@ -438,8 +432,8 @@ test('Input onSelect', async () => {
     x = event.target
   }
   const result = render(<Input onSelect={func} value='foo' />)
-  userEvent.type(result.container.querySelector('input'), '{selectall}')
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  await userEvent.type(result.container.querySelector('input'), '{selectall}')
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Input onSubmit', async () => {
@@ -454,7 +448,7 @@ test('Input onSubmit', async () => {
     </form>
   )
   fireEvent.submit(result.container.querySelector('input'))
-  await waitFor(() => expect(x).toBe(result.container.querySelector('input')))
+  expect(x).toBe(result.container.querySelector('input'))
 })
 
 test('Input pattern', () => {
@@ -478,8 +472,8 @@ test('Input readOnly', async () => {
     x = value
   }
   const result = render(<Input value={x} valueHandler={setX} readOnly />)
-  userEvent.type(result.container.querySelector('input'), 'y')
-  await waitFor(() => expect(x).toBe('x'))
+  await userEvent.type(result.container.querySelector('input'), 'y')
+  expect(x).toBe('x')
 })
 
 test('Input required', async () => {
@@ -494,10 +488,10 @@ test('Input required', async () => {
     </form>
   )
   fireEvent.submit(result.container.querySelector('form'))
-  await waitFor(() => expect(x).toBe(false))
-  userEvent.type(result.container.querySelector('input'), 'test')
+  expect(x).toBe(false)
+  await userEvent.type(result.container.querySelector('input'), 'test')
   fireEvent.submit(result.container.querySelector('form'))
-  await waitFor(() => expect(x).toBe(true))
+  expect(x).toBe(true)
 })
 
 test('Input step', () => {
@@ -517,10 +511,10 @@ test('Input tabIndex', async () => {
       <Input tabIndex='1' onFocus={x1} />
     </div>
   )
-  userEvent.tab()
-  await waitFor(() => expect(x).toBe(1))
-  userEvent.tab()
-  await waitFor(() => expect(x).toBe(2))
+  await userEvent.tab()
+  expect(x).toBe(1)
+  await userEvent.tab()
+  expect(x).toBe(2)
 })
 
 test('Input type', () => {
@@ -569,39 +563,39 @@ test('Input validator', async () => {
     result.rerender(<Input validator={func} valueHandler={setX} value={x} />)
   }
 
-  userEvent.type(result.container.querySelector('input'), 'f')
+  await userEvent.type(result.container.querySelector('input'), 'f')
   rerender()
-  await waitFor(() => expect(x).toBe('f'))
+  expect(x).toBe('f')
   expect(result.container.querySelector('.' + errClass)).toBe(null)
   expect(result.container.querySelector('input').checkValidity()).toBe(true)
 
-  userEvent.type(result.container.querySelector('input'), 'o')
+  await userEvent.type(result.container.querySelector('input'), 'o')
   rerender()
-  await waitFor(() => expect(x).toBe('fo'))
+  expect(x).toBe('fo')
   expect(result.container.querySelector('.' + errClass)).toBe(null)
   expect(result.container.querySelector('input').checkValidity()).toBe(true)
 
-  userEvent.type(result.container.querySelector('input'), 'o')
+  await userEvent.type(result.container.querySelector('input'), 'o')
   rerender()
-  await waitFor(() => expect(x).toBe('foo'))
+  expect(x).toBe('foo')
   expect(result.container.querySelector('.' + errClass)).toBe(null)
   expect(result.container.querySelector('input').checkValidity()).toBe(true)
 
-  userEvent.type(result.container.querySelector('input'), 'b')
+  await userEvent.type(result.container.querySelector('input'), 'b')
   rerender()
-  await waitFor(() => expect(x).toBe('foob'))
+  expect(x).toBe('foob')
   expect(result.container.querySelector('.' + errClass)).toBe(null)
   expect(result.container.querySelector('input').checkValidity()).toBe(true)
 
-  userEvent.type(result.container.querySelector('input'), 'a')
+  await userEvent.type(result.container.querySelector('input'), 'a')
   rerender()
-  await waitFor(() => expect(x).toBe('fooba'))
+  expect(x).toBe('fooba')
   expect(result.container.querySelector('.' + errClass)).toBe(null)
   expect(result.container.querySelector('input').checkValidity()).toBe(true)
 
-  userEvent.type(result.container.querySelector('input'), 'r')
+  await userEvent.type(result.container.querySelector('input'), 'r')
   rerender()
-  await waitFor(() => expect(x).toBe('foobar'))
+  expect(x).toBe('foobar')
   expect(result.getByText(errMsg)).toHaveClass(errClass)
   expect(result.container.querySelector('.' + errClass)).toBeInTheDocument()
   expect(result.container.querySelector('.' + errClass)).toBeVisible()
@@ -623,27 +617,27 @@ test('Input valueHandler', async () => {
     result.rerender(<Input valueHandler={setX} value={x} />)
   }
 
-  userEvent.type(result.container.querySelector('input'), 'f')
+  await userEvent.type(result.container.querySelector('input'), 'f')
   rerender()
-  await waitFor(() => expect(x).toBe('f'))
+  expect(x).toBe('f')
 
-  userEvent.type(result.container.querySelector('input'), 'o')
+  await userEvent.type(result.container.querySelector('input'), 'o')
   rerender()
-  await waitFor(() => expect(x).toBe('fo'))
+  expect(x).toBe('fo')
 
-  userEvent.type(result.container.querySelector('input'), 'o')
+  await userEvent.type(result.container.querySelector('input'), 'o')
   rerender()
-  await waitFor(() => expect(x).toBe('foo'))
+  expect(x).toBe('foo')
 
-  userEvent.type(result.container.querySelector('input'), 'b')
+  await userEvent.type(result.container.querySelector('input'), 'b')
   rerender()
-  await waitFor(() => expect(x).toBe('foob'))
+  expect(x).toBe('foob')
 
-  userEvent.type(result.container.querySelector('input'), 'a')
+  await userEvent.type(result.container.querySelector('input'), 'a')
   rerender()
-  await waitFor(() => expect(x).toBe('fooba'))
+  expect(x).toBe('fooba')
 
-  userEvent.type(result.container.querySelector('input'), 'r')
+  await userEvent.type(result.container.querySelector('input'), 'r')
   rerender()
-  await waitFor(() => expect(x).toBe('foobar'))
+  expect(x).toBe('foobar')
 })

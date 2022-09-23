@@ -1,6 +1,6 @@
 import React from 'react'
 import '@testing-library/jest-dom'
-import { render, waitFor, fireEvent } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Textarea } from '../Textarea.jsx'
 
@@ -26,10 +26,8 @@ test('Textarea disabled', () => {
 
 test('Textarea info', async () => {
   const result = render(<Textarea info='contextual information' />)
-  userEvent.click(result.container.querySelector('.btn-info'))
-  await waitFor(() =>
-    expect(result.getByText('contextual information')).toBeInTheDocument()
-  )
+  await userEvent.click(result.container.querySelector('.btn-info'))
+  expect(result.getByText('contextual information')).toBeInTheDocument()
   expect(result.getByText('contextual information')).toBeVisible()
   expect(result.getByText('contextual information')).toHaveClass('alert-info')
 })
@@ -61,21 +59,21 @@ test('Textarea maxLength', async () => {
     result.rerender(<Textarea value={x} valueHandler={setX} maxLength='3' />)
   }
 
-  userEvent.type(result.container.querySelector('textarea'), 'f')
+  await userEvent.type(result.container.querySelector('textarea'), 'f')
   rerender()
-  await waitFor(() => expect(x).toBe('f'))
+  expect(x).toBe('f')
 
-  userEvent.type(result.container.querySelector('textarea'), 'o')
+  await userEvent.type(result.container.querySelector('textarea'), 'o')
   rerender()
-  await waitFor(() => expect(x).toBe('fo'))
+  expect(x).toBe('fo')
 
-  userEvent.type(result.container.querySelector('textarea'), 'o')
+  await userEvent.type(result.container.querySelector('textarea'), 'o')
   rerender()
-  await waitFor(() => expect(x).toBe('foo'))
+  expect(x).toBe('foo')
 
-  userEvent.type(result.container.querySelector('textarea'), 'b')
+  await userEvent.type(result.container.querySelector('textarea'), 'b')
   rerender()
-  await waitFor(() => expect(x).toBe('foo'))
+  expect(x).toBe('foo')
 })
 
 test('Textarea minLength', () => {
@@ -106,12 +104,10 @@ test('Textarea onBlur', async () => {
     x = event.target
   }
   const result = render(<Textarea onBlur={func} />)
-  userEvent.tab()
-  await waitFor(() => expect(x).toBe(null))
-  userEvent.tab()
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('textarea'))
-  )
+  await userEvent.tab()
+  expect(x).toBe(null)
+  await userEvent.tab()
+  expect(x).toBe(result.container.querySelector('textarea'))
 })
 
 test('Textarea onChange', async () => {
@@ -120,10 +116,8 @@ test('Textarea onChange', async () => {
     x = event.target
   }
   const result = render(<Textarea onChange={func} />)
-  userEvent.type(result.container.querySelector('textarea'), 'test')
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('textarea'))
-  )
+  await userEvent.type(result.container.querySelector('textarea'), 'test')
+  expect(x).toBe(result.container.querySelector('textarea'))
 })
 
 test('Textarea onClick', async () => {
@@ -132,10 +126,8 @@ test('Textarea onClick', async () => {
     x = event.target
   }
   const result = render(<Textarea onClick={func} />)
-  userEvent.click(result.container.querySelector('textarea'))
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('textarea'))
-  )
+  await userEvent.click(result.container.querySelector('textarea'))
+  expect(x).toBe(result.container.querySelector('textarea'))
 })
 
 test('Textarea onContextMenu', async () => {
@@ -145,9 +137,7 @@ test('Textarea onContextMenu', async () => {
   }
   const result = render(<Textarea onContextMenu={func} />)
   fireEvent.contextMenu(result.container.querySelector('textarea'))
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('textarea'))
-  )
+  expect(x).toBe(result.container.querySelector('textarea'))
 })
 
 test('Textarea onDoubleClick', async () => {
@@ -156,10 +146,8 @@ test('Textarea onDoubleClick', async () => {
     x = event.target
   }
   const result = render(<Textarea onDoubleClick={func} />)
-  userEvent.dblClick(result.container.querySelector('textarea'))
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('textarea'))
-  )
+  await userEvent.dblClick(result.container.querySelector('textarea'))
+  expect(x).toBe(result.container.querySelector('textarea'))
 })
 
 test('Textarea onDrag', async () => {
@@ -169,9 +157,7 @@ test('Textarea onDrag', async () => {
   }
   const result = render(<Textarea onDrag={func} />)
   fireEvent.drag(result.container.querySelector('textarea'))
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('textarea'))
-  )
+  expect(x).toBe(result.container.querySelector('textarea'))
 })
 
 test('Textarea onDragEnd', async () => {
@@ -181,9 +167,7 @@ test('Textarea onDragEnd', async () => {
   }
   const result = render(<Textarea onDragEnd={func} />)
   fireEvent.dragEnd(result.container.querySelector('textarea'))
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('textarea'))
-  )
+  expect(x).toBe(result.container.querySelector('textarea'))
 })
 
 test('Textarea onDragEnter', async () => {
@@ -193,9 +177,7 @@ test('Textarea onDragEnter', async () => {
   }
   const result = render(<Textarea onDragEnter={func} />)
   fireEvent.dragEnter(result.container.querySelector('textarea'))
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('textarea'))
-  )
+  expect(x).toBe(result.container.querySelector('textarea'))
 })
 
 test('Textarea onDragLeave', async () => {
@@ -205,9 +187,7 @@ test('Textarea onDragLeave', async () => {
   }
   const result = render(<Textarea onDragLeave={func} />)
   fireEvent.dragLeave(result.container.querySelector('textarea'))
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('textarea'))
-  )
+  expect(x).toBe(result.container.querySelector('textarea'))
 })
 
 test('Textarea onDragOver', async () => {
@@ -217,9 +197,7 @@ test('Textarea onDragOver', async () => {
   }
   const result = render(<Textarea onDragOver={func} />)
   fireEvent.dragOver(result.container.querySelector('textarea'))
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('textarea'))
-  )
+  expect(x).toBe(result.container.querySelector('textarea'))
 })
 
 test('Textarea onDragStart', async () => {
@@ -229,9 +207,7 @@ test('Textarea onDragStart', async () => {
   }
   const result = render(<Textarea onDragStart={func} />)
   fireEvent.dragStart(result.container.querySelector('textarea'))
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('textarea'))
-  )
+  expect(x).toBe(result.container.querySelector('textarea'))
 })
 
 test('Textarea onDrop', async () => {
@@ -241,9 +217,7 @@ test('Textarea onDrop', async () => {
   }
   const result = render(<Textarea onDrop={func} />)
   fireEvent.drop(result.container.querySelector('textarea'))
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('textarea'))
-  )
+  expect(x).toBe(result.container.querySelector('textarea'))
 })
 
 test('Textarea onFocus', async () => {
@@ -252,10 +226,8 @@ test('Textarea onFocus', async () => {
     x = event.target
   }
   const result = render(<Textarea onFocus={func} />)
-  userEvent.tab()
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('textarea'))
-  )
+  await userEvent.tab()
+  expect(x).toBe(result.container.querySelector('textarea'))
 })
 
 test('Textarea onInput', async () => {
@@ -264,10 +236,8 @@ test('Textarea onInput', async () => {
     x = event.target
   }
   const result = render(<Textarea onInput={func} />)
-  userEvent.type(result.container.querySelector('textarea'), 'test')
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('textarea'))
-  )
+  await userEvent.type(result.container.querySelector('textarea'), 'test')
+  expect(x).toBe(result.container.querySelector('textarea'))
 })
 
 test('Textarea onKeyDown', async () => {
@@ -276,10 +246,8 @@ test('Textarea onKeyDown', async () => {
     x = event.target
   }
   const result = render(<Textarea onKeyDown={func} />)
-  userEvent.type(result.container.querySelector('textarea'), '{enter}')
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('textarea'))
-  )
+  await userEvent.type(result.container.querySelector('textarea'), '{enter}')
+  expect(x).toBe(result.container.querySelector('textarea'))
 })
 
 test('Textarea onKeyPress', async () => {
@@ -288,10 +256,8 @@ test('Textarea onKeyPress', async () => {
     x = event.target
   }
   const result = render(<Textarea onKeyPress={func} />)
-  userEvent.type(result.container.querySelector('textarea'), '{enter}')
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('textarea'))
-  )
+  await userEvent.type(result.container.querySelector('textarea'), '{enter}')
+  expect(x).toBe(result.container.querySelector('textarea'))
 })
 
 test('Textarea onKeyUp', async () => {
@@ -300,10 +266,8 @@ test('Textarea onKeyUp', async () => {
     x = event.target
   }
   const result = render(<Textarea onKeyUp={func} />)
-  userEvent.type(result.container.querySelector('textarea'), '{enter}')
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('textarea'))
-  )
+  await userEvent.type(result.container.querySelector('textarea'), '{enter}')
+  expect(x).toBe(result.container.querySelector('textarea'))
 })
 
 test('Textarea onMouseDown', async () => {
@@ -312,10 +276,8 @@ test('Textarea onMouseDown', async () => {
     x = event.target
   }
   const result = render(<Textarea onMouseDown={func} />)
-  userEvent.click(result.container.querySelector('textarea'))
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('textarea'))
-  )
+  await userEvent.click(result.container.querySelector('textarea'))
+  expect(x).toBe(result.container.querySelector('textarea'))
 })
 
 test('Textarea onMouseEnter', async () => {
@@ -325,9 +287,7 @@ test('Textarea onMouseEnter', async () => {
   }
   const result = render(<Textarea onMouseEnter={func} />)
   fireEvent.mouseEnter(result.container.querySelector('textarea'))
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('textarea'))
-  )
+  expect(x).toBe(result.container.querySelector('textarea'))
 })
 
 test('Textarea onMouseLeave', async () => {
@@ -337,9 +297,7 @@ test('Textarea onMouseLeave', async () => {
   }
   const result = render(<Textarea onMouseLeave={func} />)
   fireEvent.mouseLeave(result.container.querySelector('textarea'))
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('textarea'))
-  )
+  expect(x).toBe(result.container.querySelector('textarea'))
 })
 
 test('Textarea onMouseMove', async () => {
@@ -349,9 +307,7 @@ test('Textarea onMouseMove', async () => {
   }
   const result = render(<Textarea onMouseMove={func} />)
   fireEvent.mouseMove(result.container.querySelector('textarea'))
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('textarea'))
-  )
+  expect(x).toBe(result.container.querySelector('textarea'))
 })
 
 test('Textarea onMouseOut', async () => {
@@ -361,9 +317,7 @@ test('Textarea onMouseOut', async () => {
   }
   const result = render(<Textarea onMouseOut={func} />)
   fireEvent.mouseOut(result.container.querySelector('textarea'))
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('textarea'))
-  )
+  expect(x).toBe(result.container.querySelector('textarea'))
 })
 
 test('Textarea onMouseOver', async () => {
@@ -373,9 +327,7 @@ test('Textarea onMouseOver', async () => {
   }
   const result = render(<Textarea onMouseOver={func} />)
   fireEvent.mouseOver(result.container.querySelector('textarea'))
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('textarea'))
-  )
+  expect(x).toBe(result.container.querySelector('textarea'))
 })
 
 test('Textarea onMouseUp', async () => {
@@ -385,9 +337,7 @@ test('Textarea onMouseUp', async () => {
   }
   const result = render(<Textarea onMouseUp={func} />)
   fireEvent.mouseUp(result.container.querySelector('textarea'))
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('textarea'))
-  )
+  expect(x).toBe(result.container.querySelector('textarea'))
 })
 
 test('Textarea onSelect', async () => {
@@ -396,10 +346,11 @@ test('Textarea onSelect', async () => {
     x = event.target
   }
   const result = render(<Textarea onSelect={func} value='foo' />)
-  userEvent.type(result.container.querySelector('textarea'), '{selectall}')
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('textarea'))
+  await userEvent.type(
+    result.container.querySelector('textarea'),
+    '{selectall}'
   )
+  expect(x).toBe(result.container.querySelector('textarea'))
 })
 
 test('Textarea onSubmit', async () => {
@@ -414,9 +365,7 @@ test('Textarea onSubmit', async () => {
     </form>
   )
   fireEvent.submit(result.container.querySelector('textarea'))
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('textarea'))
-  )
+  expect(x).toBe(result.container.querySelector('textarea'))
 })
 
 test('Textarea placeholder', () => {
@@ -433,8 +382,8 @@ test('Textarea readOnly', async () => {
     x = value
   }
   const result = render(<Textarea value={x} valueHandler={setX} readOnly />)
-  userEvent.type(result.container.querySelector('textarea'), 'y')
-  await waitFor(() => expect(x).toBe('x'))
+  await userEvent.type(result.container.querySelector('textarea'), 'y')
+  expect(x).toBe('x')
 })
 
 test('Textarea required', async () => {
@@ -449,10 +398,10 @@ test('Textarea required', async () => {
     </form>
   )
   fireEvent.submit(result.container.querySelector('form'))
-  await waitFor(() => expect(x).toBe(false))
-  userEvent.type(result.container.querySelector('textarea'), 'test')
+  expect(x).toBe(false)
+  await userEvent.type(result.container.querySelector('textarea'), 'test')
   fireEvent.submit(result.container.querySelector('form'))
-  await waitFor(() => expect(x).toBe(true))
+  expect(x).toBe(true)
 })
 
 test('Textarea spellCheck', () => {
@@ -475,10 +424,10 @@ test('Textarea tabIndex', async () => {
       <Textarea tabIndex='1' onFocus={x1} />
     </div>
   )
-  userEvent.tab()
-  await waitFor(() => expect(x).toBe(1))
-  userEvent.tab()
-  await waitFor(() => expect(x).toBe(2))
+  await userEvent.tab()
+  expect(x).toBe(1)
+  await userEvent.tab()
+  expect(x).toBe(2)
 })
 
 test('Textarea type', () => {
@@ -525,39 +474,39 @@ test('Textarea validator', async () => {
     result.rerender(<Textarea validator={func} valueHandler={setX} value={x} />)
   }
 
-  userEvent.type(result.container.querySelector('textarea'), 'f')
+  await userEvent.type(result.container.querySelector('textarea'), 'f')
   rerender()
-  await waitFor(() => expect(x).toBe('f'))
+  expect(x).toBe('f')
   expect(result.container.querySelector('.' + errClass)).toBe(null)
   expect(result.container.querySelector('textarea').checkValidity()).toBe(true)
 
-  userEvent.type(result.container.querySelector('textarea'), 'o')
+  await userEvent.type(result.container.querySelector('textarea'), 'o')
   rerender()
-  await waitFor(() => expect(x).toBe('fo'))
+  expect(x).toBe('fo')
   expect(result.container.querySelector('.' + errClass)).toBe(null)
   expect(result.container.querySelector('textarea').checkValidity()).toBe(true)
 
-  userEvent.type(result.container.querySelector('textarea'), 'o')
+  await userEvent.type(result.container.querySelector('textarea'), 'o')
   rerender()
-  await waitFor(() => expect(x).toBe('foo'))
+  expect(x).toBe('foo')
   expect(result.container.querySelector('.' + errClass)).toBe(null)
   expect(result.container.querySelector('textarea').checkValidity()).toBe(true)
 
-  userEvent.type(result.container.querySelector('textarea'), 'b')
+  await userEvent.type(result.container.querySelector('textarea'), 'b')
   rerender()
-  await waitFor(() => expect(x).toBe('foob'))
+  expect(x).toBe('foob')
   expect(result.container.querySelector('.' + errClass)).toBe(null)
   expect(result.container.querySelector('textarea').checkValidity()).toBe(true)
 
-  userEvent.type(result.container.querySelector('textarea'), 'a')
+  await userEvent.type(result.container.querySelector('textarea'), 'a')
   rerender()
-  await waitFor(() => expect(x).toBe('fooba'))
+  expect(x).toBe('fooba')
   expect(result.container.querySelector('.' + errClass)).toBe(null)
   expect(result.container.querySelector('textarea').checkValidity()).toBe(true)
 
-  userEvent.type(result.container.querySelector('textarea'), 'r')
+  await userEvent.type(result.container.querySelector('textarea'), 'r')
   rerender()
-  await waitFor(() => expect(x).toBe('foobar'))
+  expect(x).toBe('foobar')
   result.rerender(<Textarea valueHandler={setX} value={x} validator={func} />)
   expect(result.getByText(errMsg)).toHaveClass(errClass)
   expect(result.container.querySelector('.' + errClass)).toBeInTheDocument()
@@ -580,29 +529,29 @@ test('Textarea valueHandler', async () => {
     result.rerender(<Textarea valueHandler={setX} value={x} />)
   }
 
-  userEvent.type(result.container.querySelector('textarea'), 'f')
+  await userEvent.type(result.container.querySelector('textarea'), 'f')
   rerender()
-  await waitFor(() => expect(x).toBe('f'))
+  expect(x).toBe('f')
 
-  userEvent.type(result.container.querySelector('textarea'), 'o')
+  await userEvent.type(result.container.querySelector('textarea'), 'o')
   rerender()
-  await waitFor(() => expect(x).toBe('fo'))
+  expect(x).toBe('fo')
 
-  userEvent.type(result.container.querySelector('textarea'), 'o')
+  await userEvent.type(result.container.querySelector('textarea'), 'o')
   rerender()
-  await waitFor(() => expect(x).toBe('foo'))
+  expect(x).toBe('foo')
 
-  userEvent.type(result.container.querySelector('textarea'), 'b')
+  await userEvent.type(result.container.querySelector('textarea'), 'b')
   rerender()
-  await waitFor(() => expect(x).toBe('foob'))
+  expect(x).toBe('foob')
 
-  userEvent.type(result.container.querySelector('textarea'), 'a')
+  await userEvent.type(result.container.querySelector('textarea'), 'a')
   rerender()
-  await waitFor(() => expect(x).toBe('fooba'))
+  expect(x).toBe('fooba')
 
-  userEvent.type(result.container.querySelector('textarea'), 'r')
+  await userEvent.type(result.container.querySelector('textarea'), 'r')
   rerender()
-  await waitFor(() => expect(x).toBe('foobar'))
+  expect(x).toBe('foobar')
 })
 
 test('Textarea wrap', () => {

@@ -4,19 +4,11 @@ import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Wysiwyg } from '../Wysiwyg.jsx'
 
-const loadableComponent = () => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve()
-    }, 0)
-  })
-}
-
 test('Wysiwyg basic', async () => {
   const result = render(<Wysiwyg />)
-  console.debug(result.container.innerHTML)
-  await waitFor(loadableComponent)
-  expect(result.container.querySelector('.ql-editor')).toBeInTheDocument()
+  await waitFor(() =>
+    expect(result.container.querySelector('.ql-editor')).toBeInTheDocument()
+  )
 })
 
 test('Wysiwyg allowDangerousFallback', async () => {
@@ -27,16 +19,13 @@ test('Wysiwyg allowDangerousFallback', async () => {
       value={'<div data-test="foo">bar</div>'}
     />
   )
-  await waitFor(loadableComponent)
   expect(result.getByText('bar')).toHaveAttribute('data-test', 'foo')
 })
 
 test('Wysiwyg info', async () => {
   const result = render(<Wysiwyg info='contextual information' />)
-  userEvent.click(result.container.querySelector('.btn-info'))
-  await waitFor(() =>
-    expect(result.getByText('contextual information')).toBeInTheDocument()
-  )
+  await userEvent.click(result.container.querySelector('.btn-info'))
+  expect(result.getByText('contextual information')).toBeInTheDocument()
   expect(result.getByText('contextual information')).toBeVisible()
   expect(result.getByText('contextual information')).toHaveClass('alert-info')
 })
@@ -55,13 +44,6 @@ test('Wysiwyg label', () => {
   expect(result.getByText('Fooey')).toBeInTheDocument()
 })
 
-test('Wysiwyg loadableFallback', () => {
-  const result = render(<Wysiwyg loadableFallback='please wait' />)
-  expect(result.getByText('please wait')).toHaveClass(
-    'wysiwyg-loadable-fallback'
-  )
-})
-
 test('Wysiwyg onBlur', async () => {
   let x = null
   const focus = () => {
@@ -76,24 +58,24 @@ test('Wysiwyg onBlur', async () => {
       <button>test-button</button>
     </div>
   )
-  await waitFor(loadableComponent)
   expect(result.container.querySelector('.ql-editor')).toBeInTheDocument()
-  userEvent.click(result.container.querySelector('.pxn-input-wysiwyg label'))
-  await waitFor(() => expect(x).toBe('focus'))
-  userEvent.click(result.getByText('test-button'))
-  await waitFor(() => expect(x).toBe('blur'))
+  await userEvent.click(
+    result.container.querySelector('.pxn-input-wysiwyg label')
+  )
+  expect(x).toBe('focus')
+  await userEvent.click(result.getByText('test-button'))
+  expect(x).toBe('blur')
 })
 
 test('Wysiwyg onChange', async () => {
   let x = ''
   const func = value => {
-    x = value
+    x = value.replace('<p><br></p>', '')
   }
   const result = render(<Wysiwyg onChange={func} />)
-  await waitFor(loadableComponent)
   expect(result.container.querySelector('.ql-editor')).toBeInTheDocument()
-  userEvent.type(result.container.querySelector('.ql-editor'), 'test')
-  await waitFor(() => expect(x).toBe('<p>test</p>'))
+  await userEvent.type(result.container.querySelector('.ql-editor'), 'test')
+  expect(x).toBe('<p>test</p>')
 })
 
 test('Wysiwyg onFocus', async () => {
@@ -102,10 +84,11 @@ test('Wysiwyg onFocus', async () => {
     x = 'foo'
   }
   const result = render(<Wysiwyg onFocus={func} />)
-  await waitFor(loadableComponent)
   expect(result.container.querySelector('.ql-editor')).toBeInTheDocument()
-  userEvent.click(result.container.querySelector('.pxn-input-wysiwyg label'))
-  await waitFor(() => expect(x).toBe('foo'))
+  await userEvent.click(
+    result.container.querySelector('.pxn-input-wysiwyg label')
+  )
+  expect(x).toBe('foo')
 })
 
 test('Wysiwyg onKeyDown', async () => {
@@ -114,12 +97,9 @@ test('Wysiwyg onKeyDown', async () => {
     x = event.target
   }
   const result = render(<Wysiwyg onKeyDown={func} />)
-  await waitFor(loadableComponent)
   expect(result.container.querySelector('.ql-editor')).toBeInTheDocument()
-  userEvent.type(result.container.querySelector('.ql-editor'), '{enter}')
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('.ql-editor'))
-  )
+  await userEvent.type(result.container.querySelector('.ql-editor'), '{enter}')
+  expect(x).toBe(result.container.querySelector('.ql-editor'))
 })
 
 test('Wysiwyg onKeyPress', async () => {
@@ -128,15 +108,12 @@ test('Wysiwyg onKeyPress', async () => {
     x = event.target
   }
   const result = render(<Wysiwyg onKeyPress={func} />)
-  await waitFor(loadableComponent)
   expect(result.container.querySelector('.ql-editor')).toBeInTheDocument()
   fireEvent.keyPress(result.container.querySelector('.ql-editor'), {
     key: 'Enter',
     keyCode: 13
   })
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('.ql-editor'))
-  )
+  expect(x).toBe(result.container.querySelector('.ql-editor'))
 })
 
 test('Wysiwyg onKeyUp', async () => {
@@ -145,17 +122,13 @@ test('Wysiwyg onKeyUp', async () => {
     x = event.target
   }
   const result = render(<Wysiwyg onKeyUp={func} />)
-  await waitFor(loadableComponent)
   expect(result.container.querySelector('.ql-editor')).toBeInTheDocument()
-  userEvent.type(result.container.querySelector('.ql-editor'), '{enter}')
-  await waitFor(() =>
-    expect(x).toBe(result.container.querySelector('.ql-editor'))
-  )
+  await userEvent.type(result.container.querySelector('.ql-editor'), '{enter}')
+  expect(x).toBe(result.container.querySelector('.ql-editor'))
 })
 
 test('Wysiwyg placeholder', async () => {
   const result = render(<Wysiwyg placeholder='enter some text' />)
-  await waitFor(loadableComponent)
   expect(result.container.querySelector('.ql-editor')).toBeInTheDocument()
   expect(result.container.querySelector('.ql-editor')).toHaveAttribute(
     'data-placeholder',
@@ -169,15 +142,13 @@ test('Wysiwyg readOnly', async () => {
     x = value
   }
   const result = render(<Wysiwyg value={x} valueHandler={setX} readOnly />)
-  await waitFor(loadableComponent)
   expect(result.container.querySelector('.ql-editor')).toBeInTheDocument()
-  userEvent.type(result.container.querySelector('.ql-editor'), 'y')
-  await waitFor(() => expect(x).toBe('<p>x</p>'))
+  await userEvent.type(result.container.querySelector('.ql-editor'), 'y')
+  expect(x).toBe('<p>x</p>')
 })
 
 test('Wysiwyg tabIndex', async () => {
   const result = render(<Wysiwyg tabIndex='2' />)
-  await waitFor(loadableComponent)
   expect(result.container.querySelector('.ql-editor')).toBeInTheDocument()
   expect(result.container.querySelector('.ql-editor')).toHaveAttribute(
     'tabIndex',
@@ -187,7 +158,6 @@ test('Wysiwyg tabIndex', async () => {
 
 test('Wysiwyg theme', async () => {
   const result = render(<Wysiwyg theme='snow' />)
-  await waitFor(loadableComponent)
   expect(result.container.querySelector('.ql-container')).toHaveClass('ql-snow')
   result.rerender(<Wysiwyg theme='bubble' />)
   expect(result.container.querySelector('.ql-container')).toHaveClass(
@@ -203,45 +173,21 @@ test('Wysiwyg validator', async () => {
   }
   let x = ''
   const setX = value => {
-    x = value
+    x = value.replace('<p><br></p>', '')
   }
   const result = render(
     <Wysiwyg validator={func} valueHandler={setX} value={x} />
   )
-  const rerender = () => {
-    result.rerender(<Wysiwyg validator={func} valueHandler={setX} value={x} />)
-  }
 
-  await waitFor(loadableComponent)
   expect(result.container.querySelector('.ql-editor')).toBeInTheDocument()
-  userEvent.type(result.container.querySelector('.ql-editor'), 'f')
-  rerender()
-  await waitFor(() => expect(x).toBe('<p>f</p>'))
+  await userEvent.type(result.container.querySelector('.ql-editor'), 'f')
+  expect(x).toBe('<p>f</p>')
   expect(result.container.querySelector('.' + errClass)).toBe(null)
 
-  userEvent.type(result.container.querySelector('.ql-editor'), 'o')
-  rerender()
-  await waitFor(() => expect(x).toBe('<p>fo</p>'))
-  expect(result.container.querySelector('.' + errClass)).toBe(null)
-
-  userEvent.type(result.container.querySelector('.ql-editor'), 'o')
-  rerender()
-  await waitFor(() => expect(x).toBe('<p>foo</p>'))
-  expect(result.container.querySelector('.' + errClass)).toBe(null)
-
-  userEvent.type(result.container.querySelector('.ql-editor'), 'b')
-  rerender()
-  await waitFor(() => expect(x).toBe('<p>foob</p>'))
-  expect(result.container.querySelector('.' + errClass)).toBe(null)
-
-  userEvent.type(result.container.querySelector('.ql-editor'), 'a')
-  rerender()
-  await waitFor(() => expect(x).toBe('<p>fooba</p>'))
-  expect(result.container.querySelector('.' + errClass)).toBe(null)
-
-  userEvent.type(result.container.querySelector('.ql-editor'), 'r')
-  rerender()
-  await waitFor(() => expect(x).toBe('<p>foobar</p>'))
+  await userEvent.type(result.container.querySelector('.ql-editor'), 'ooba')
+  expect(x).toBe('<p>fooba</p>')
+  await userEvent.type(result.container.querySelector('.ql-editor'), 'r')
+  expect(x).toBe('<p>foobar</p>')
   expect(result.getByText(errMsg)).toHaveClass(errClass)
   expect(result.container.querySelector('.' + errClass)).toBeInTheDocument()
   expect(result.container.querySelector('.' + errClass)).toBeVisible()
@@ -249,7 +195,6 @@ test('Wysiwyg validator', async () => {
 
 test('Wysiwyg value', async () => {
   const result = render(<Wysiwyg value='wagon wheel' />)
-  await waitFor(loadableComponent)
   expect(result.container.querySelector('.ql-editor').innerHTML).toBe(
     '<p>wagon wheel</p>'
   )
@@ -258,35 +203,10 @@ test('Wysiwyg value', async () => {
 test('Wysiwyg valueHandler', async () => {
   let x = ''
   const setX = value => {
-    x = value
+    x = value.replace('<p><br></p>', '')
   }
   const result = render(<Wysiwyg valueHandler={setX} value={x} />)
-  const rerender = () => {
-    result.rerender(<Wysiwyg valueHandler={setX} value={x} />)
-  }
-  await waitFor(loadableComponent)
 
-  userEvent.type(result.container.querySelector('.ql-editor'), 'f')
-  rerender()
-  await waitFor(() => expect(x).toBe('<p>f</p>'))
-
-  userEvent.type(result.container.querySelector('.ql-editor'), 'o')
-  rerender()
-  await waitFor(() => expect(x).toBe('<p>fo</p>'))
-
-  userEvent.type(result.container.querySelector('.ql-editor'), 'o')
-  rerender()
-  await waitFor(() => expect(x).toBe('<p>foo</p>'))
-
-  userEvent.type(result.container.querySelector('.ql-editor'), 'b')
-  rerender()
-  await waitFor(() => expect(x).toBe('<p>foob</p>'))
-
-  userEvent.type(result.container.querySelector('.ql-editor'), 'a')
-  rerender()
-  await waitFor(() => expect(x).toBe('<p>fooba</p>'))
-
-  userEvent.type(result.container.querySelector('.ql-editor'), 'r')
-  rerender()
-  await waitFor(() => expect(x).toBe('<p>foobar</p>'))
+  await userEvent.type(result.container.querySelector('.ql-editor'), 'foobar')
+  expect(x).toBe('<p>foobar</p>')
 })
