@@ -1,19 +1,19 @@
 {
   "files": {
+    "build/0.eaf8c3c8.js": "/build/0.eaf8c3c8.js",
     "main.css": "/static/css/main.6e394806.chunk.css",
-    "main.js": "/build/main.b5d31ac1.js",
-    "runtime-main.js": "/build/bundle.dee4beef.js",
-    "build/2.4420dcf4.js": "/build/2.4420dcf4.js",
-    "build/3.04169699.js": "/build/3.04169699.js",
-    "build/2.4420dcf4.js.LICENSE.txt": "/build/2.4420dcf4.js.LICENSE.txt",
-    "build/3.04169699.js.LICENSE.txt": "/build/3.04169699.js.LICENSE.txt",
+    "main.js": "/build/main.c2c7bbd0.js",
+    "runtime-main.js": "/build/bundle.e822b07c.js",
+    "build/3.3f7607a7.js": "/build/3.3f7607a7.js",
+    "build/0.eaf8c3c8.js.LICENSE.txt": "/build/0.eaf8c3c8.js.LICENSE.txt",
+    "build/3.3f7607a7.js.LICENSE.txt": "/build/3.3f7607a7.js.LICENSE.txt",
     "index.html": "/index.html",
     "static/css/main.6e394806.chunk.css.map": "/static/css/main.6e394806.chunk.css.map"
   },
   "entrypoints": [
-    "build/bundle.dee4beef.js",
-    "build/2.4420dcf4.js",
+    "build/bundle.e822b07c.js",
+    "build/3.3f7607a7.js",
     "static/css/main.6e394806.chunk.css",
-    "build/main.b5d31ac1.js"
+    "build/main.c2c7bbd0.js"
   ]
 }
